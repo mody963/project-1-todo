@@ -1,0 +1,4 @@
+interface ITaskView
+{
+    void Run();
+}
