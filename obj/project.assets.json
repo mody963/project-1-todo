@@ -8,19 +8,19 @@
     "net8.0": []
   },
   "packageFolders": {
-    "/Users/mody/.nuget/packages/": {}
+    "C:\\Users\\ferna\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/mody/Documents/GitHub/project-1-todo/project 1 todo.csproj",
+      "projectUniqueName": "C:\\Users\\ferna\\Documents\\GitHub\\project-1-todo\\project 1 todo.csproj",
       "projectName": "project 1 todo",
-      "projectPath": "/Users/mody/Documents/GitHub/project-1-todo/project 1 todo.csproj",
-      "packagesPath": "/Users/mody/.nuget/packages/",
-      "outputPath": "/Users/mody/Documents/GitHub/project-1-todo/obj/",
+      "projectPath": "C:\\Users\\ferna\\Documents\\GitHub\\project-1-todo\\project 1 todo.csproj",
+      "packagesPath": "C:\\Users\\ferna\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ferna\\Documents\\GitHub\\project-1-todo\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/mody/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\ferna\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -43,8 +43,7 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "10.0.100"
+      }
     },
     "frameworks": {
       "net8.0": {
@@ -60,26 +59,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.23, 8.0.23]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Host.osx-arm64",
-            "version": "[8.0.23, 8.0.23]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[8.0.23, 8.0.23]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.102/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.411/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

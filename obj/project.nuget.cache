@@ -1,12 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1L7Jyh9IJvU=",
+  "dgSpecHash": "WkbFcpahfSw=",
   "success": true,
-  "projectFilePath": "/Users/mody/Documents/GitHub/project-1-todo/project 1 todo.csproj",
-  "expectedPackageFiles": [
-    "/Users/mody/.nuget/packages/microsoft.netcore.app.ref/8.0.23/microsoft.netcore.app.ref.8.0.23.nupkg.sha512",
-    "/Users/mody/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.23/microsoft.aspnetcore.app.ref.8.0.23.nupkg.sha512",
-    "/Users/mody/.nuget/packages/microsoft.netcore.app.host.osx-arm64/8.0.23/microsoft.netcore.app.host.osx-arm64.8.0.23.nupkg.sha512"
-  ],
+  "projectFilePath": "C:\\Users\\ferna\\Documents\\GitHub\\project-1-todo\\project 1 todo.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }
