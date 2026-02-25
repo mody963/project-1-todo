@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ferna\\Documents\\GitHub\\project-1-todo\\project 1 todo.csproj": {}
+    "C:\\Users\\aimee\\project-1-todo\\project 1 todo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ferna\\Documents\\GitHub\\project-1-todo\\project 1 todo.csproj": {
+    "C:\\Users\\aimee\\project-1-todo\\project 1 todo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ferna\\Documents\\GitHub\\project-1-todo\\project 1 todo.csproj",
+        "projectUniqueName": "C:\\Users\\aimee\\project-1-todo\\project 1 todo.csproj",
         "projectName": "project 1 todo",
-        "projectPath": "C:\\Users\\ferna\\Documents\\GitHub\\project-1-todo\\project 1 todo.csproj",
-        "packagesPath": "C:\\Users\\ferna\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ferna\\Documents\\GitHub\\project-1-todo\\obj\\",
+        "projectPath": "C:\\Users\\aimee\\project-1-todo\\project 1 todo.csproj",
+        "packagesPath": "C:\\Users\\aimee\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\aimee\\project-1-todo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ferna\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\aimee\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -37,7 +37,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -53,12 +54,30 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.24, 8.0.24]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[8.0.24, 8.0.24]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.24, 8.0.24]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.24, 8.0.24]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.411/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.311/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

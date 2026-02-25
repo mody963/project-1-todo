@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "WkbFcpahfSw=",
+  "dgSpecHash": "VmUI1g0LIrU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\ferna\\Documents\\GitHub\\project-1-todo\\project 1 todo.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\aimee\\project-1-todo\\project 1 todo.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\aimee\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.24\\microsoft.netcore.app.ref.8.0.24.nupkg.sha512",
+    "C:\\Users\\aimee\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.24\\microsoft.windowsdesktop.app.ref.8.0.24.nupkg.sha512",
+    "C:\\Users\\aimee\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.24\\microsoft.aspnetcore.app.ref.8.0.24.nupkg.sha512",
+    "C:\\Users\\aimee\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.24\\microsoft.netcore.app.host.win-x64.8.0.24.nupkg.sha512"
+  ],
   "logs": []
 }
