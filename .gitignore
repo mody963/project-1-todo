@@ -1,0 +1,8 @@
+# Visual Studio Build Results
+[Dd]ebug/
+[Rr]elease/
+bin/
+obj/
+.vs/
+*.user
+*.suo.
