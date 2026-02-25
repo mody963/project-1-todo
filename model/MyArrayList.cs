@@ -35,7 +35,7 @@ public class MyArrayList<T> : IMyCollection<T>
         for (int i = 0; i < _count; i++)
         {
 
-            if (_items[i] != null && _items[i].Equals(item))
+            if (Equals(_items[i], item))
             {
                 // Shift all elements after 'i' one position to the left
                 // This overwrites the removed item and closes the gap

@@ -1,4 +1,4 @@
-interface IMyCollection<T> 
+public interface IMyCollection<T> 
 {
     void Add(T item);
     void Remove(T item);
@@ -12,5 +12,5 @@ interface IMyCollection<T>
     R Reduce<R>(R initial, Func<R, T, R> accumulator);
     IMyIterator<T> GetIterator(); // Custom Iterator - Since we
     //are not using System.Collections.Generic
-    IEnumerator<T> GetEnumerator(); // Extra foreach lookup.     IS THIS ALLOWED SIR? ITS A BUILT IN THINGY SHOULD WE MAKE IMYENUMERATOR?
+   // IEnumerator<T> GetEnumerator(); // Extra foreach lookup.     IS THIS ALLOWED SIR? ITS A BUILT IN THINGY SHOULD WE MAKE IMYENUMERATOR?
 }
