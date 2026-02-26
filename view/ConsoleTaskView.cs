@@ -44,8 +44,8 @@ class ConsoleTaskView : ITaskView
                 Console.Clear();
                 Console.WriteLine("=== Main Menu ===\n");
 
-                DisplayTasks(_service.GetAllTasks());
-                Console.WriteLine();
+                // DisplayTasks(_service.GetAllTasks());
+                // Console.WriteLine();
                 for (int i = 0; i < main_options.Count; i++)
                 {
                     if (i == select_index)
@@ -113,10 +113,11 @@ class ConsoleTaskView : ITaskView
                         _service.ToggleTaskCompletion(toggleId);
                     }
                     break;
-                // case 3:
-
-
-
+                case 3:
+                    DisplayTasks(_service.GetAllTasks());
+                    Console.WriteLine("\nPress any key to return to menu...");
+                    Console.ReadKey();
+                    break;
                 case 4:
                     return;
             }
