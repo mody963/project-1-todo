@@ -7,26 +7,34 @@ public class MyArrayList<T> : IMyCollection<T>
     public int Count => _count;
     public bool Dirty { get; set; }
 
-    public MyArrayList()
+    public MyArrayList(int capacity = DefaultCapacity)
     {
-        _items = new T[DefaultCapacity];
+        if (capacity <= 0)
+            capacity = DefaultCapacity;
+
+        _items = new T[capacity];
+        _count = 0;
     }
 
     public void Add(T item)
     {
-        if (_count == _items.Length) Grow();
+        if (_count == _items.Length) EnsureCapacity();
         _items[_count++] = item;
         Dirty = true;
     }
 
-    //grow basically makes a copy of the array and resizes it to double the size so it still has empty places.
-    private void Grow()
+    //basically makes a copy of the array and resizes it to double the size so it still has empty places.
+    private void EnsureCapacity()
     {
-        T[] newArray = new T[_items.Length * 2];
-        for (int i = 0; i < _items.Length; i++)
-        {
+        if (_count < _items.Length)
+            return;
+
+        int newSize = _items.Length * 2;
+        T[] newArray = new T[newSize];
+
+        for (int i = 0; i < _count; i++)
             newArray[i] = _items[i];
-        }
+
         _items = newArray;
     }
 
@@ -45,7 +53,8 @@ public class MyArrayList<T> : IMyCollection<T>
                 }
                 // Clear the last element (which is now duplicated after shifting)
                 // and decrement the count
-                _items[--_count] = default!;
+                _count--;
+                _items[_count] = default!;
                 Dirty = true;
                 return;
             }
@@ -97,20 +106,8 @@ public class MyArrayList<T> : IMyCollection<T>
         return current;
     }
 
-    public IMyIterator<T> GetIterator() => new MyArrayListIterator(this);
-
-    // Private inner class for the custom iterator
-    private class MyArrayListIterator : IMyIterator<T>
+    public IMyIterator<T> GetIterator()
     {
-        private readonly MyArrayList<T> _source;
-        private int _index = -1;
-
-        public MyArrayListIterator(MyArrayList<T> source) => _source = source;
-
-        public bool HasNext() => _index + 1 < _source.Count;
-
-        public T Next() => _source._items[++_index];
-
-        public void Reset() => _index = -1;
+        return new MyArrayIterator<T>(_items, _count);
     }
 }
