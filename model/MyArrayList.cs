@@ -105,9 +105,32 @@ public class MyArrayList<T> : IMyCollection<T>
         }
         return current;
     }
+    public R Reduce<R>(Func<R, T, R> accumulator)
+    {
+        R current = (R)Convert.ChangeType(_items[0], typeof(R))!;
+        for (int i = 0; i < _count; i++)
+        {
+            current = accumulator(current, _items[i]);
+        }
+        return current;
+    }
+    public RResult Reduce<R, RResult>(R initial, Func<R, T, R> accumulator, Func<R, RResult> resultSelector)
+    {
+        R current = initial;
+        for (int i = 0; i < _count; i++)
+        {
+            current = accumulator(current, _items[i]);
+        }
+        return resultSelector(current);
+    }
+
 
     public IMyIterator<T> GetIterator()
     {
         return new MyArrayIterator<T>(_items, _count);
+    }
+    public IEnumerator<T> GetEnumerator()
+    {
+        return default;
     }
 }
