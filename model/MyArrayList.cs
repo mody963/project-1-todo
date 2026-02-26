@@ -42,19 +42,9 @@ public class MyArrayList<T> : IMyCollection<T>
     {
         for (int i = 0; i < _count; i++)
         {
-
             if (Equals(_items[i], item))
             {
-                // Shift all elements after 'i' one position to the left
-                // This overwrites the removed item and closes the gap
-                for (int j = i; j < _count - 1; j++)
-                {
-                    _items[j] = _items[j + 1];
-                }
-                // Clear the last element (which is now duplicated after shifting)
-                // and decrement the count
-                _count--;
-                _items[_count] = default!;
+                ShiftLeft(i);
                 Dirty = true;
                 return;
             }
@@ -136,5 +126,27 @@ public class MyArrayList<T> : IMyCollection<T>
     public IMyIterator<T> GetIterator()
     {
         return new MyArrayIterator<T>(_items, _count);
+    }
+    private void ShiftLeft(int startIndex)
+    {
+        for (int i = startIndex; i < _count - 1; i++)
+        {
+            _items[i] = _items[i + 1];
+        }
+
+        _count--;
+        _items[_count] = default!;
+    }
+    private void ShiftRight(int startIndex)
+    {
+        if (_count == _items.Length)
+            EnsureCapacity();
+
+        for (int i = _count; i > startIndex; i--)
+        {
+            _items[i] = _items[i - 1];
+        }
+
+        _count++;
     }
 }
