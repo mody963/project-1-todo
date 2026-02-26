@@ -32,7 +32,8 @@ class ConsoleTaskView : ITaskView
             Console.WriteLine("1. Add Task");
             Console.WriteLine("2. Remove Task");
             Console.WriteLine("3. Toggle Task State");
-            Console.WriteLine("4. Exit");
+            Console.WriteLine("4. List Tasks");
+            Console.WriteLine("5. Exit");
 
             string option = Prompt("Select an option: ");
 
@@ -58,8 +59,11 @@ class ConsoleTaskView : ITaskView
                         _service.ToggleTaskCompletion(toggleId);
                     }
                     break;
+                // case "4":
 
-                case "4":
+
+
+                case "5":
                     return;
 
                 default:
