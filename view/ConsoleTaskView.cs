@@ -15,7 +15,19 @@ class ConsoleTaskView : ITaskView
         foreach (var task in tasks)
             Console.WriteLine($"{task}");
     }
+    // void DisplayTasks(IMyCollection<TaskItem> tasks)
+    // {
+    //     Console.Clear();
+    //     Console.WriteLine("==== ToDo List ====");
 
+    //     var iterator = tasks.GetIterator();
+
+    //     while (iterator.HasNext())
+    //     {
+    //         var task = iterator.Next();
+    //         Console.WriteLine($"{task.Id} | {task.Description} | Completed: {task.Completed}");
+    //     }
+    // }
     string Prompt(string prompt)
     {
         Console.Write(prompt);
@@ -29,6 +41,7 @@ class ConsoleTaskView : ITaskView
             
 
             var main_options = new List<string>
+            //IMyCollection<string> main_options = new MyArrayList<string>();
             {
                 "Add Task",
                 "Remove Task",
