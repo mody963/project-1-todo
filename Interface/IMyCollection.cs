@@ -16,6 +16,6 @@ public interface IMyCollection<T>
 
     IMyIterator<T> GetIterator();
     
-    IEnumerator<T> GetEnumerator();
+    //IEnumerator<T> GetEnumerator();
     //IMyEnumerator<T> GetMyEnumerator();
 }

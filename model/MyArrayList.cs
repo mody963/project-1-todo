@@ -107,11 +107,19 @@ public class MyArrayList<T> : IMyCollection<T>
     }
     public R Reduce<R>(Func<R, T, R> accumulator)
     {
-        R current = (R)Convert.ChangeType(_items[0], typeof(R))!;
-        for (int i = 0; i < _count; i++)
+        if (_count == 0)
+            throw new InvalidOperationException("Cannot reduce empty collection.");
+
+        if (!(_items[0] is R))
+            throw new InvalidOperationException("T must be assignable to R.");
+
+        R current = (R)(object)_items[0];
+
+        for (int i = 1; i < _count; i++)
         {
             current = accumulator(current, _items[i]);
         }
+
         return current;
     }
     public RResult Reduce<R, RResult>(R initial, Func<R, T, R> accumulator, Func<R, RResult> resultSelector)
@@ -128,9 +136,5 @@ public class MyArrayList<T> : IMyCollection<T>
     public IMyIterator<T> GetIterator()
     {
         return new MyArrayIterator<T>(_items, _count);
-    }
-    public IEnumerator<T> GetEnumerator()
-    {
-        return default;
     }
 }
