@@ -121,6 +121,7 @@ void DisplayTasks(IMyCollection<TaskItem> tasks)
 
             main_options.Add("Add Task");
             main_options.Add("Remove Task");
+            main_options.Add("Update Task");
             main_options.Add("Toggle Task State");
             main_options.Add("List Tasks");
             main_options.Add("Exit");
@@ -201,7 +202,21 @@ void DisplayTasks(IMyCollection<TaskItem> tasks)
             {
                 case 0:
                     string description = Prompt("Enter task description: ");
-                    _service.AddTask(description);
+                    string priority;
+                    while (true)
+                    {
+                        System.Console.WriteLine("Enter one of these priority levels:");
+                        System.Console.Write("Must have, Should have, Could have\n");
+                        string priority_input = Console.ReadLine()?.Trim().ToLower() ?? "";
+
+                        if (priority_input == "must have" || priority_input == "should have" || priority_input == "could have")
+                        {
+                            priority = priority_input;
+                            break;
+                        }
+                        System.Console.WriteLine("Please enter one of the available priority levels.");
+                    }
+                    _service.AddTask(description, priority);
                     break;
 
                 case 1:
@@ -215,18 +230,75 @@ void DisplayTasks(IMyCollection<TaskItem> tasks)
 
                 case 2:
                     DisplayTasks(_service.GetAllTasks());
+                    string updateIdStr = Prompt("Enter task id to update: ");
+                    string descr = Prompt("Enter task description: ");
+                    string prio;
+                    while (true)
+                    {
+                        System.Console.WriteLine("Enter one of these priority levels:");
+                        System.Console.Write("Must have, Should have, Could have\n");
+                        string priority_input = Console.ReadLine()?.Trim().ToLower() ?? "";
+
+                        if (priority_input == "must have" || priority_input == "should have" || priority_input == "could have")
+                        {
+                            prio = priority_input;
+                            break;
+                        }
+                        System.Console.WriteLine("Please enter one of the available priority levels.");
+                    }
+                    string status;
+                    while (true)
+                    {
+                        System.Console.WriteLine("Enter one of these statuses:");
+                        System.Console.Write("to do, in progress, completed\n");
+                        string status_input = Console.ReadLine()?.Trim().ToLower() ?? "";
+
+                        if (status_input == "to do" || status_input == "in progress" || status_input == "completed")
+                        {
+                            status = status_input;
+                            break;
+                        }
+                        System.Console.WriteLine("Please enter one of the available statuses.");
+                    }
+                    bool completion_status;
+                    while (true)
+                    {
+                        System.Console.WriteLine("Enter completion status:");
+                        System.Console.Write("done, not done\n");
+                        string completion_input = Console.ReadLine()?.Trim().ToLower() ?? "";
+
+                        if (completion_input == "done")
+                        {
+                            completion_status = true;
+                            break;
+                        }
+                        else if(completion_input == "not done")
+                        {
+                            completion_status = false;
+                            break;
+                        }
+                        else
+                        {
+                            System.Console.WriteLine("Please enter one of the available statuses.");
+                        }
+                    }
+                    _service.UpdateTask(Convert.ToInt32(updateIdStr), descr, prio, status, completion_status);
+                    break;
+
+                case 3:
+                    DisplayTasks(_service.GetAllTasks());
                     string toggleIdStr = Prompt("Enter task id to toggle: ");
                     if (int.TryParse(toggleIdStr, out int toggleId))
                     {
                         _service.ToggleTaskCompletion(toggleId);
                     }
                     break;
-                case 3:
+                case 4:
                     DisplayTasks(_service.GetAllTasks());
                     Console.WriteLine("\nPress any key to return to menu...");
                     Console.ReadKey();
                     break;
-                case 4:
+                case 5:
                     return;
             }
         }

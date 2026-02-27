@@ -31,7 +31,7 @@ class TaskService : ITaskService
     //     _tasks.Add(newTask);
     //     _repository.SaveTasks(_tasks);
     // }
-    public void AddTask(string description)
+    public void AddTask(string description, string priority)
     {
         int newId = 1;
         var iterator = _tasks.GetIterator();
@@ -45,11 +45,26 @@ class TaskService : ITaskService
         {
             Id = newId,
             Description = description,
-            Completed = false
+            Completed = false,
+            Priority = priority,
+            Status = "to do",
+            CreationDate = DateTime.Now
         };
 
         _tasks.Add(newTask);
         _repository.SaveTasks(_tasks);
+    }
+
+    public void UpdateTask(int id, string description, string priority, string status, bool completion)
+    {
+        var task = _tasks.FindBy(id, (item, key) => item.Id == key);
+
+        if (task != null)
+            task.Description = description;
+            task.Priority = priority;
+            task.Status = status;
+            task.Completed = completion;
+            _repository.SaveTasks(_tasks);
     }
 
     // public void RemoveTask(int id)
