@@ -67,7 +67,7 @@ void DisplayTasks(IMyCollection<TaskItem> tasks)
         var task = iterator.Next();
 
         string status_tasks = task.Completed ? "X" : " ";
-        Console.ForegroundColor = task.Completed ? ConsoleColor.Green : ConsoleColor.White;
+        
 
         string Id_en_status = $"{task.Id}. [{status_tasks}] ";
         string taak_descriptie = task.Description;
