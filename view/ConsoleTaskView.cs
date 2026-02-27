@@ -205,6 +205,7 @@ void DisplayTasks(IMyCollection<TaskItem> tasks)
                     break;
 
                 case 1:
+                    DisplayTasks(_service.GetAllTasks());
                     string removeIdStr = Prompt("Enter task id to remove: ");
                     if (int.TryParse(removeIdStr, out int removeId))
                     {
