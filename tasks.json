@@ -12,7 +12,7 @@
   {
     "Id": 4,
     "Description": "bla",
-    "Completed": false
+    "Completed": true
   },
   {
     "Id": 5,

@@ -12,8 +12,13 @@ class ConsoleTaskView : ITaskView
         Console.Clear();
         Console.WriteLine("==== ToDo List ====");
 
+        // foreach (var task in tasks)
+        //     Console.WriteLine($"{task}");
+
         foreach (var task in tasks)
-            Console.WriteLine($"{task}");
+        {
+            Console.WriteLine($"{task.Id}. [{(task.Completed ? "X" : " ")}] {task.Description}"); // 
+        }
     }
 
     string Prompt(string prompt)
