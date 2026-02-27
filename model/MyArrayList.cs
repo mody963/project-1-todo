@@ -18,7 +18,7 @@ public class MyArrayList<T> : IMyCollection<T>
 
     public void Add(T item)
     {
-        if (_count == _items.Length) EnsureCapacity();
+        EnsureCapacity();
         _items[_count++] = item;
         Dirty = true;
     }
@@ -29,7 +29,7 @@ public class MyArrayList<T> : IMyCollection<T>
         if (_count < _items.Length)
             return;
 
-        int newSize = _items.Length * 2;
+        int newSize = _items.Length == 0 ? DefaultCapacity : _items.Length * 2;
         T[] newArray = new T[newSize];
 
         for (int i = 0; i < _count; i++)
@@ -139,14 +139,19 @@ public class MyArrayList<T> : IMyCollection<T>
     }
     private void ShiftRight(int startIndex)
     {
-        if (_count == _items.Length)
-            EnsureCapacity();
-
+        EnsureCapacity();
         for (int i = _count; i > startIndex; i--)
         {
             _items[i] = _items[i - 1];
         }
 
         _count++;
+    }
+    public T[] ToArray()
+    {
+        T[] arr = new T[_count];
+        for (int i = 0; i < _count; i++)
+            arr[i] = _items[i];
+        return arr;
     }
 }

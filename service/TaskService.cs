@@ -8,6 +8,7 @@ class TaskService : ITaskService
         _repository = repository;
         _tasks = new MyArrayList<TaskItem>();
        // _tasks = _repository.LoadTasks();
+       _tasks = _repository.LoadTasks();
     }
 
     //public IEnumerable<TaskItem> GetAllTasks() => _tasks;
@@ -48,6 +49,7 @@ class TaskService : ITaskService
         };
 
         _tasks.Add(newTask);
+        _repository.SaveTasks(_tasks);
     }
 
     // public void RemoveTask(int id)
@@ -66,6 +68,7 @@ class TaskService : ITaskService
 
         if (task != null)
             _tasks.Remove(task);
+            _repository.SaveTasks(_tasks);
     }
 
 
@@ -86,6 +89,7 @@ class TaskService : ITaskService
         if (task != null)
         {
             task.Completed = !task.Completed;
+            _repository.SaveTasks(_tasks);
         }
     }
 }

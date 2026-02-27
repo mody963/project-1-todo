@@ -15,6 +15,7 @@ public interface IMyCollection<T>
     
 
     IMyIterator<T> GetIterator();
+    T[] ToArray();
     
     //IEnumerator<T> GetEnumerator();
     //IMyEnumerator<T> GetMyEnumerator();
