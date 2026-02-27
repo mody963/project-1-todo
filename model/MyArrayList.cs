@@ -19,6 +19,7 @@ public class MyArrayList<T> : IMyCollection<T>
     public void Add(T item)
     {
         EnsureCapacity();
+        // count is the number of elements so its the last element if u add 1 to it its the next empty spot.
         _items[_count++] = item;
         Dirty = true;
     }
@@ -74,6 +75,7 @@ public class MyArrayList<T> : IMyCollection<T>
     {
         for (int i = 0; i < _count - 1; i++)
         {
+            //_count - i - 1  last index for inner loop (ignores already sorted elements)
             for (int j = 0; j < _count - i - 1; j++)
             {
                 if (comparison(_items[j], _items[j + 1]) > 0)
@@ -129,12 +131,14 @@ public class MyArrayList<T> : IMyCollection<T>
     }
     private void ShiftLeft(int startIndex)
     {
+        // _count - 1 is the index of the last valid element in the list.
         for (int i = startIndex; i < _count - 1; i++)
         {
             _items[i] = _items[i + 1];
         }
 
         _count--;
+        // reset final item
         _items[_count] = default!;
     }
     private void ShiftRight(int startIndex)
