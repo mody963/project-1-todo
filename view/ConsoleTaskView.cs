@@ -138,10 +138,11 @@ class ConsoleTaskView : ITaskView
                         _service.ToggleTaskCompletion(toggleId);
                     }
                     break;
-                // case 3:
-
-
-
+                case 3:
+                    DisplayTasks(_service.GetAllTasks());
+                    Console.WriteLine("\nPress any key to return to menu...");
+                    Console.ReadKey();
+                    break;
                 case 4:
                     return;
             }
