@@ -7,14 +7,14 @@ class ConsoleTaskView : ITaskView
         _service = service;
     }
 
-    void DisplayTasks(IEnumerable<TaskItem> tasks)
-    {
-        Console.Clear();
-        Console.WriteLine("==== ToDo List ====");
+    // void DisplayTasks(IEnumerable<TaskItem> tasks)
+    // {
+    //     Console.Clear();
+    //     Console.WriteLine("==== ToDo List ====");
 
-        foreach (var task in tasks)
-            Console.WriteLine($"{task}");
-    }
+    //     foreach (var task in tasks)
+    //         Console.WriteLine($"{task}");
+    // }
     // void DisplayTasks(IMyCollection<TaskItem> tasks)
     // {
     //     Console.Clear();
@@ -28,11 +28,7 @@ class ConsoleTaskView : ITaskView
     //         Console.WriteLine($"{task.Id} | {task.Description} | Completed: {task.Completed}");
     //     }
     // }
-    string Prompt(string prompt)
-    {
-        Console.Write(prompt);
-        return Console.ReadLine();
-    }
+    
 
     public void Run()
     {

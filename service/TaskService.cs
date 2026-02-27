@@ -1,7 +1,7 @@
 class TaskService : ITaskService
 {
     private readonly ITaskRepository _repository;
-    private readonly List<TaskItem> _tasks; // change only this line to imycollection
+    private readonly IMyCollection<TaskItem> _tasks; // change only this line to imycollection
 
     public TaskService(ITaskRepository repository)
     {
@@ -14,32 +14,12 @@ class TaskService : ITaskService
     public IEnumerable<TaskItem> GetAllTasks() => _tasks;
 
 
-    public void AddTask(string description)
-    {
-        int newId = _tasks.Count > 0
-            ? _tasks[_tasks.Count - 1].Id + 1
-            : 1;
-
-        var newTask = new TaskItem
-        {
-            Id = newId,
-            Description = description,
-            Completed = false
-        };
-
-        _tasks.Add(newTask);
-        _repository.SaveTasks(_tasks);
-    }
     // public void AddTask(string description)
     // {
-    //     int newId = 1;
-    //     var iterator = _tasks.GetIterator();
-    //     while (iterator.HasNext())
-    //     {
-    //         var task = iterator.Next();
-    //         if (task.Id >= newId)
-    //             newId = task.Id + 1;
-    //     }
+    //     int newId = _tasks.Count > 0
+    //         ? _tasks[_tasks.Count - 1].Id + 1
+    //         : 1;
+
     //     var newTask = new TaskItem
     //     {
     //         Id = newId,
@@ -48,7 +28,27 @@ class TaskService : ITaskService
     //     };
 
     //     _tasks.Add(newTask);
+    //     _repository.SaveTasks(_tasks);
     // }
+    public void AddTask(string description)
+    {
+        int newId = 1;
+        var iterator = _tasks.GetIterator();
+        while (iterator.HasNext())
+        {
+            var task = iterator.Next();
+            if (task.Id >= newId)
+                newId = task.Id + 1;
+        }
+        var newTask = new TaskItem
+        {
+            Id = newId,
+            Description = description,
+            Completed = false
+        };
+
+        _tasks.Add(newTask);
+    }
 
     public void RemoveTask(int id)
     {
