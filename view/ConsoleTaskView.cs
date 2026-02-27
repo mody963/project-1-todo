@@ -15,36 +15,45 @@ class ConsoleTaskView : ITaskView
     //     foreach (var task in tasks)
     //         Console.WriteLine($"{task}");
     // }
-    // void DisplayTasks(IMyCollection<TaskItem> tasks)
-    // {
-    //     Console.Clear();
-    //     Console.WriteLine("==== ToDo List ====");
+    void DisplayTasks(IMyCollection<TaskItem> tasks)
+    {
+        Console.WriteLine("==== ToDo List ====");
 
-    //     var iterator = tasks.GetIterator();
+        var iterator = tasks.GetIterator();
 
-    //     while (iterator.HasNext())
-    //     {
-    //         var task = iterator.Next();
-    //         Console.WriteLine($"{task.Id} | {task.Description} | Completed: {task.Completed}");
-    //     }
-    // }
-    
+        while (iterator.HasNext())
+        {
+            var task = iterator.Next();
+            Console.WriteLine($"{task.Id} | {task.Description} | Completed: {task.Completed}");
+        }
+    }
+    string Prompt(string prompt)
+    {
+        Console.Write(prompt);
+        return Console.ReadLine();
+    }
 
     public void Run()
     {
+        IMyCollection<string> main_options = new MyArrayList<string>();
+
+            main_options.Add("Add Task");
+            main_options.Add("Remove Task");
+            main_options.Add("Toggle Task State");
+            main_options.Add("List Tasks");
+            main_options.Add("Exit");
         while (true)
         {
             
 
-            var main_options = new List<string>
-            //IMyCollection<string> main_options = new MyArrayList<string>();
-            {
-                "Add Task",
-                "Remove Task",
-                "Toggle Task State",
-                "List Tasks",
-                "Exit"
-            };
+            // var main_options = new List<string>
+            // {
+            //     "Add Task",
+            //     "Remove Task",
+            //     "Toggle Task State",
+            //     "List Tasks",
+            //     "Exit"
+            // };
 
             int select_index = 0;
 
@@ -55,19 +64,26 @@ class ConsoleTaskView : ITaskView
 
                 DisplayTasks(_service.GetAllTasks());
                 Console.WriteLine();
-                for (int i = 0; i < main_options.Count; i++)
+                var optionIterator = main_options.GetIterator();
+                int i = 0;
+
+                while (optionIterator.HasNext())
                 {
+                    var option = optionIterator.Next();
+
                     if (i == select_index)
                     {
                         Console.BackgroundColor = ConsoleColor.White;
                         Console.ForegroundColor = ConsoleColor.Black;
-                        Console.WriteLine($"> {main_options[i]}");
+                        Console.WriteLine($"> {option}");
                         Console.ResetColor();
                     }
                     else
                     {
-                        Console.WriteLine($"  {main_options[i]}");
+                        Console.WriteLine($"  {option}");
                     }
+
+                    i++;
                 }
 
                 //Console.WriteLine("\nUse Arrow Keys to navigate, Enter to select");

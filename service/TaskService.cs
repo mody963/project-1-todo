@@ -6,12 +6,12 @@ class TaskService : ITaskService
     public TaskService(ITaskRepository repository)
     {
         _repository = repository;
-        //_tasks = new MyArrayList<TaskItem>();
-        _tasks = _repository.LoadTasks();
+        _tasks = new MyArrayList<TaskItem>();
+       // _tasks = _repository.LoadTasks();
     }
 
     //public IEnumerable<TaskItem> GetAllTasks() => _tasks;
-    public IEnumerable<TaskItem> GetAllTasks() => _tasks;
+    public IMyCollection<TaskItem> GetAllTasks() => _tasks;
 
 
     // public void AddTask(string description)
@@ -50,42 +50,42 @@ class TaskService : ITaskService
         _tasks.Add(newTask);
     }
 
-    public void RemoveTask(int id)
-    {
-        var task = _tasks.Find(t => t.Id == id);
-
-        if (task != null)
-        {
-            _tasks.Remove(task);
-            _repository.SaveTasks(_tasks);
-        }
-    }
     // public void RemoveTask(int id)
     // {
-    //     var task = _tasks.FindBy(id, (item, key) => item.Id == key);
+    //     var task = _tasks.Find(t => t.Id == id);
 
     //     if (task != null)
+    //     {
     //         _tasks.Remove(task);
+    //         _repository.SaveTasks(_tasks);
+    //     }
     // }
-
-
-    public void ToggleTaskCompletion(int id)
+    public void RemoveTask(int id)
     {
-        var task = _tasks.Find(t => t.Id == id);
+        var task = _tasks.FindBy(id, (item, key) => item.Id == key);
 
         if (task != null)
-        {
-            task.Completed = !task.Completed;
-            _repository.SaveTasks(_tasks);
-        }
+            _tasks.Remove(task);
     }
+
+
     // public void ToggleTaskCompletion(int id)
     // {
-    //     var task = _tasks.FindBy(id, (item, key) => item.Id == key);
+    //     var task = _tasks.Find(t => t.Id == id);
 
     //     if (task != null)
     //     {
     //         task.Completed = !task.Completed;
+    //         _repository.SaveTasks(_tasks);
     //     }
     // }
+    public void ToggleTaskCompletion(int id)
+    {
+        var task = _tasks.FindBy(id, (item, key) => item.Id == key);
+
+        if (task != null)
+        {
+            task.Completed = !task.Completed;
+        }
+    }
 }
