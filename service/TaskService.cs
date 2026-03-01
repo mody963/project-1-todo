@@ -45,7 +45,6 @@ class TaskService : ITaskService
         {
             Id = newId,
             Description = description,
-            Completed = false,
             Priority = priority,
             Status = "to do",
             CreationDate = DateTime.Now
@@ -55,16 +54,18 @@ class TaskService : ITaskService
         _repository.SaveTasks(_tasks);
     }
 
-    public void UpdateTask(int id, string description, string priority, string status, bool completion)
+    public void UpdateTask(int id, string description, string priority, string status)
     {
         var task = _tasks.FindBy(id, (item, key) => item.Id == key);
 
         if (task != null)
+        {
             task.Description = description;
             task.Priority = priority;
             task.Status = status;
-            task.Completed = completion;
+
             _repository.SaveTasks(_tasks);
+        }
     }
 
     // public void RemoveTask(int id)
@@ -103,7 +104,14 @@ class TaskService : ITaskService
 
         if (task != null)
         {
-            task.Completed = !task.Completed;
+            if (task.Status == "completed")
+            {
+                task.Status = "to do";
+            }
+            else
+            {
+                task.Status = "completed";
+            }
             _repository.SaveTasks(_tasks);
         }
     }

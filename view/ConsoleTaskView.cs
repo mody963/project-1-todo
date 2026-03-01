@@ -69,7 +69,7 @@ void DisplayTasks(IMyCollection<TaskItem> tasks)
         string status_tasks = task.Completed ? "X" : " ";
         
 
-        string Id_en_status = $"{task.Id}. [{status_tasks}] ";
+        string Id_en_status = $"{task.Id,4}. [{status_tasks}] ";
         string taak_descriptie = task.Description;
 
         int descriptionwidth = width - 1;
@@ -260,29 +260,8 @@ void DisplayTasks(IMyCollection<TaskItem> tasks)
                         }
                         System.Console.WriteLine("Please enter one of the available statuses.");
                     }
-                    bool completion_status;
-                    while (true)
-                    {
-                        System.Console.WriteLine("Enter completion status:");
-                        System.Console.Write("done, not done\n");
-                        string completion_input = Console.ReadLine()?.Trim().ToLower() ?? "";
-
-                        if (completion_input == "done")
-                        {
-                            completion_status = true;
-                            break;
-                        }
-                        else if(completion_input == "not done")
-                        {
-                            completion_status = false;
-                            break;
-                        }
-                        else
-                        {
-                            System.Console.WriteLine("Please enter one of the available statuses.");
-                        }
-                    }
-                    _service.UpdateTask(Convert.ToInt32(updateIdStr), descr, prio, status, completion_status);
+                    
+                    _service.UpdateTask(Convert.ToInt32(updateIdStr), descr, prio, status);
                     break;
 
                 case 3:
