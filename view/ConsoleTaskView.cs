@@ -108,6 +108,133 @@ void DisplayTasks(IMyCollection<TaskItem> tasks)
     Console.ResetColor();
 }
 
+int DisplayAndChooseTasks(IMyCollection<TaskItem> tasks)
+{
+    int select_index = 0;
+
+    while(true)
+    {
+    
+        Console.Clear();
+
+        int width = 50;
+        string lijn = new string('═', width);
+
+        // headers
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("╔" + lijn + "╗");
+        string title = "TODO LIST";
+        int average_legte_header = (width - title.Length) / 2;
+        Console.WriteLine("║" + new string(' ', average_legte_header) + title +
+                      new string(' ', width - title.Length - average_legte_header) + "║");
+
+        Console.WriteLine("╠" + lijn + "╣");
+        Console.ResetColor();
+
+
+
+        // taken zelf geprint 
+        var iterator = tasks.GetIterator();
+
+        if (!iterator.HasNext())
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            string emptyMessage = "No tasks have been added yet";
+            Console.WriteLine("║ " + emptyMessage.PadRight(width - 1) + "║");
+            Console.ResetColor();
+        }
+
+        int i = 0;
+    
+        while (iterator.HasNext())
+        {
+            var task = iterator.Next();
+
+            string status_tasks = task.Completed ? "X" : " ";
+        
+
+            string Id_en_status = $"{task.Id,4}. [{status_tasks}] ";
+            string taak_descriptie = task.Description;
+
+            int descriptionwidth = width - 1;
+            int firstLineWidth = descriptionwidth - Id_en_status.Length;
+
+            string descriptie_na_bewerk = taak_descriptie.Length > firstLineWidth
+                ? taak_descriptie.Substring(0, firstLineWidth)
+                : taak_descriptie; // neem alles wat past anders neem alles. 
+
+            if(i == select_index)
+            {
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.WriteLine("║ >" + (Id_en_status + descriptie_na_bewerk).PadRight(descriptionwidth) + "║"); // padright zorgt dat het hetzelfde is als die :16 enz maar dan makkelijker
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.WriteLine("║ " + (Id_en_status + descriptie_na_bewerk).PadRight(descriptionwidth) + "║"); // padright zorgt dat het hetzelfde is als die :16 enz maar dan makkelijker      
+            }
+
+            taak_descriptie = taak_descriptie.Length > firstLineWidth
+                ? taak_descriptie.Substring(firstLineWidth)
+                : ""; // resterende tekst die nog over zou zijn geweest
+
+            // vervolg regels als tekst te lang is
+            while (taak_descriptie.Length > 0)
+            {
+                string part = taak_descriptie.Length > descriptionwidth
+                    ? taak_descriptie.Substring(0, descriptionwidth)
+                    : taak_descriptie;
+
+                Console.WriteLine("║ " + part.PadRight(descriptionwidth) + "║");
+
+                taak_descriptie = taak_descriptie.Length > descriptionwidth
+                    ? taak_descriptie.Substring(descriptionwidth)
+                    : "";
+            }
+
+            i++;
+            Console.ResetColor();
+        }
+
+        // grondstukkie
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("╚" + lijn + "╝");
+        Console.ResetColor();
+        var key = Console.ReadKey(true);
+        if (key.Key == ConsoleKey.UpArrow)
+        {
+            select_index--;
+            if (select_index < 0)
+            {
+                select_index = tasks.Count - 1;
+            }
+        }
+        else if (key.Key == ConsoleKey.DownArrow)
+        {
+            select_index++;
+            if (select_index >= tasks.Count)
+            {
+                select_index = 0;
+            }
+        }
+        else if (key.Key == ConsoleKey.Enter)
+        {
+            var it = tasks.GetIterator();
+            TaskItem task = null;
+            for (int j = 0; j <= select_index; j++)
+            {
+                task = it.Next();   
+            }
+            return task.Id;
+        }
+        else if (key.Key == ConsoleKey.Escape)
+        {
+            return 0;
+        }
+    }
+}
+
 
     string Prompt(string prompt)
     {
@@ -220,17 +347,16 @@ void DisplayTasks(IMyCollection<TaskItem> tasks)
                     break;
 
                 case 1:
-                    DisplayTasks(_service.GetAllTasks());
-                    string removeIdStr = Prompt("Enter task id to remove: ");
-                    if (int.TryParse(removeIdStr, out int removeId))
-                    {
-                        _service.RemoveTask(removeId);
-                    }
+                    int id = DisplayAndChooseTasks(_service.GetAllTasks());
+                    _service.RemoveTask(id);
                     break;
 
                 case 2:
-                    DisplayTasks(_service.GetAllTasks());
-                    string updateIdStr = Prompt("Enter task id to update: ");
+                    int updateid = DisplayAndChooseTasks(_service.GetAllTasks());
+                    if(updateid == 0)
+                    {
+                        break;
+                    }
                     string descr = Prompt("Enter task description: ");
                     string prio;
                     while (true)
@@ -261,16 +387,12 @@ void DisplayTasks(IMyCollection<TaskItem> tasks)
                         System.Console.WriteLine("Please enter one of the available statuses.");
                     }
                     
-                    _service.UpdateTask(Convert.ToInt32(updateIdStr), descr, prio, status);
+                    _service.UpdateTask(updateid, descr, prio, status);
                     break;
 
                 case 3:
-                    DisplayTasks(_service.GetAllTasks());
-                    string toggleIdStr = Prompt("Enter task id to toggle: ");
-                    if (int.TryParse(toggleIdStr, out int toggleId))
-                    {
-                        _service.ToggleTaskCompletion(toggleId);
-                    }
+                    int toggleId = DisplayAndChooseTasks(_service.GetAllTasks());
+                    _service.ToggleTaskCompletion(toggleId);
                     break;
                 case 4:
                     DisplayTasks(_service.GetAllTasks());
