@@ -10,7 +10,7 @@ private static readonly MyArrayList<(string Name, int Rank)> PriorityRanking;
         PriorityRanking.Add(("should have", 2));
         PriorityRanking.Add(("could have", 1));
     }
-    public static IMyCollection<TaskItem> FiltersTasks(IMyCollection<TaskItem> tasks)
+    public static void FiltersTasks(IMyCollection<TaskItem> tasks)
     {
         IMyCollection<TaskItem> filteredTasks = tasks;
 
@@ -42,31 +42,34 @@ private static readonly MyArrayList<(string Name, int Rank)> PriorityRanking;
             }
             else if (key.Key == ConsoleKey.Enter)
             {
-                if (selectedFilter == filteroptie.Count - 1) return filteredTasks; // Back
+                if (selectedFilter == filteroptie.Count - 1) return; // Back
 
                 switch (selectedFilter)
                 {
                     case 0:
-                        filteredTasks = FilterByStatus(filteredTasks);
+                        filteredTasks = FilterByStatus(tasks);
                         break;
                     case 1:
-                        filteredTasks = FilterByPriority(filteredTasks);
+                        filteredTasks = FilterByPriority(tasks);
                         break;
                     case 2:
-                        filteredTasks = SortByCreationDate(filteredTasks);
+                        filteredTasks = SortByCreationDate(tasks);
                         break;
                 }
 
-                Console.Clear();
-                Console.WriteLine("=== Filtered Tasks ===\n");
-                DisplayTasks(filteredTasks);
+                if(filteredTasks != null)
+                {
+                    Console.Clear();
+                    Console.WriteLine("=== Filtered Tasks ===\n");
+                    DisplayTasks(filteredTasks);
 
-                Console.WriteLine("\nPress any key to return to filter menu...");
-                Console.ReadKey();
+                    Console.WriteLine("\nPress any key to return to filter menu...");
+                    Console.ReadKey();
+                }
             }
             else if (key.Key == ConsoleKey.Escape)
             {
-                return filteredTasks;
+                return;
             }
         }
     }
@@ -82,7 +85,7 @@ private static readonly MyArrayList<(string Name, int Rank)> PriorityRanking;
         int selection = ChooseOption("Select Status:", statusOptions);
 
         if (selection == 3)
-            return tasks;
+            return null;
 
         string selectedStatus = statusOptions.ToArray()[selection];
 
@@ -101,7 +104,7 @@ private static readonly MyArrayList<(string Name, int Rank)> PriorityRanking;
         int selection = ChooseOption("Select Priority:", priorityOptions);
 
         if (selection == 3)
-            return tasks;
+            return null;
 
         string selectedPriority = priorityOptions.ToArray()[selection];
 
@@ -129,7 +132,7 @@ private static readonly MyArrayList<(string Name, int Rank)> PriorityRanking;
         dateOptions.Add("Back");
 
         int selection = ChooseOption("Select Creation Date Order:", dateOptions);
-        if (selection == 2) return tasks; // Back
+        if (selection == 2) return null; // Back
 
         tasks.Sort((a, b) =>
             selection == 0 ? a.CreationDate.CompareTo(b.CreationDate)

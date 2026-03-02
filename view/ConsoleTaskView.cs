@@ -7,33 +7,6 @@ class ConsoleTaskView : ITaskView
         _service = service;
     }
 
-
-    private void FilterTasksMenu()
-    {
-        var filteredTasks = FilterTasks.FiltersTasks(_service.GetAllTasks());
-
-        // Toon gefilterde taken (zelfde display als in DisplayAndChooseTasks)
-        Console.Clear();
-        Console.WriteLine("=== Filtered Tasks ===\n");
-        var iterator = filteredTasks.GetIterator();
-        if (!iterator.HasNext())
-        {
-            Console.WriteLine("No tasks found.");
-        }
-        else
-        {
-            while (iterator.HasNext())
-            {
-                var task = iterator.Next();
-                string status = task.Completed ? "X" : " ";
-                Console.WriteLine($"{task.Id}. [{status}] {task.Description} (Priority: {task.Priority}, Created: {task.CreationDate})");
-            }
-        }
-
-        Console.WriteLine("\nPress any key to return to menu...");
-        Console.ReadKey();
-    }
-
     int DisplayAndChooseTasks(IMyCollection<TaskItem> tasks)
     {
         int select_index = 0;
@@ -317,7 +290,7 @@ class ConsoleTaskView : ITaskView
                     Console.ReadKey();
                     break;
                 case 5:
-                    FilterTasksMenu();
+                    FilterTasks.FiltersTasks(_service.GetAllTasks());
                     break;
                 case 6:
                     return;
