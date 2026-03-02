@@ -4,7 +4,7 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
     private int _count;
     private const int DefaultCapacity = 4;
 
-    public int Count => _count;
+    public int Count {get => _count;}
 
     // public T this[int index]
     // {
