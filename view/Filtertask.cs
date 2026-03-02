@@ -1,46 +1,48 @@
+// System.Diagnostics.CodeAnalysis Namespace
 public static class FilterTasks
 {
 private static readonly MyArrayList<(string Name, int Rank)> PriorityRanking;
 
-static FilterTasks()
-{
-    PriorityRanking = new MyArrayList<(string, int)>();
-    PriorityRanking.Add(("must have", 3));
-    PriorityRanking.Add(("should have", 2));
-    PriorityRanking.Add(("could have", 1));
-}
+    static FilterTasks()
+    {
+        PriorityRanking = new MyArrayList<(string, int)>();
+        PriorityRanking.Add(("must have", 3));
+        PriorityRanking.Add(("should have", 2));
+        PriorityRanking.Add(("could have", 1));
+    }
     public static IMyCollection<TaskItem> FiltersTasks(IMyCollection<TaskItem> tasks)
     {
         IMyCollection<TaskItem> filteredTasks = tasks;
 
-        var filterOptions = new MyArrayList<string>();
-        filterOptions.Add("Status");
-        filterOptions.Add("Priority");
-        filterOptions.Add("Creation Date");
-        filterOptions.Add("Back");
+        var filteroptie = new MyArrayList<string>();
+        filteroptie.Add("Status");
+        filteroptie.Add("Priority");
+        filteroptie.Add("Creation Date");
+        filteroptie.Add("Back");
 
         int selectedFilter = 0;
 
+ // arrow keuys
         while (true)
         {
             Console.Clear();
             Console.WriteLine("=== Filter Tasks ===\n");
-            DisplayMenu(filterOptions, selectedFilter);
+            DisplayMenu(filteroptie, selectedFilter);
 
             var key = Console.ReadKey(true);
             if (key.Key == ConsoleKey.UpArrow)
             {
                 selectedFilter--;
-                if (selectedFilter < 0) selectedFilter = filterOptions.Count - 1;
+                if (selectedFilter < 0) selectedFilter = filteroptie.Count - 1;
             }
             else if (key.Key == ConsoleKey.DownArrow)
             {
                 selectedFilter++;
-                if (selectedFilter >= filterOptions.Count) selectedFilter = 0;
+                if (selectedFilter >= filteroptie.Count) selectedFilter = 0;
             }
             else if (key.Key == ConsoleKey.Enter)
             {
-                if (selectedFilter == filterOptions.Count - 1) return filteredTasks; // Back
+                if (selectedFilter == filteroptie.Count - 1) return filteredTasks; // Back
 
                 switch (selectedFilter)
                 {
@@ -55,7 +57,6 @@ static FilterTasks()
                         break;
                 }
 
-                // Toon resultaten
                 Console.Clear();
                 Console.WriteLine("=== Filtered Tasks ===\n");
                 DisplayTasks(filteredTasks);
@@ -73,10 +74,10 @@ static FilterTasks()
     private static IMyCollection<TaskItem> FilterByStatus(IMyCollection<TaskItem> tasks)
     {
         var statusOptions = new MyArrayList<string>();
-        statusOptions.Add("to do");
-        statusOptions.Add("in progress");
-        statusOptions.Add("completed");
-        statusOptions.Add("Back");
+        statusOptions.Add("to do"); //0
+        statusOptions.Add("in progress");//1
+        statusOptions.Add("completed");//2
+        statusOptions.Add("Back");//3
 
         int selection = ChooseOption("Select Status:", statusOptions);
 
@@ -92,21 +93,21 @@ static FilterTasks()
     private static IMyCollection<TaskItem> FilterByPriority(IMyCollection<TaskItem> tasks)
     {
         var priorityOptions = new MyArrayList<string>();
-        priorityOptions.Add("Most important");
-        priorityOptions.Add("Least important");
+        priorityOptions.Add("must have");
+        priorityOptions.Add("should have");
+        priorityOptions.Add("could have");
         priorityOptions.Add("Back");
 
         int selection = ChooseOption("Select Priority:", priorityOptions);
-        if (selection == 2) return tasks; // Back
 
-        tasks.Sort((a, b) =>
-        {
-            int rankA = GetPriorityRank(a.Priority);
-            int rankB = GetPriorityRank(b.Priority);
-            return selection == 0 ? rankB - rankA : rankA - rankB;
-        });
+        if (selection == 3)
+            return tasks;
 
-        return tasks;
+        string selectedPriority = priorityOptions.ToArray()[selection];
+
+        return tasks.Filter(t =>
+            !string.IsNullOrWhiteSpace(t.Priority) &&
+            t.Priority.Trim().Equals(selectedPriority.Trim(), StringComparison.OrdinalIgnoreCase));
     }
 
     private static int GetPriorityRank(string priority)
@@ -137,6 +138,9 @@ static FilterTasks()
         return tasks;
     }
 
+
+
+// anders constant zelfde aanmaken dus hierbij kan je toggelen tussen statussen en prioriteiten
     private static int ChooseOption(string title, IMyCollection<string> options)
     {
         int selectedIndex = 0;
