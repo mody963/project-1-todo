@@ -129,3 +129,86 @@
 //         }
 //     }
 // }
+
+
+
+
+
+
+
+// void DisplayTasks(IMyCollection<TaskItem> tasks)
+// {
+//     Console.Clear();
+
+//     int width = 50;
+//     string lijn = new string('═', width);
+
+//     // headers
+//     Console.ForegroundColor = ConsoleColor.Cyan;
+//     Console.WriteLine("╔" + lijn + "╗");
+//     string title = "TODO LIST";
+//     int average_legte_header = (width - title.Length) / 2;
+//     Console.WriteLine("║" + new string(' ', average_legte_header) + title +
+//                       new string(' ', width - title.Length - average_legte_header) + "║");
+
+//     Console.WriteLine("╠" + lijn + "╣");
+//     Console.ResetColor();
+
+
+
+//     // taken zelf geprint 
+//     var iterator = tasks.GetIterator();
+
+//     if (!iterator.HasNext())
+//     {
+//         Console.ForegroundColor = ConsoleColor.Red;
+//         string emptyMessage = "No tasks have been added yet";
+//         Console.WriteLine("║ " + emptyMessage.PadRight(width - 1) + "║");
+//         Console.ResetColor();
+//     }
+
+//     while (iterator.HasNext())
+//     {
+//         var task = iterator.Next();
+
+//         string status_tasks = task.Completed ? "X" : " ";
+        
+
+//         string Id_en_status = $"{task.Id,4}. [{status_tasks}] ";
+//         string taak_descriptie = task.Description;
+
+//         int descriptionwidth = width - 1;
+//         int firstLineWidth = descriptionwidth - Id_en_status.Length;
+
+//         string descriptie_na_bewerk = taak_descriptie.Length > firstLineWidth
+//             ? taak_descriptie.Substring(0, firstLineWidth)
+//             : taak_descriptie; // neem alles wat past anders neem alles. 
+
+//         Console.WriteLine("║ " + (Id_en_status + descriptie_na_bewerk).PadRight(descriptionwidth) + "║"); // padright zorgt dat het hetzelfde is als die :16 enz maar dan makkelijker
+
+//         taak_descriptie = taak_descriptie.Length > firstLineWidth
+//             ? taak_descriptie.Substring(firstLineWidth)
+//             : ""; // resterende tekst die nog over zou zijn geweest
+
+//         // vervolg regels als tekst te lang is
+//         while (taak_descriptie.Length > 0)
+//         {
+//             string part = taak_descriptie.Length > descriptionwidth
+//                 ? taak_descriptie.Substring(0, descriptionwidth)
+//                 : taak_descriptie;
+
+//             Console.WriteLine("║ " + part.PadRight(descriptionwidth) + "║");
+
+//             taak_descriptie = taak_descriptie.Length > descriptionwidth
+//                 ? taak_descriptie.Substring(descriptionwidth)
+//                 : "";
+//         }
+
+//         Console.ResetColor();
+//     }
+
+//     // grondstukkie
+//     Console.ForegroundColor = ConsoleColor.Cyan;
+//     Console.WriteLine("╚" + lijn + "╝");
+//     Console.ResetColor();
+// }

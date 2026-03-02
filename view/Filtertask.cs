@@ -73,17 +73,22 @@ static FilterTasks()
     private static IMyCollection<TaskItem> FilterByStatus(IMyCollection<TaskItem> tasks)
     {
         var statusOptions = new MyArrayList<string>();
-        statusOptions.Add("Finished");
-        statusOptions.Add("Unfinished");
+        statusOptions.Add("to do");
+        statusOptions.Add("in progress");
+        statusOptions.Add("completed");
         statusOptions.Add("Back");
 
         int selection = ChooseOption("Select Status:", statusOptions);
-        if (selection == 2) return tasks; // Back
 
-        bool completedFilter = selection == 0;
-        return tasks.Filter(t => t.Completed == completedFilter);
+        if (selection == 3)
+            return tasks;
+
+        string selectedStatus = statusOptions.ToArray()[selection];
+
+        return tasks.Filter(t =>
+            !string.IsNullOrWhiteSpace(t.Status) &&
+            t.Status.Trim().Equals(selectedStatus.Trim(), StringComparison.OrdinalIgnoreCase));
     }
-
     private static IMyCollection<TaskItem> FilterByPriority(IMyCollection<TaskItem> tasks)
     {
         var priorityOptions = new MyArrayList<string>();

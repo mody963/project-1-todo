@@ -5,6 +5,17 @@ public class MyArrayList<T> : IMyCollection<T>
     private const int DefaultCapacity = 4;
 
     public int Count => _count;
+
+    public T this[int index]
+    {
+        get
+        {
+            if (index < 0 || index >= _count)
+                throw new IndexOutOfRangeException();
+
+            return _items[index];
+        }
+    }
     public bool Dirty { get; set; }
 
     public MyArrayList(int capacity = DefaultCapacity)
