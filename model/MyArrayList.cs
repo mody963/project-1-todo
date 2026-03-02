@@ -1,4 +1,4 @@
-public class MyArrayList<T> : IMyCollection<T>
+public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
 {
     private T[] _items;
     private int _count;
@@ -6,16 +6,16 @@ public class MyArrayList<T> : IMyCollection<T>
 
     public int Count => _count;
 
-    public T this[int index]
-    {
-        get
-        {
-            if (index < 0 || index >= _count)
-                throw new IndexOutOfRangeException();
+    // public T this[int index]
+    // {
+    //     get
+    //     {
+    //         if (index < 0 || index >= _count)
+    //             throw new IndexOutOfRangeException();
 
-            return _items[index];
-        }
-    }
+    //         return _items[index];
+    //     }
+    // }
     public bool Dirty { get; set; }
 
     public MyArrayList(int capacity = DefaultCapacity)
@@ -52,22 +52,29 @@ public class MyArrayList<T> : IMyCollection<T>
 
     public void Remove(T item)
     {
-        for (int i = 0; i < _count; i++)
+        if (item != null)
         {
-            if (Equals(_items[i], item))
+            for (int i = 0; i < _count; i++)
             {
-                ShiftLeft(i);
-                Dirty = true;
-                return;
+                if (Equals(_items[i], item))
+                {
+                    ShiftLeft(i);
+                    Dirty = true;
+                    return;
+                }
             }
         }
     }
 
     public T FindBy<K>(K key, Func<T, K, bool> comparer)
     {
-        for (int i = 0; i < _count; i++)
+        if (key != null)
         {
-            if (comparer(_items[i], key)) return _items[i];
+            for (int i = 0; i < _count; i++)
+            {
+                if (comparer(_items[i], key)) return _items[i];
+            }
+            
         }
         return default!;
     }
@@ -108,16 +115,12 @@ public class MyArrayList<T> : IMyCollection<T>
         }
         return current;
     }
-    public R Reduce<R>(Func<R, T, R> accumulator)
+    public T Reduce(Func<T, T, T> accumulator)
     {
         if (_count == 0)
             throw new InvalidOperationException("Cannot reduce empty collection.");
 
-        if (!(_items[0] is R))
-            throw new InvalidOperationException("T must be assignable to R.");
-
-        R current = (R)(object)_items[0];
-
+        T current = default!;
         for (int i = 1; i < _count; i++)
         {
             current = accumulator(current, _items[i]);

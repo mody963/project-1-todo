@@ -7,7 +7,7 @@ public interface IMyCollection<T>
     void Sort(Comparison<T> comparison);
     int Count { get; }
     bool Dirty {get; set;}
-    R Reduce<R>(Func<R, T, R> accumulator);
+    T Reduce(Func<T, T, T> accumulator);
     // or
     R Reduce<R>(R initial, Func<R, T, R> accumulator);
     //or
