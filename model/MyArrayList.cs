@@ -6,7 +6,7 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
 
     public int Count {get => _count;}
 
-    public bool Dirty { get; set; } // maybe backingfield same as count.
+    public bool Dirty { get; private set; } // maybe backingfield same as count.
 
     public MyArrayList(int capacity = DefaultCapacity)
     {
@@ -16,9 +16,18 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
         _items = new T[capacity];
         _count = 0;
     }
+    public MyArrayList()
+    {
+        _items = new T[DefaultCapacity];
+        _count = 0;
+    }
 
     public void Add(T item)
     {
+        if (item == null)
+        {
+            throw new ArgumentNullException(nameof(item));
+        }
         EnsureCapacity();
         // count is the number of elements so its the last element if u add 1 to it its the next empty spot.
         _items[_count++] = item;
@@ -42,35 +51,42 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
 
     public void Remove(T item)
     {
-        if (item != null)
+        if (item == null)
         {
-            for (int i = 0; i < _count; i++)
+            throw new ArgumentNullException(nameof(item));
+
+        }
+        for (int i = 0; i < _count; i++)
+        {
+            if (_items[i].Equals(item))
             {
-                if (Equals(_items[i], item))
-                {
-                    ShiftLeft(i);
-                    Dirty = true;
-                    return;
-                }
+                ShiftLeft(i);
+                Dirty = true;
+                return;
             }
+            
         }
     }
 
     public T FindBy<K>(K key, Func<T, K, bool> comparer)
     {
-        if (key != null)
+        if (comparer == null)
         {
-            for (int i = 0; i < _count; i++)
-            {
-                if (comparer(_items[i], key)) return _items[i];
-            }
-            
+            throw new ArgumentNullException(nameof(comparer));
         }
+        
+        for (int i = 0; i < _count; i++)
+        {
+            if (comparer(_items[i], key)) return _items[i];
+        }
+            
+        
         return default!;
     }
 
     public IMyCollection<T> Filter(Func<T, bool> predicate)
     {
+        if (predicate == null) throw new ArgumentNullException(nameof(predicate));
         var result = new MyArrayList<T>();
         for (int i = 0; i < _count; i++)
         {
@@ -81,6 +97,7 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
 
     public void Sort(Comparison<T> comparison)
     {
+        if (comparison == null) throw new ArgumentNullException(nameof(comparison));
         for (int i = 0; i < _count - 1; i++)
         {
             //_count - i - 1  last index for inner loop (ignores already sorted elements)
@@ -94,6 +111,7 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
                 }
             }
         }
+        Dirty = true;
     }
 
     public R Reduce<R>(R initial, Func<R, T, R> accumulator)
@@ -110,7 +128,7 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
         if (_count == 0)
             throw new InvalidOperationException("Cannot reduce empty collection.");
 
-        T current = default!;
+        T current = _items[0];
         for (int i = 1; i < _count; i++)
         {
             current = accumulator(current, _items[i]);
@@ -135,6 +153,10 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
     }
     private void ShiftLeft(int startIndex)
     {
+        if (startIndex < 0 || startIndex >= _count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(startIndex));
+        }
         // _count - 1 is the index of the last valid element in the list.
         for (int i = startIndex; i < _count - 1; i++)
         {
@@ -147,6 +169,10 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
     }
     private void ShiftRight(int startIndex)
     {
+        if (startIndex < 0 || startIndex > _count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(startIndex));
+        }
         EnsureCapacity();
         for (int i = _count; i > startIndex; i--)
         {
@@ -162,4 +188,5 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
             arr[i] = _items[i];
         return arr;
     }
+  
 }
