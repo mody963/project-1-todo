@@ -1,65 +1,118 @@
-using System.Reflection.Metadata.Ecma335;
 using Spectre.Console;
+
 
 class ConsoleTaskView : ITaskView
 {
     private readonly ITaskService _service;
-
-    private Person activeperson;
 
     public ConsoleTaskView(ITaskService service)
     {
         _service = service;
     }
 
+    private void DisplayTasks(IMyCollection<TaskItem> tasks)
+    {
+        Console.Clear();
+        var iterator = tasks.GetIterator();
+
+        if (!iterator.HasNext())
+        {
+            AnsiConsole.MarkupLine("[red]No tasks found.[/]");
+            AnsiConsole.Ask<string>("Press any key to return...");
+            return;
+        }
+
+        var table = new Table()
+            .AddColumn("ID")
+            .AddColumn("Description")
+            .AddColumn("Priority")
+            .AddColumn("Status")
+            .AddColumn("Created At");
+
+        while (iterator.HasNext())
+        {
+            var t = iterator.Next();
+            table.AddRow(
+                t.Id.ToString(),
+                t.Description,
+                t.Priority,
+                t.Status,
+                t.CreationDate.ToString("g")
+            );
+        }
+
+        AnsiConsole.Write(table);
+    }
+
+
     private int DisplayAndChooseTasks(IMyCollection<TaskItem> tasks)
-{
-
-    // "Id": 11,
-    // "Description": "task11",
-    // "Priority": "must have",
-    // "Status": "to do",
-    // "Completed": false,
-    // "CreationDate": "2026-03-01T12:02:46.260302+01:00"
-    var table = new Table()
-        .AddColumn("ID")
-        .AddColumn("Description")
-        .AddColumn("Priority")
-        .AddColumn("Status")
-        .AddColumn("Created At");
-
-    var iterator = tasks.GetIterator();
-
-    if (!iterator.HasNext())
     {
-        AnsiConsole.MarkupLine("[red]No tasks found.[/]");
-        AnsiConsole.Ask<string>("Press any key to return to menu...");
-        return 0;
-    }
+        Console.Clear();
+        var iterator = tasks.GetIterator();
 
-    var taskArray = new MyArrayList<TaskItem>();
+        if (!iterator.HasNext())
+        {
+            AnsiConsole.MarkupLine("[red]No tasks found.[/]");
+            AnsiConsole.Ask<string>("Press any key to return...");
+            return 0;
+        }
 
-    while (iterator.HasNext())
-    {
-        var task = iterator.Next();
-        taskArray.Add(task);
+        // Zet taken in MyArrayList
+        var taskArray = new MyArrayList<TaskItem>();
+        while (iterator.HasNext())
+        {
+            taskArray.Add(iterator.Next());
+        }
 
-        string status = task.Status;
-        table.AddRow(
-            task.Id.ToString(),
-            task.Description,
-            task.Priority,
-            status,
-            task.CreationDate.ToString("g")
+        // Tabel maken
+        var table = new Table()
+            .AddColumn("ID")
+            .AddColumn("Description")
+            .AddColumn("Priority")
+            .AddColumn("Status")
+            .AddColumn("Created At");
+
+        var taskIter = taskArray.GetIterator();
+        while (taskIter.HasNext())
+        {
+            var t = taskIter.Next();
+            table.AddRow(
+                t.Id.ToString(),
+                t.Description,
+                t.Priority,
+                t.Status,
+                t.CreationDate.ToString("g")
+            );
+        }
+
+        AnsiConsole.Write(table);
+
+        // choise menu 
+        var choices = new MyArrayList<string>();
+        var iter2 = taskArray.GetIterator();
+        while (iter2.HasNext())
+        {
+            var t = iter2.Next();
+            choices.Add($"{t.Id}. {t.Description} (Priority: {t.Priority}, Status: {t.Status}, Created: {t.CreationDate:g})");
+        }
+        choices.Add("Back");
+
+        var selected = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("Select a task:")
+                .PageSize(10)
+                .AddChoices(choices.ToArray())
         );
+
+        if (selected == "Back")
+            return 0;
+
+        // returning of the id of the selected task
+        int dotIndex = selected.IndexOf('.');
+        if (dotIndex == -1) return 0;
+        string idStr = selected.Substring(0, dotIndex);
+        return int.Parse(idStr); // converts string to int 
     }
-    AnsiConsole.Write(table);
-    AnsiConsole.MarkupLine("\nUse Arrow Keys to navigate, Enter to select, Esc to go back");
-    return 0;
-
-
-}
-
 
     string Prompt(string prompt)
     {
@@ -67,45 +120,8 @@ class ConsoleTaskView : ITaskView
         return Console.ReadLine();
     }
 
-    public void Select_person()
-    {
-        Person fernando = new Person(1, "fernando");
-        Person aimee = new Person(1, "aimee");
-        Person mouhamad = new Person(1, "mouhamad");
-        Person who_is_this;
-        while (true)
-        {
-            System.Console.WriteLine("Who are you:");
-            System.Console.Write("Fernando, Aimee, Mouhamad\n");
-            string name = Console.ReadLine()?.Trim().ToLower() ?? "";
-
-            if (name == "fernando")
-            {
-                who_is_this = fernando;
-                break;
-            }
-            else if(name == "aimee")
-            {
-                who_is_this = aimee;
-                break;
-            }
-            else if(name == "mouhamad")
-            {
-                who_is_this = mouhamad;
-                break;
-            }
-            else
-            {
-                System.Console.WriteLine("Please enter one of the available names.");
-            }
-        }
-        activeperson = who_is_this;
-    }
-    
     public void Run()
     {
-        Console.Clear();
-        Select_person();
         IMyCollection<string> main_options = new MyArrayList<string>();
 
             main_options.Add("Add Task");
@@ -248,7 +264,7 @@ class ConsoleTaskView : ITaskView
                     _service.ToggleTaskCompletion(toggleId);
                     break;
                 case 4:
-                    DisplayAndChooseTasks(_service.GetAllTasks());
+                    DisplayTasks(_service.GetAllTasks());
                     Console.WriteLine("\nPress any key to return to menu...");
                     Console.ReadKey();
                     break;
