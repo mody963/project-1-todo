@@ -68,7 +68,7 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
         }
     }
 
-    public T FindBy<K>(K key, Func<T, K, bool> comparer)
+    public T FindBy<K>(K key, Func<T, K, bool> comparer) // ik moet nog kijken met andere methode of default en 0 niet zelfde zijn
     {
         if (comparer == null)
         {
@@ -78,6 +78,21 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
         for (int i = 0; i < _count; i++)
         {
             if (comparer(_items[i], key)) return _items[i];
+        }
+            
+        
+        return default!;
+    }
+    public T FindBy<K>(K key1, K key2, Func<T, K, K, bool> comparer) // ik moet nog kijken met andere methode of default en 0 niet zelfde zijn
+    {
+        if (comparer == null)
+        {
+            throw new ArgumentNullException(nameof(comparer));
+        }
+        
+        for (int i = 0; i < _count; i++)
+        {
+            if (comparer(_items[i], key1, key2)) return _items[i];
         }
             
         
