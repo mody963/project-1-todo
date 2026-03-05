@@ -1,6 +1,10 @@
+using System.Reflection.Metadata.Ecma335;
+
 class ConsoleTaskView : ITaskView
 {
     private readonly ITaskService _service;
+
+    private Person activeperson;
 
     public ConsoleTaskView(ITaskService service)
     {
@@ -141,8 +145,45 @@ class ConsoleTaskView : ITaskView
         return Console.ReadLine();
     }
 
+    public void Select_person()
+    {
+        Person fernando = new Person(1, "fernando");
+        Person aimee = new Person(1, "aimee");
+        Person mouhamad = new Person(1, "mouhamad");
+        Person who_is_this;
+        while (true)
+        {
+            System.Console.WriteLine("Who are you:");
+            System.Console.Write("Fernando, Aimee, Mouhamad\n");
+            string name = Console.ReadLine()?.Trim().ToLower() ?? "";
+
+            if (name == "fernando")
+            {
+                who_is_this = fernando;
+                break;
+            }
+            else if(name == "aimee")
+            {
+                who_is_this = aimee;
+                break;
+            }
+            else if(name == "mouhamad")
+            {
+                who_is_this = mouhamad;
+                break;
+            }
+            else
+            {
+                System.Console.WriteLine("Please enter one of the available names.");
+            }
+        }
+        activeperson = who_is_this;
+    }
+    
     public void Run()
     {
+        Console.Clear();
+        Select_person();
         IMyCollection<string> main_options = new MyArrayList<string>();
 
             main_options.Add("Add Task");
