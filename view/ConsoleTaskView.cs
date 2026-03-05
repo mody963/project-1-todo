@@ -1,3 +1,6 @@
+using Spectre.Console;
+
+
 class ConsoleTaskView : ITaskView
 {
     private readonly ITaskService _service;
