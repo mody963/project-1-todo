@@ -1,17 +1,17 @@
 using System.Text.Json;
 
-class JsonTaskRepository : ITaskRepository
+class JsonPersonRepository : IPersonRepository
 {
     private readonly string _filePath;
 
-    public JsonTaskRepository(string filePath)
+    public JsonPersonRepository(string filePath)
     {
         _filePath = filePath;
     }
 
-    public IMyCollection<TaskItem> LoadTasks()
+    public IMyCollection<Person> LoadPerson()
     {
-        var collection = new MyArrayList<TaskItem>();
+        var collection = new MyArrayList<Person>();
 
         if (!File.Exists(_filePath))
             return collection;
@@ -19,20 +19,20 @@ class JsonTaskRepository : ITaskRepository
         string json = File.ReadAllText(_filePath);
 
         // Deserialize into an array       IK MOET VRAGEN OF DIT MAG MET ARRAYS MAAR VGM KAN HET NIET ANDERS
-        TaskItem[] tasks = JsonSerializer.Deserialize<TaskItem[]>(json) ?? new TaskItem[0];
+        Person[] persons = JsonSerializer.Deserialize<Person[]>(json) ?? new Person[0];
 
-        for (int i = 0; i < tasks.Length; i++)
+        for (int i = 0; i < persons.Length; i++)
         {
-            collection.Add(tasks[i]);
+            collection.Add(persons[i]);
         }
 
         return collection;
     }
 
-    public void SaveTasks(IMyCollection<TaskItem> tasks)
+    public void SavePerson(IMyCollection<Person> persons)
     {
         // Use your helper method to convert IMyCollection into an array
-        TaskItem[] arr = tasks.ToArray();
+        Person[] arr = persons.ToArray();
 
         string json = JsonSerializer.Serialize(arr, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(_filePath, json);
