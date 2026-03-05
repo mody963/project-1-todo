@@ -1,141 +1,64 @@
+using System.Reflection.Metadata.Ecma335;
 using Spectre.Console;
-
 
 class ConsoleTaskView : ITaskView
 {
     private readonly ITaskService _service;
+
+    private Person activeperson;
 
     public ConsoleTaskView(ITaskService service)
     {
         _service = service;
     }
 
-    int DisplayAndChooseTasks(IMyCollection<TaskItem> tasks)
+    private int DisplayAndChooseTasks(IMyCollection<TaskItem> tasks)
+{
+
+    // "Id": 11,
+    // "Description": "task11",
+    // "Priority": "must have",
+    // "Status": "to do",
+    // "Completed": false,
+    // "CreationDate": "2026-03-01T12:02:46.260302+01:00"
+    var table = new Table()
+        .AddColumn("ID")
+        .AddColumn("Description")
+        .AddColumn("Priority")
+        .AddColumn("Status")
+        .AddColumn("Created At");
+
+    var iterator = tasks.GetIterator();
+
+    if (!iterator.HasNext())
     {
-        int select_index = 0;
-
-        while(true)
-        {
-        
-            Console.Clear();
-
-            int width = 50;
-            string lijn = new string('═', width);
-
-            // headers
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("╔" + lijn + "╗");
-            string title = "TODO LIST";
-            int average_legte_header = (width - title.Length) / 2;
-            Console.WriteLine("║" + new string(' ', average_legte_header) + title +
-                        new string(' ', width - title.Length - average_legte_header) + "║");
-
-            Console.WriteLine("╠" + lijn + "╣");
-            Console.ResetColor();
-
-
-
-            // taken zelf geprint 
-            var iterator = tasks.GetIterator();
-
-            if (!iterator.HasNext())
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                string emptyMessage = "No tasks have been added yet";
-                Console.WriteLine("║ " + emptyMessage.PadRight(width - 1) + "║");
-                Console.ResetColor();
-            }
-
-            int i = 0;
-        
-            while (iterator.HasNext())
-            {
-                var task = iterator.Next();
-
-                string status_tasks = task.Completed ? "X" : " ";
-            
-
-                string Id_en_status = $"{task.Id,4}. [{status_tasks}] ";
-                string taak_descriptie = task.Description;
-
-                int descriptionwidth = width - 1;
-                int firstLineWidth = descriptionwidth - Id_en_status.Length;
-
-                string descriptie_na_bewerk = taak_descriptie.Length > firstLineWidth
-                    ? taak_descriptie.Substring(0, firstLineWidth)
-                    : taak_descriptie; // neem alles wat past anders neem alles. 
-
-                if(i == select_index)
-                {
-                    Console.BackgroundColor = ConsoleColor.White;
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    Console.WriteLine("║ >" + (Id_en_status + descriptie_na_bewerk).PadRight(descriptionwidth) + "║"); // padright zorgt dat het hetzelfde is als die :16 enz maar dan makkelijker
-                    Console.ResetColor();
-                }
-                else
-                {
-                    Console.WriteLine("║ " + (Id_en_status + descriptie_na_bewerk).PadRight(descriptionwidth) + "║"); // padright zorgt dat het hetzelfde is als die :16 enz maar dan makkelijker      
-                }
-
-                taak_descriptie = taak_descriptie.Length > firstLineWidth
-                    ? taak_descriptie.Substring(firstLineWidth)
-                    : ""; // resterende tekst die nog over zou zijn geweest
-
-                // vervolg regels als tekst te lang is
-                while (taak_descriptie.Length > 0)
-                {
-                    string part = taak_descriptie.Length > descriptionwidth
-                        ? taak_descriptie.Substring(0, descriptionwidth)
-                        : taak_descriptie;
-
-                    Console.WriteLine("║ " + part.PadRight(descriptionwidth) + "║");
-
-                    taak_descriptie = taak_descriptie.Length > descriptionwidth
-                        ? taak_descriptie.Substring(descriptionwidth)
-                        : "";
-                }
-
-                i++;
-                Console.ResetColor();
-            }
-
-            // grondstukkie
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("╚" + lijn + "╝");
-            Console.ResetColor();
-            var key = Console.ReadKey(true);
-            if (key.Key == ConsoleKey.UpArrow)
-            {
-                select_index--;
-                if (select_index < 0)
-                {
-                    select_index = tasks.Count - 1;
-                }
-            }
-            else if (key.Key == ConsoleKey.DownArrow)
-            {
-                select_index++;
-                if (select_index >= tasks.Count)
-                {
-                    select_index = 0;
-                }
-            }
-            else if (key.Key == ConsoleKey.Enter)
-            {
-                var it = tasks.GetIterator();
-                TaskItem task = null;
-                for (int j = 0; j <= select_index; j++)
-                {
-                    task = it.Next();   
-                }
-                return task.Id;
-            }
-            else if (key.Key == ConsoleKey.Escape)
-            {
-                return 0;
-            }
-        }
+        AnsiConsole.MarkupLine("[red]No tasks found.[/]");
+        AnsiConsole.Ask<string>("Press any key to return to menu...");
+        return 0;
     }
+
+    var taskArray = new MyArrayList<TaskItem>();
+
+    while (iterator.HasNext())
+    {
+        var task = iterator.Next();
+        taskArray.Add(task);
+
+        string status = task.Status;
+        table.AddRow(
+            task.Id.ToString(),
+            task.Description,
+            task.Priority,
+            status,
+            task.CreationDate.ToString("g")
+        );
+    }
+    AnsiConsole.Write(table);
+    AnsiConsole.MarkupLine("\nUse Arrow Keys to navigate, Enter to select, Esc to go back");
+    return 0;
+
+
+}
 
 
     string Prompt(string prompt)
@@ -144,8 +67,45 @@ class ConsoleTaskView : ITaskView
         return Console.ReadLine();
     }
 
+    public void Select_person()
+    {
+        Person fernando = new Person(1, "fernando");
+        Person aimee = new Person(1, "aimee");
+        Person mouhamad = new Person(1, "mouhamad");
+        Person who_is_this;
+        while (true)
+        {
+            System.Console.WriteLine("Who are you:");
+            System.Console.Write("Fernando, Aimee, Mouhamad\n");
+            string name = Console.ReadLine()?.Trim().ToLower() ?? "";
+
+            if (name == "fernando")
+            {
+                who_is_this = fernando;
+                break;
+            }
+            else if(name == "aimee")
+            {
+                who_is_this = aimee;
+                break;
+            }
+            else if(name == "mouhamad")
+            {
+                who_is_this = mouhamad;
+                break;
+            }
+            else
+            {
+                System.Console.WriteLine("Please enter one of the available names.");
+            }
+        }
+        activeperson = who_is_this;
+    }
+    
     public void Run()
     {
+        Console.Clear();
+        Select_person();
         IMyCollection<string> main_options = new MyArrayList<string>();
 
             main_options.Add("Add Task");

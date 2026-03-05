@@ -36,10 +36,12 @@ using System.Text.Json;
 class JsonTaskRepository : ITaskRepository
 {
     private readonly string _filePath;
+    private readonly string _filePath2;
 
-    public JsonTaskRepository(string filePath)
+    public JsonTaskRepository(string filePath, string filepath2)
     {
         _filePath = filePath;
+        _filePath2 = filepath2;
     }
 
     public IMyCollection<TaskItem> LoadTasks()
@@ -69,5 +71,27 @@ class JsonTaskRepository : ITaskRepository
 
         string json = JsonSerializer.Serialize(arr, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(_filePath, json);
+    }
+    public IMyCollection<Task_Allocation> LoadAllocation()
+    {
+        var collection = new MyArrayList<Task_Allocation>();
+
+        if (!File.Exists(_filePath))
+            return collection;
+        string json = File.ReadAllText(_filePath2);
+        Task_Allocation[] tasks = JsonSerializer.Deserialize<Task_Allocation[]>(json) ?? new Task_Allocation[0];
+        for (int i = 0; i < tasks.Length; i++)
+        {
+            collection.Add(tasks[i]);
+        }
+
+        return collection;
+    }
+
+    public void SaveAllocation(IMyCollection<Task_Allocation> Allocations)
+    {
+        Task_Allocation [] arr = Allocations.ToArray();
+        string json = JsonSerializer.Serialize(arr, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(_filePath2, json);
     }
 }
