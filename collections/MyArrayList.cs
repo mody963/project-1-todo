@@ -83,7 +83,7 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
         
         return default!;
     }
-    public T FindBy<K>(K key1, K key2, Func<T, K, K, int> comparer) // ik moet nog kijken met andere methode of default en 0 niet zelfde zijn
+    public T FindBy<K>(K key1, K key2, Func<T, K, K, bool> comparer) // ik moet nog kijken met andere methode of default en 0 niet zelfde zijn
     {
         if (comparer == null)
         {
