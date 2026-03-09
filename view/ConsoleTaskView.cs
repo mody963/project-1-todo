@@ -45,7 +45,7 @@ class ConsoleTaskView : ITaskView
     }
 
 
-    private int DisplayAndChooseTasks(IMyCollection<TaskItem> tasks)
+    private int ChooseTasks(IMyCollection<TaskItem> tasks)
     {
         Console.Clear();
         var iterator = tasks.GetIterator();
@@ -63,29 +63,6 @@ class ConsoleTaskView : ITaskView
         {
             taskArray.Add(iterator.Next());
         }
-
-        // Tabel maken
-        var table = new Table()
-            .AddColumn("ID")
-            .AddColumn("Description")
-            .AddColumn("Priority")
-            .AddColumn("Status")
-            .AddColumn("Created At");
-
-        var taskIter = taskArray.GetIterator();
-        while (taskIter.HasNext())
-        {
-            var t = taskIter.Next();
-            table.AddRow(
-                t.Id.ToString(),
-                t.Description,
-                t.Priority,
-                t.Status,
-                t.CreationDate.ToString("g")
-            );
-        }
-
-        AnsiConsole.Write(table);
 
         // choise menu 
         var choices = new MyArrayList<string>();
@@ -216,12 +193,12 @@ class ConsoleTaskView : ITaskView
                     break;
 
                 case 1:
-                    int id = DisplayAndChooseTasks(_service.GetAllTasks());
+                    int id = ChooseTasks(_service.GetAllTasks());
                     _service.RemoveTask(id);
                     break;
 
                 case 2:
-                    int updateid = DisplayAndChooseTasks(_service.GetAllTasks());
+                    int updateid = ChooseTasks(_service.GetAllTasks());
                     if(updateid == 0)
                     {
                         break;
@@ -260,7 +237,7 @@ class ConsoleTaskView : ITaskView
                     break;
 
                 case 3:
-                    int toggleId = DisplayAndChooseTasks(_service.GetAllTasks());
+                    int toggleId = ChooseTasks(_service.GetAllTasks());
                     _service.ToggleTaskCompletion(toggleId);
                     break;
                 case 4:
