@@ -67,8 +67,7 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
             
         }
     }
-
-    public T FindBy<K>(K key, Func<T, K, int> comparer)
+    public bool TryFindBy<K>(K key, Func<T, K, int> comparer, out T? result) //This is where the found item is returned, because of out
     {
         if (comparer == null)
             throw new ArgumentNullException(nameof(comparer));
@@ -76,25 +75,44 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
         for (int i = 0; i < _count; i++)
         {
             if (comparer(_items[i], key) == 0)
-                return _items[i];
+            {
+                result = _items[i];
+                return true;
+            }
         }
 
-        return default!;
+        result = default; // if not found set to default but if its an int it doesnt matter because we return false
+        return false;
     }
-    public T FindBy<K>(K key1, K key2, Func<T, K, K, bool> comparer) // ik moet nog kijken met andere methode of default en 0 niet zelfde zijn
+    // public T FindBy<K>(K key, Func<T, K, int> comparer)
+    // {
+    //     if (comparer == null)
+    //         throw new ArgumentNullException(nameof(comparer));
+
+    //     for (int i = 0; i < _count; i++)
+    //     {
+    //         if (comparer(_items[i], key) == 0)
+    //             return _items[i];
+    //     }
+
+    //     return default!;
+    // }
+    public bool TryFindBy<K>(K key1, K key2, Func<T, K, K, int> comparer, out T? result)
     {
         if (comparer == null)
-        {
             throw new ArgumentNullException(nameof(comparer));
-        }
-        
+
         for (int i = 0; i < _count; i++)
         {
-            if (comparer(_items[i], key1, key2)) return _items[i];
+            if (comparer(_items[i], key1, key2) == 0)
+            {
+                result = _items[i];
+                return true;
+            }
         }
-            
-        
-        return default!;
+
+        result = default;
+        return false;
     }
 
     public IMyCollection<T> Filter(Func<T, bool> predicate)

@@ -27,11 +27,13 @@ class AllocationService : IAllocationService
  
     public void RemoveAllocation(int id, int id2)
     {
-        var task = _Task_Allocations.FindBy(id, (item, key) => item.Task_Id == key && item.Person_Id == id2);
-
-        if (task != null)
+        if (_Task_Allocations.TryFindBy(id, (item, key) =>
+        (item.Task_Id == key && item.Person_Id == id2) ? 0 : 1,
+        out var task))
+        {
             _Task_Allocations.Remove(task);
             _repository.SaveTaskAllocations(_Task_Allocations);
+        }
     }
 
 

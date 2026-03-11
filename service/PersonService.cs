@@ -34,11 +34,11 @@ class PersonService : IPersonService
  
     public void RemovePerson(int id)
     {
-        var task = _persons.FindBy(id, (item, key) => item.Id == key);
-
-        if (task != null)
-            _persons.Remove(task);
+        if (_persons.TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var person))
+        {
+            _persons.Remove(person);
             _repository.SavePerson(_persons);
+        }
     }
 
 
