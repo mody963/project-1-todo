@@ -126,22 +126,48 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
         return result;
     }
 
-    public void Sort(Comparison<T> comparison)
+    // public void Sort(Comparison<T> comparison) this was a bubble sort
+    // {
+    //     if (comparison == null) throw new ArgumentNullException(nameof(comparison));
+    //     for (int i = 0; i < _count - 1; i++)
+    //     {
+    //         //_count - i - 1  last index for inner loop (ignores already sorted elements)
+    //         for (int j = 0; j < _count - i - 1; j++)
+    //         {
+    //             if (comparison(_items[j], _items[j + 1]) > 0)
+    //             {
+    //                 T temp = _items[j];
+    //                 _items[j] = _items[j + 1];
+    //                 _items[j + 1] = temp;
+    //             }
+    //         }
+    //     }
+    //     Dirty = true;
+    // }
+    public void Sort(Comparison<T> comparison) // changed to insertion sort
     {
         if (comparison == null) throw new ArgumentNullException(nameof(comparison));
-        for (int i = 0; i < _count - 1; i++)
+
+        for (int i = 1; i < _count; i++)
         {
-            //_count - i - 1  last index for inner loop (ignores already sorted elements)
-            for (int j = 0; j < _count - i - 1; j++)
+            T key = _items[i];
+            int j = i - 1;
+
+            // Find the correct insertion point
+            while (j >= 0 && comparison(_items[j], key) > 0)
             {
-                if (comparison(_items[j], _items[j + 1]) > 0)
-                {
-                    T temp = _items[j];
-                    _items[j] = _items[j + 1];
-                    _items[j + 1] = temp;
-                }
+                j--;
+            }
+
+            // Insert key at position j+1 by shifting elements
+            if (j + 1 != i)
+            {
+                // Shift everything from j+1 to i-1 one step to the right
+                ShiftRight(j + 1);
+                _items[j + 1] = key;
             }
         }
+
         Dirty = true;
     }
 
