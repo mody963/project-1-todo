@@ -4,6 +4,7 @@ using Spectre.Console;
 class ConsoleTaskView : ITaskView
 {
     private readonly ITaskService _service;
+    private Person? activePerson = null;
 
     public ConsoleTaskView(ITaskService service)
     {
@@ -100,9 +101,12 @@ class ConsoleTaskView : ITaskView
 
     public void Run()
     {
+        Console.Clear();
+        SelectPerson();
         while (true)
         {
             Console.Clear();
+           
             // 2 options either use like this or use like choosetask where you use custom collection then convert to array, spectreconsole needs ienumerable which isnt implemented
             var option = AnsiConsole.Prompt(new SelectionPrompt<string>()
                 .Title("[yellow]Choose an option[/]")
@@ -215,5 +219,29 @@ class ConsoleTaskView : ITaskView
             default:
                 return status;
         }
+    }
+    public void SelectPerson()
+    {
+        var fernando = new Person(1, "Fernando");
+        var aimee = new Person(2, "Aimee");
+        var mouhamad = new Person(3, "Mouhamad");
+
+        var people = new MyArrayList<Person>();
+        people.Add(fernando);
+        people.Add(aimee);
+        people.Add(mouhamad);
+
+        var selected = AnsiConsole.Prompt(
+            new SelectionPrompt<Person>()
+                .Title("[yellow]Who are you?[/]")
+                .PageSize(5)
+                .HighlightStyle(new Style(Color.DarkViolet))
+                .UseConverter(p => p.Name)
+                .AddChoices(people.ToArray())
+        );
+
+        activePerson = selected;
+
+        AnsiConsole.MarkupLine($"[green]Welcome, {selected.Name}![/]");
     }
 }
