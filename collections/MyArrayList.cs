@@ -144,7 +144,7 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
     //     }
     //     Dirty = true;
     // }
-    public void Sort(Comparison<T> comparison) // changed to insertion sort
+    public void Sort(Comparison<T> comparison)
     {
         if (comparison == null) throw new ArgumentNullException(nameof(comparison));
 
@@ -153,19 +153,15 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
             T key = _items[i];
             int j = i - 1;
 
-            // Find the correct insertion point
+            // left side sorted and we keep shifting to right
             while (j >= 0 && comparison(_items[j], key) > 0)
             {
+                _items[j + 1] = _items[j];
                 j--;
             }
 
-            // Insert key at position j+1 by shifting elements
-            if (j + 1 != i)
-            {
-                // Shift everything from j+1 to i-1 one step to the right
-                ShiftRight(j + 1);
-                _items[j + 1] = key;
-            }
+            // Insert key at its correct position
+            _items[j + 1] = key;
         }
 
         Dirty = true;
@@ -223,20 +219,6 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
         _count--;
         // reset final item
         _items[_count] = default!;
-    }
-    private void ShiftRight(int startIndex)
-    {
-        if (startIndex < 0 || startIndex > _count)
-        {
-            throw new ArgumentOutOfRangeException(nameof(startIndex));
-        }
-        EnsureCapacity();
-        for (int i = _count; i > startIndex; i--)
-        {
-            _items[i] = _items[i - 1];
-        }
-
-        _count++;
     }
     public T[] ToArray()
     {
