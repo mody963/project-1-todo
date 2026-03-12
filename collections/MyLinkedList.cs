@@ -1,8 +1,8 @@
 // find should find, delete should only delete so find is an helper method. 
-// not an empath sorry gang 
 
-class LinkedList<T>: IMyCollection<T>
+class MyLinkedList<T>: IMyCollection<T>
 {
+    private LinkedList<T> linkedlist = new LinkedList<T>();
 
     // data en adress
     private T FirstNode = default(T);
@@ -10,7 +10,7 @@ class LinkedList<T>: IMyCollection<T>
 
 
     // je moet ook de keuzen krijgen om een legen linked list aan te maken. 
-    public LinkedList()
+    public MyLinkedList()
     {
     }
     
@@ -19,10 +19,19 @@ class LinkedList<T>: IMyCollection<T>
     // public LinkedList(hoeveel items en de items zelf)
     // kijken of hoeveelheid items null is zo ja dan argument exception.
     // via de add de items toevoegen. 
-
-    public LinkedList(IEnumerable<T> CollectionYouWantToAdd)
+    public MyLinkedList(IMyIterator<T>? CollectionYouWantToAdd)
     {
-        
+        // willen we het accepteren als het leeg is en dan vullen met default waardes of dat nie?
+        if (CollectionYouWantToAdd == null)
+        {
+            ArgumentNullException.ThrowIfNull(CollectionYouWantToAdd);
+        }
+
+        foreach (T item in CollectionYouWantToAdd)
+        {
+            Add(item);
+        }
+
     }
 
 
