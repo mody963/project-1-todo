@@ -1,7 +1,10 @@
 // find should find, delete should only delete so find is an helper method. 
+// not an empath sorry gang 
 
 class LinkedList<T>: IMyCollection<T>
 {
+
+    // data en adress
     private T FirstNode = default(T);
     private T LastNode = default(T);
 
@@ -17,13 +20,18 @@ class LinkedList<T>: IMyCollection<T>
     // kijken of hoeveelheid items null is zo ja dan argument exception.
     // via de add de items toevoegen. 
 
+    public LinkedList(IEnumerable<T> CollectionYouWantToAdd)
+    {
+        
+    }
+
 
     public void Add(T item) // add wordt gebruikt voor dingen aan het einde toevoegen 
     {
         return;
     }
 
-    public void Insert(T item, int index)// 
+    public void Insert(T item, int index)// bij insert gaan we vooral dingen toevoegen op basis van index dus eerst loopt het door de ding heen en daarna voegt het het toe en daarna zie uitleg blaadje. 
     {
         
     }
