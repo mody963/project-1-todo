@@ -18,7 +18,7 @@ class AllocationService : IAllocationService
     public void AddAllocation(int id, int id2)
     {
         
-        var newTask_Allocation = new Task_Allocation(id, id2);
+        var newTask_Allocation = new Task_Allocation{Task_Id = id, Person_Id = id2};
 
         _Task_Allocations.Add(newTask_Allocation);
         _repository.SaveTaskAllocations(_Task_Allocations);

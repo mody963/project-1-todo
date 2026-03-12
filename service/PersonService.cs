@@ -25,7 +25,7 @@ class PersonService : IPersonService
             if (task.Id >= newId)
                 newId = task.Id + 1;
         }
-        var newPerson = new Person(newId, name);
+        var newPerson = new Person{ Id = newId, Name = name};
 
         _persons.Add(newPerson);
         _repository.SavePerson(_persons);
