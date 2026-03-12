@@ -3,12 +3,18 @@ using Spectre.Console;
 
 class ConsoleTaskView : ITaskView
 {
-    private readonly ITaskService _service;
+    private readonly ITaskService _taskservice;
+
+    private readonly IPersonService _personservice;
+
+    private readonly IAllocationService _allocationservice;
     private Person? activePerson = null;
 
-    public ConsoleTaskView(ITaskService service)
+    public ConsoleTaskView(ITaskService taskService, IPersonService personService, IAllocationService allocationService)
     {
-        _service = service;
+        _taskservice = taskService;
+        _personservice = personService;
+        _allocationservice = allocationService;
     }
 
     private void DisplayTasks(IMyCollection<TaskItem> tasks)
@@ -94,6 +100,47 @@ class ConsoleTaskView : ITaskView
         return selectedTask.Id;
     }
 
+    public static int Chooseperson(IMyCollection<Person> tasks)
+    {
+        Console.Clear();
+
+        var iterator = tasks.GetIterator();
+
+        if (!iterator.HasNext())
+        {
+            AnsiConsole.MarkupLine("[red]No people found.[/]");
+            Console.ReadKey();
+            return 0;
+        }
+
+        // Put tasks into MyArrayList
+        var peopleArray = new MyArrayList<Person>();
+        while (iterator.HasNext())
+            peopleArray.Add(iterator.Next());
+
+        // back for going back
+        var back = new Person {Id = -1, Name = "Back"};
+        peopleArray.Add(back);
+
+        // Spectre selection
+        var selectedPerson = AnsiConsole.Prompt(
+            new SelectionPrompt<Person>()
+                .Title("[yellow]Select a person[/]")
+                .PageSize(10)
+                .HighlightStyle(new Style(Color.Cyan1))
+                .UseConverter(person =>
+                    person.Id == -1
+                        ? "[red]<- Back[/]"
+                        : $"[bold]{person.Id}[/]. {person.Name}")
+                .AddChoices(peopleArray.ToArray())  // convert MyArrayList to array
+        );
+
+        if (selectedPerson.Id == -1)
+            return 0;
+
+        return selectedPerson.Id;
+    }
+
     private string Prompt(string message)
     {
         return AnsiConsole.Ask<string>($"[green]{message}[/]");
@@ -118,6 +165,7 @@ class ConsoleTaskView : ITaskView
                     "Remove Task",
                     "Update Task",
                     "Toggle Task State",
+                    "Assign task",
                     "List Tasks",
                     "Filter Tasks",
                     "Exit"
@@ -127,12 +175,12 @@ class ConsoleTaskView : ITaskView
                 case "Add Task":
                     string description = Prompt("Enter task description: ");
                     string priority = AskPriority();
-                    _service.AddTask(description, priority);
+                    _taskservice.AddTask(description, priority);
                     break;
 
                 case "Remove Task":
-                    int id = ChooseTasks(_service.GetAllTasks());
-                    _service.RemoveTask(id);
+                    int id = ChooseTasks(_taskservice.GetAllTasks());
+                    _taskservice.RemoveTask(id);
                     break;
 
                 case "Update Task":  
@@ -140,16 +188,20 @@ class ConsoleTaskView : ITaskView
                     break;
 
                 case "Toggle Task State":
-                    int toggleId = ChooseTasks(_service.GetAllTasks());
-                    _service.ToggleTaskCompletion(toggleId);
+                    int toggleId = ChooseTasks(_taskservice.GetAllTasks());
+                    _taskservice.ToggleTaskCompletion(toggleId);
+                    break;
+
+                case "Assign task":
+                    Assigntask();
                     break;
                 case "List Tasks":
-                    DisplayTasks(_service.GetAllTasks());
+                    DisplayTasks(_taskservice.GetAllTasks());
                     Console.WriteLine("\nPress any key to return to menu...");
                     Console.ReadKey();
                     break;
                 case "Filter Tasks":
-                    FilterTasks.FiltersTasks(_service.GetAllTasks());
+                    FilterTasks.FiltersTasks(_taskservice.GetAllTasks());
                     break;
                 case "Exit":
                     return;
@@ -181,7 +233,7 @@ class ConsoleTaskView : ITaskView
     }
     private void UpdateTask()
     {
-        int id = ChooseTasks(_service.GetAllTasks());
+        int id = ChooseTasks(_taskservice.GetAllTasks());
 
         if (id == 0)
             return;
@@ -190,7 +242,23 @@ class ConsoleTaskView : ITaskView
         string priority = AskPriority();
         string status = AskStatus();
 
-        _service.UpdateTask(id, description, priority, status);
+        _taskservice.UpdateTask(id, description, priority, status);
+    }
+
+    public void Assigntask()
+    {
+        Console.Clear();
+        int task_id = ChooseTasks(_taskservice.GetAllTasks());
+        if(task_id == 0)
+        {
+            return;
+        }
+        int person_id = Chooseperson(_personservice.GetAllPersons());
+        if(person_id == 0)
+        {
+            return;
+        }
+        _allocationservice.AddAllocation(task_id, person_id);   
     }
     private string FormatPriority(string priority)
     {
@@ -222,14 +290,11 @@ class ConsoleTaskView : ITaskView
     }
     public void SelectPerson()
     {
-        var fernando = new Person(1, "Fernando");
-        var aimee = new Person(2, "Aimee");
-        var mouhamad = new Person(3, "Mouhamad");
+        // _personservice.AddPerson("Fernando");
+        // _personservice.AddPerson("Aimee");
+        // _personservice.AddPerson("Mouhamad");
 
-        var people = new MyArrayList<Person>();
-        people.Add(fernando);
-        people.Add(aimee);
-        people.Add(mouhamad);
+        var people = _personservice.GetAllPersons();
 
         var selected = AnsiConsole.Prompt(
             new SelectionPrompt<Person>()
