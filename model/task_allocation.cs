@@ -1,13 +1,13 @@
 public class Task_Allocation : IEquatable<Task_Allocation> 
 {
-    public int Task_Id{get; set;}
-    public int Person_Id{get; set;}
+    public TaskItem Task{get; set;}
+    public Person Person{get; set;}
     // public Task_Allocation(int taskid, int personid)
     // {
     //     Task_Id = taskid;
     //     Person_Id = personid;
     // }
-    public bool Equals(Task_Allocation? other) => other is not null && other.Task_Id == Task_Id && other.Person_Id == Person_Id;
+    public bool Equals(Task_Allocation? other) => other is not null && other.Task == Task && other.Person == Person;
 
     public override bool Equals(object? obj) => Equals(obj as Task_Allocation);
 } //

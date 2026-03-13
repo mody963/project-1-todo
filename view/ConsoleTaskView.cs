@@ -64,7 +64,7 @@ class ConsoleTaskView : ITaskView
     }
 
 
-    private int ChooseTasks(IMyCollection<TaskItem> tasks)
+    private TaskItem ChooseTasks(IMyCollection<TaskItem> tasks)
     {
         Console.Clear();
 
@@ -74,7 +74,7 @@ class ConsoleTaskView : ITaskView
         {
             AnsiConsole.MarkupLine("[red]No tasks found.[/]");
             Console.ReadKey();
-            return 0;
+            return null;
         }
 
         // Put tasks into MyArrayList
@@ -100,25 +100,35 @@ class ConsoleTaskView : ITaskView
         );
 
         if (selectedTask.Id == -1)
-            return 0;
+            return null;
 
-        return selectedTask.Id;
+        return selectedTask;
     }
 
-    public static int Chooseperson(IMyCollection<Person> tasks)
+    public int ChooseTasks(IMyCollection<TaskItem> tasks, bool check)
+    {
+        TaskItem task = ChooseTasks(tasks);
+        if(task != null)
+        {
+            return task.Id;
+        }
+        return 0;
+    }
+
+    public static Person Chooseperson(IMyCollection<Person> people)
     {
         Console.Clear();
 
-        var iterator = tasks.GetIterator();
+        var iterator = people.GetIterator();
 
         if (!iterator.HasNext())
         {
             AnsiConsole.MarkupLine("[red]No people found.[/]");
             Console.ReadKey();
-            return 0;
+            return null;
         }
 
-        // Put tasks into MyArrayList
+        // Put people into MyArrayList
         var peopleArray = new MyArrayList<Person>();
         while (iterator.HasNext())
             peopleArray.Add(iterator.Next());
@@ -141,9 +151,61 @@ class ConsoleTaskView : ITaskView
         );
 
         if (selectedPerson.Id == -1)
-            return 0;
+            return null;
 
-        return selectedPerson.Id;
+        return selectedPerson;
+    }
+
+    public static int Chooseperson(IMyCollection<Person> tasks, bool check)
+    {
+        Person person = Chooseperson(tasks);
+        if(person != null)
+        {
+            return person.Id;
+        }
+        return 0;
+    }
+
+    public static Task_Allocation ChooseAllocation(IMyCollection<Task_Allocation> allocations)
+    {
+        Console.Clear();
+
+        var iterator = allocations.GetIterator();
+
+        if (!iterator.HasNext())
+        {
+            AnsiConsole.MarkupLine("[red]No allocations found.[/]");
+            Console.ReadKey();
+            return null;
+        }
+
+        // Put tasks into MyArrayList
+        var allocation_Array = new MyArrayList<Task_Allocation>();
+        while (iterator.HasNext())
+            allocation_Array.Add(iterator.Next());
+
+        // back for going back
+        var back = new Task_Allocation {Task = null, Person = new()};
+        back.Person.Name = "back";
+        allocation_Array.Add(back);
+
+        // Spectre selection
+        var selectedAllocation = AnsiConsole.Prompt(
+            new SelectionPrompt<Task_Allocation>()
+                .Title("[yellow]Select an allocation[/]")
+                .PageSize(10)
+                .HighlightStyle(new Style(Color.Cyan1))
+                .UseConverter(allocation =>
+                    allocation.Task == null
+                        ? "[red]<- Back[/]"
+                        : $"[bold]{allocation.Task.Id}[/]. {allocation.Person.Name}: {allocation.Task.Description}")
+                .AddChoices(allocation_Array.ToArray())  // convert MyArrayList to array
+        );
+
+        if (selectedAllocation.Task == null)
+            return null;
+
+        return selectedAllocation;
     }
 
     private string Prompt(string message)
@@ -184,7 +246,7 @@ class ConsoleTaskView : ITaskView
                     break;
 
                 case "Remove Task":
-                    int id = ChooseTasks(_taskservice.GetAllTasks());
+                    int id = ChooseTasks(_taskservice.GetAllTasks(), true);
                     _taskservice.RemoveTask(id);
                     break;
 
@@ -193,12 +255,12 @@ class ConsoleTaskView : ITaskView
                     break;
 
                 case "Toggle Task State":
-                    int toggleId = ChooseTasks(_taskservice.GetAllTasks());
+                    int toggleId = ChooseTasks(_taskservice.GetAllTasks(), true);
                     _taskservice.ToggleTaskCompletion(toggleId);
                     break;
 
                 case "Assign task":
-                    Assigntask();
+                    AssignMenu();
                     break;
                 case "List Tasks":
                     ListTasksMenu();
@@ -299,7 +361,7 @@ class ConsoleTaskView : ITaskView
     }
     private void DisplayTasksPerPerson()
     {
-        int personId = Chooseperson(_personservice.GetAllPersons());
+        int personId = Chooseperson(_personservice.GetAllPersons(), true);
 
         if (personId == 0)
             return;
@@ -316,7 +378,7 @@ class ConsoleTaskView : ITaskView
             {
                 var a = it.Next();
 
-                if (a.Task_Id == t.Id && a.Person_Id == personId)
+                if (a.Task.Id == t.Id && a.Person.Id == personId)
                     return true;
             }
 
@@ -349,7 +411,7 @@ class ConsoleTaskView : ITaskView
     }
     private void UpdateTask()
     {
-        int id = ChooseTasks(_taskservice.GetAllTasks());
+        int id = ChooseTasks(_taskservice.GetAllTasks(), true);
 
         if (id == 0)
             return;
@@ -361,21 +423,73 @@ class ConsoleTaskView : ITaskView
         _taskservice.UpdateTask(id, description, priority, status);
     }
 
+    private void AssignMenu()
+    {
+        while (true)
+        {
+            Console.Clear();
+            var option = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("[yellow]Task Views[/]")
+                    .HighlightStyle(new Style(Color.Cyan1))
+                    .AddChoices(new[]
+                    {
+                        "Assign Task",
+                        "Unassign Task",
+                        "Back"
+                    }));
+
+            switch (option)
+            {
+                case "Assign Task":
+                    Assigntask();
+                    break;
+
+                case "Unassign Task":
+                    UnAssigntask();
+                    break;
+
+                case "Back":
+                    return;
+            }
+        }
+    }
+
     public void Assigntask()
     {
         Console.Clear();
-        int task_id = ChooseTasks(_taskservice.GetAllTasks());
-        if(task_id == 0)
+        TaskItem task = ChooseTasks(_taskservice.GetAllTasks());
+        if(task is null)
         {
             return;
         }
-        int person_id = Chooseperson(_personservice.GetAllPersons());
-        if(person_id == 0)
+        Person person = Chooseperson(_personservice.GetAllPersons());
+        if(person is null)
         {
             return;
         }
-        _allocationservice.AddAllocation(task_id, person_id);   
+        if(!_allocationservice.CheckIfAllocationExists(task, person))
+        {
+            _allocationservice.AddAllocation(task, person);
+        }
+        else
+        {
+            AnsiConsole.Write("That person is already assigned to that task.");
+            AnsiConsole.MarkupLine("\n[grey]Press any key to return...[/]");
+            Console.ReadKey();
+        }  
     }
+
+    public void UnAssigntask()
+    {
+        Console.Clear();
+        Task_Allocation chosen_allocation = ChooseAllocation(_allocationservice.GetAllAllocations());
+        if(chosen_allocation != null)
+        {
+            _allocationservice.RemoveAllocation(chosen_allocation.Task, chosen_allocation.Person);
+        }
+    }
+
     private string FormatPriority(string priority)
     {
         switch (priority)
@@ -434,7 +548,7 @@ class ConsoleTaskView : ITaskView
         {
             var allocation = allocationIterator.Next();
 
-            if (allocation.Task_Id == taskId)
+            if (allocation.Task.Id == taskId)
             {
                 var persons = _personservice.GetAllPersons();
                 var personIterator = persons.GetIterator();
@@ -443,7 +557,7 @@ class ConsoleTaskView : ITaskView
                 {
                     var person = personIterator.Next();
 
-                    if (person.Id == allocation.Person_Id)
+                    if (person.Id == allocation.Person.Id)
                         return person.Name;
                 }
             }

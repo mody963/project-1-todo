@@ -4,8 +4,10 @@ interface IAllocationService
     
     IMyCollection<Task_Allocation> GetAllAllocations();
 
-    void AddAllocation(int id, int id2);
+    void AddAllocation(TaskItem task, Person person);
 
-    void RemoveAllocation(int id, int id2);
+    void RemoveAllocation(TaskItem task, Person person);
+
+    bool CheckIfAllocationExists(TaskItem task, Person person);
 
 }

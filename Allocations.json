@@ -1,46 +1,86 @@
 [
   {
-    "Task_Id": 17,
-    "Person_Id": 3
+    "Task": {
+      "Id": 17,
+      "Description": "momomo",
+      "Priority": "must have",
+      "Status": "to do",
+      "Completed": false,
+      "CreationDate": "2026-03-11T10:43:12.213458+01:00"
+    },
+    "Person": {
+      "Id": 3,
+      "Name": "Mouhamad"
+    }
   },
   {
-    "Task_Id": 5,
-    "Person_Id": 3
+    "Task": {
+      "Id": 5,
+      "Description": "momo1",
+      "Priority": "should have",
+      "Status": "in progress",
+      "Completed": false,
+      "CreationDate": "2026-03-01T12:02:24.967821+01:00"
+    },
+    "Person": {
+      "Id": 3,
+      "Name": "Mouhamad"
+    }
   },
   {
-    "Task_Id": 9,
-    "Person_Id": 3
+    "Task": {
+      "Id": 9,
+      "Description": "task9",
+      "Priority": "must have",
+      "Status": "to do",
+      "Completed": false,
+      "CreationDate": "2026-03-01T12:02:38.648497+01:00"
+    },
+    "Person": {
+      "Id": 1,
+      "Name": "Fernando"
+    }
   },
   {
-    "Task_Id": 5,
-    "Person_Id": 2
+    "Task": {
+      "Id": 11,
+      "Description": "task11",
+      "Priority": "must have",
+      "Status": "to do",
+      "Completed": false,
+      "CreationDate": "2026-03-01T12:02:46.260302+01:00"
+    },
+    "Person": {
+      "Id": 2,
+      "Name": "Aimee"
+    }
   },
   {
-    "Task_Id": 5,
-    "Person_Id": 3
+    "Task": {
+      "Id": 14,
+      "Description": "newtaskmo",
+      "Priority": "must have",
+      "Status": "completed",
+      "Completed": true,
+      "CreationDate": "2026-03-11T10:21:11.55275+01:00"
+    },
+    "Person": {
+      "Id": 1,
+      "Name": "Fernando"
+    }
   },
   {
-    "Task_Id": 5,
-    "Person_Id": 2
-  },
-  {
-    "Task_Id": 5,
-    "Person_Id": 3
-  },
-  {
-    "Task_Id": 7,
-    "Person_Id": 3
-  },
-  {
-    "Task_Id": 14,
-    "Person_Id": 3
-  },
-  {
-    "Task_Id": 14,
-    "Person_Id": 3
-  },
-  {
-    "Task_Id": 15,
-    "Person_Id": 3
+    "Task": {
+      "Id": 7,
+      "Description": "r",
+      "Priority": "must have",
+      "Status": "to do",
+      "Completed": false,
+      "CreationDate": "2026-03-01T12:02:31.958381+01:00"
+    },
+    "Person": {
+      "Id": 1,
+      "Name": "Fernando"
+    }
   }
 ]
