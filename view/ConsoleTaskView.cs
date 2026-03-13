@@ -29,7 +29,8 @@ class ConsoleTaskView : ITaskView
         if (!iterator.HasNext())
         {
             AnsiConsole.MarkupLine("[red]No tasks found.[/]");
-            AnsiConsole.Ask<string>("Press any key to return...");
+            AnsiConsole.MarkupLine("[grey]Press any key to return...[/]");
+            Console.ReadKey();
             return;
         }
 
@@ -40,6 +41,7 @@ class ConsoleTaskView : ITaskView
         .AddColumn("[bold]Description[/]")
         .AddColumn("[bold]Priority[/]")
         .AddColumn("[bold]Status[/]")
+        .AddColumn("[bold]Assigned To[/]")
         .AddColumn("[bold]Creation Date[/]")
         .Centered();
 
@@ -51,11 +53,14 @@ class ConsoleTaskView : ITaskView
                 t.Description,
                 FormatPriority(t.Priority),
                 FormatStatus(t.Status),
+                GetAssignedPersonName(t.Id),
                 t.CreationDate.ToString("g")
             );
         }
 
         AnsiConsole.Write(table);
+        AnsiConsole.MarkupLine("\n[grey]Press any key to return...[/]");
+        Console.ReadKey();
     }
 
 
@@ -196,9 +201,7 @@ class ConsoleTaskView : ITaskView
                     Assigntask();
                     break;
                 case "List Tasks":
-                    DisplayTasks(_taskservice.GetAllTasks());
-                    Console.WriteLine("\nPress any key to return to menu...");
-                    Console.ReadKey();
+                    ListTasksMenu();
                     break;
                 case "Filter Tasks":
                     FilterTasks.FiltersTasks(_taskservice.GetAllTasks());
@@ -208,7 +211,120 @@ class ConsoleTaskView : ITaskView
             }
         }
     }
-    
+    private void ListTasksMenu()
+    {
+        while (true)
+        {
+            var option = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("[yellow]Task Views[/]")
+                    .HighlightStyle(new Style(Color.Cyan1))
+                    .AddChoices(new[]
+                    {
+                        "View All",
+                        "View per Status",
+                        "View tasks per person",
+                        "Back"
+                    }));
+
+            switch (option)
+            {
+                case "View All":
+                    DisplayTasks(_taskservice.GetAllTasks());
+                    break;
+
+                case "View per Status":
+                    DisplayKanbanView();
+                    break;
+
+                case "View tasks per person":
+                    DisplayTasksPerPerson();
+                    break;
+
+                case "Back":
+                    return;
+            }
+        }
+    }
+    private void DisplayKanbanView()
+    {
+        Console.Clear();
+
+        var tasks = _taskservice.GetAllTasks();
+
+        var todo = tasks.Filter(t => t.Status == "to do");
+        var progress = tasks.Filter(t => t.Status == "in progress");
+        var done = tasks.Filter(t => t.Status == "completed");
+
+        var todoTable = CreateStatusTable("To Do", todo);
+        var progressTable = CreateStatusTable("In Progress", progress);
+        var doneTable = CreateStatusTable("Done", done);
+
+        AnsiConsole.Write(
+            new Columns(new[] { todoTable, progressTable, doneTable })
+        );
+        AnsiConsole.MarkupLine("\n[grey]Press any key to return...[/]");
+        Console.ReadKey();
+    }
+    private Table CreateStatusTable(string title, IMyCollection<TaskItem> tasks)
+    {
+        var table = new Table()
+            .Title($"[yellow]{title}[/]")
+            .Border(TableBorder.Rounded)
+            .AddColumn("[bold]Task[/]");
+
+        var iterator = tasks.GetIterator();
+
+        if (!iterator.HasNext())
+        {
+            table.AddRow("[grey]No tasks[/]");
+            return table;
+        }
+
+        while (iterator.HasNext())
+        {
+            var t = iterator.Next();
+
+            string person = GetAssignedPersonName(t.Id);
+
+            string card =
+                $"[bold]#{t.Id}[/] {t.Description}\n" +
+                $"👤 {person}\n" +
+                $"{FormatPriority(t.Priority)}\n";
+
+            table.AddRow(card);
+        }
+
+        return table;
+    }
+    private void DisplayTasksPerPerson()
+    {
+        int personId = Chooseperson(_personservice.GetAllPersons());
+
+        if (personId == 0)
+            return;
+
+        var tasks = _taskservice.GetAllTasks();
+
+        var allocations = _allocationservice.GetAllAllocations();
+
+        var filtered = tasks.Filter(t =>
+        {
+            var it = allocations.GetIterator();
+
+            while (it.HasNext())
+            {
+                var a = it.Next();
+
+                if (a.Task_Id == t.Id && a.Person_Id == personId)
+                    return true;
+            }
+
+            return false;
+        });
+
+        DisplayTasks(filtered);
+    }
     private string AskPriority()
     {
         return AnsiConsole.Prompt(
@@ -308,5 +424,31 @@ class ConsoleTaskView : ITaskView
         activePerson = selected;
 
         AnsiConsole.MarkupLine($"[green]Welcome, {selected.Name}![/]");
+    }
+    private string GetAssignedPersonName(int taskId)
+    {
+        var allocations = _allocationservice.GetAllAllocations();
+        var allocationIterator = allocations.GetIterator();
+
+        while (allocationIterator.HasNext())
+        {
+            var allocation = allocationIterator.Next();
+
+            if (allocation.Task_Id == taskId)
+            {
+                var persons = _personservice.GetAllPersons();
+                var personIterator = persons.GetIterator();
+
+                while (personIterator.HasNext())
+                {
+                    var person = personIterator.Next();
+
+                    if (person.Id == allocation.Person_Id)
+                        return person.Name;
+                }
+            }
+        }
+
+        return "[grey]Unassigned[/]";
     }
 }
