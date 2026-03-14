@@ -4,7 +4,7 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
     private int _count;
     private const int DefaultCapacity = 4;
 
-    public int Count {get => _count;}
+    public int Count {get => _count;} // met die count kan je bij elke andere file zien wat de lengte van array is, maar je kan het niet aanpassen
 
     public bool Dirty { get; private set; } // maybe backingfield same as count.
 
@@ -148,16 +148,17 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
     {
         if (comparison == null) throw new ArgumentNullException(nameof(comparison));
 
-        for (int i = 1; i < _count; i++)
+        for (int i = 1; i < _count; i++) // loop from second item to last
         {
-            T key = _items[i];
-            int j = i - 1;
+            T key = _items[i]; // je slaat item op 
+            int j = i - 1; // j is 1 index voor de opgeslagen item
 
             // left side sorted and we keep shifting to right
-            while (j >= 0 && comparison(_items[j], key) > 0)
+            // je verlaagt j met 1 na elke loop we doen j >= 0 want als j 0 is of kleiner dan ben je uit de index range
+            while (j >= 0 && comparison(_items[j], key) > 0) // comp checks if items[j] is bigger than key
             {
-                _items[j + 1] = _items[j];
-                j--;
+                _items[j + 1] = _items[j]; // je blijft item verplaatsen naar rechts 
+                j--; // dan vergelijk je 1 index naar links
             }
 
             // Insert key at its correct position
@@ -172,7 +173,7 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
         R current = initial;
         for (int i = 0; i < _count; i++)
         {
-            current = accumulator(current, _items[i]);
+            current = accumulator(current, _items[i]); // je blijft current updaten met item[i] daarom sla je het op
         }
         return current;
     }
@@ -211,12 +212,12 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
             throw new ArgumentOutOfRangeException(nameof(startIndex));
         }
         // _count - 1 is the index of the last valid element in the list.
-        for (int i = startIndex; i < _count - 1; i++)
+        for (int i = startIndex; i < _count - 1; i++) // count - 1 is last item
         {
-            _items[i] = _items[i + 1];
+            _items[i] = _items[i + 1]; // item[i] gets set to the next item
         }
 
-        _count--;
+        _count--; // last index of the list 
         // reset final item
         _items[_count] = default!;
     }

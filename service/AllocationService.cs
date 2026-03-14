@@ -38,6 +38,7 @@ class AllocationService : IAllocationService
 
     public bool CheckIfAllocationExists(TaskItem task, Person person)
     {
+        // use the find method on item and then compare the id's if the same return 0 so equal otherwise 1 so not equal and save it in the out variable and return true.
         if (_Task_Allocations.TryFindBy(task, (item, key) =>
         (item.Task.Id == key.Id && item.Person.Id == person.Id) ? 0 : 1,
         out var allocation))
