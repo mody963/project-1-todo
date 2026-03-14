@@ -544,25 +544,24 @@ class ConsoleTaskView : ITaskView
         var allocations = _allocationservice.GetAllAllocations();
         var allocationIterator = allocations.GetIterator();
 
+        string result = "";
+
         while (allocationIterator.HasNext())
         {
             var allocation = allocationIterator.Next();
 
             if (allocation.Task.Id == taskId)
             {
-                var persons = _personservice.GetAllPersons();
-                var personIterator = persons.GetIterator();
+                if (result != "")
+                    result += ", ";
 
-                while (personIterator.HasNext())
-                {
-                    var person = personIterator.Next();
-
-                    if (person.Id == allocation.Person.Id)
-                        return person.Name;
-                }
+                result += allocation.Person.Name;
             }
         }
 
-        return "[grey]Unassigned[/]";
+        if (result == "")
+            return "[grey]Unassigned[/]";
+
+        return result;
     }
 }
