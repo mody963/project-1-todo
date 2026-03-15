@@ -30,6 +30,7 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
         }
         EnsureCapacity();
         // count is the number of elements so its the last element if u add 1 to it its the next empty spot.
+        // count++ you increase count after adding an item
         _items[_count++] = item;
         Dirty = true;
     }
@@ -155,6 +156,7 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
 
             // left side sorted and we keep shifting to right
             // je verlaagt j met 1 na elke loop we doen j >= 0 want als j 0 is of kleiner dan ben je uit de index range
+            //compare with left element, if bigger shift right
             while (j >= 0 && comparison(_items[j], key) > 0) // comp checks if items[j] is bigger than key
             {
                 _items[j + 1] = _items[j]; // je blijft item verplaatsen naar rechts 
@@ -217,9 +219,9 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
             _items[i] = _items[i + 1]; // item[i] gets set to the next item
         }
 
-        _count--; // last index of the list 
+        _count--; // last index of the list/ we lower the count of items in the list 
         // reset final item
-        _items[_count] = default!;
+        _items[_count] = default!; // we set the last item to default as its gone
     }
     public T[] ToArray()
     {
