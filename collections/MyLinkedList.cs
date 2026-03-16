@@ -23,7 +23,7 @@ class MyLinkedList<T>: IMyCollection<T>
     // public LinkedList(hoeveel items en de items zelf)
     // kijken of hoeveelheid items null is zo ja dan argument exception.
     // via de add de items toevoegen. 
-    public MyLinkedList(IMyIterable<T>? CollectionYouWantToAdd)
+    public MyLinkedList(IMyCollection<T>? CollectionYouWantToAdd)
     {
         // willen we het accepteren als het leeg is en dan vullen met default waardes of dat nie?
         if (CollectionYouWantToAdd == null)
