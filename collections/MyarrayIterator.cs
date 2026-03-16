@@ -1,7 +1,7 @@
 public class MyArrayIterator<T> : IMyIterator<T>
 {
     private readonly T[] _items;
-    private readonly int _count;
+    private readonly int _count; // amount of items in the array
     private int _index;
 
     public MyArrayIterator(T[] items, int count)

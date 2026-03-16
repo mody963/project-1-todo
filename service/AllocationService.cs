@@ -15,23 +15,37 @@ class AllocationService : IAllocationService
     public IMyCollection<Task_Allocation> GetAllAllocations() => _Task_Allocations;
 
 
-    public void AddAllocation(int id, int id2)
+    public void AddAllocation(TaskItem task, Person person)
     {
         
-        var newTask_Allocation = new Task_Allocation(id, id2);
+        var newTask_Allocation = new Task_Allocation{Task = task, Person = person};
 
         _Task_Allocations.Add(newTask_Allocation);
         _repository.SaveTaskAllocations(_Task_Allocations);
     }
 
  
-    public void RemoveAllocation(int id, int id2)
+    public void RemoveAllocation(TaskItem task, Person person)
     {
-        var task = _Task_Allocations.FindBy(id, (item, key) => item.Task_Id == key && item.Person_Id == id2);
-
-        if (task != null)
-            _Task_Allocations.Remove(task);
+        if (_Task_Allocations.TryFindBy(task, (item, key) =>
+        (item.Task == key && item.Person == person) ? 0 : 1,
+        out var allocation))
+        {
+            _Task_Allocations.Remove(allocation);
             _repository.SaveTaskAllocations(_Task_Allocations);
+        }
+    }
+
+    public bool CheckIfAllocationExists(TaskItem task, Person person)
+    {
+        // use the find method on item and then compare the id's if the same return 0 so equal otherwise 1 so not equal and save it in the out variable and return true.
+        if (_Task_Allocations.TryFindBy(task, (item, key) =>
+        (item.Task.Id == key.Id && item.Person.Id == person.Id) ? 0 : 1,
+        out var allocation))
+        {
+            return true;
+        }
+        return false;
     }
 
 

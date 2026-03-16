@@ -54,11 +54,9 @@ class TaskService : ITaskService
         _repository.SaveTasks(_tasks);
     }
 
-    public void UpdateTask(int id, string description, string priority, string status)
+   public void UpdateTask(int id, string description, string priority, string status)
     {
-        var task = _tasks.FindBy(id, (item, key) => item.Id == key);
-
-        if (task != null)
+        if (_tasks.TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var task))
         {
             task.Description = description;
             task.Priority = priority;
@@ -78,13 +76,13 @@ class TaskService : ITaskService
     //         _repository.SaveTasks(_tasks);
     //     }
     // }
-    public void RemoveTask(int id)
+   public void RemoveTask(int id)
     {
-        var task = _tasks.FindBy(id, (item, key) => item.Id == key);
-
-        if (task != null)
+        if (_tasks.TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var task))
+        {
             _tasks.Remove(task);
             _repository.SaveTasks(_tasks);
+        }
     }
 
 
@@ -100,18 +98,9 @@ class TaskService : ITaskService
     // }
     public void ToggleTaskCompletion(int id)
     {
-        var task = _tasks.FindBy(id, (item, key) => item.Id == key);
-
-        if (task != null)
+        if (_tasks.TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var task))
         {
-            if (task.Status == "completed")
-            {
-                task.Status = "to do";
-            }
-            else
-            {
-                task.Status = "completed";
-            }
+            task.Status = task.Status == "completed" ? "to do" : "completed";
             _repository.SaveTasks(_tasks);
         }
     }

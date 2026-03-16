@@ -31,7 +31,7 @@ class JsonTaskRepository : ITaskRepository
 
     public void SaveTasks(IMyCollection<TaskItem> tasks)
     {
-        // Use your helper method to convert IMyCollection into an array
+        // helper method to convert IMyCollection into an array
         TaskItem[] arr = tasks.ToArray();
 
         string json = JsonSerializer.Serialize(arr, new JsonSerializerOptions { WriteIndented = true });
