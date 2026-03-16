@@ -233,6 +233,10 @@ class MyLinkedList<T>: IMyCollection<T>
     //     throw new NotImplementedException();
     // }
 
+    public bool TryFindBy<K>(K key, Func<T, K, bool> comparer, out T? result)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 
