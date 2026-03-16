@@ -8,7 +8,7 @@ class MyLinkedList<T>: IMyCollection<T>
     private Node<T>? _tail;
     private int _count;
 
-    // what does dirty do?
+    // what does dirty do? boolean if thefre is a change in the iterable truethan changed false than the same
 
 
 
@@ -60,7 +60,24 @@ class MyLinkedList<T>: IMyCollection<T>
         }
 
     _count++;
-}
+    }
+
+    public void AddFirst(T item) // add first wordt gebruikt voor dingen aan het begin toevoegen 
+    {
+        if (item == null)
+        {
+            throw new ArgumentNullException(nameof(item));
+        }
+        Node<T> newNode = new Node<T>(item);
+        newNode.Next = _head; // hierbij verwijst de nieuwe node naar de oude head. en dus komt het ervoor. 
+        _head = newNode; // hierna vervangt de nieuwe node de oude head.
+
+        if (_tail == null)
+        _tail = newNode;
+
+        _count++;
+
+    }
 
     public void AddBefore(T item, int index) // bij add before gaan we vooral dingen toevoegen op basis van index dus eerst loopt het door de ding heen en daarna voegt het het toe en daarna zie uitleg blaadje. 
     {
@@ -108,22 +125,7 @@ class MyLinkedList<T>: IMyCollection<T>
         
     }
 
-    public void AddFirst(T item) // add first wordt gebruikt voor dingen aan het begin toevoegen 
-    {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
-        Node<T> newNode = new Node<T>(item);
-        newNode.Next = _head; // hierbij verwijst de nieuwe node naar de oude head. en dus komt het ervoor. 
-        _head = newNode; // hierna vervangt de nieuwe node de oude head.
-
-        if (_tail == null)
-        _tail = newNode;
-
-        _count++;
-
-    }
+    
 
     public void Insert(T item, int index)// bij insert gaan we vooral dingen toevoegen op basis van index dus eerst loopt het door de ding heen en daarna voegt het het toe en daarna zie uitleg blaadje. 
     {
