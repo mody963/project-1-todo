@@ -161,6 +161,7 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
             {
                 _items[j + 1] = _items[j]; // je blijft item verplaatsen naar rechts 
                 j--; // dan vergelijk je 1 index naar links
+                // je blijft naar rechts vergelijken, maar j-- zodat je het uiteindelijk naar links toe brengt, de sorted kant dus
             }
 
             // Insert key at its correct position
