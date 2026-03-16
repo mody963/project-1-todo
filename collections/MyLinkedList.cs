@@ -23,7 +23,7 @@ class MyLinkedList<T>: IMyCollection<T>
     // public LinkedList(hoeveel items en de items zelf)
     // kijken of hoeveelheid items null is zo ja dan argument exception.
     // via de add de items toevoegen. 
-    public MyLinkedList(IMyCollection<T>? CollectionYouWantToAdd)
+    public MyLinkedList(IMyIterable<T>? CollectionYouWantToAdd)
     {
         // willen we het accepteren als het leeg is en dan vullen met default waardes of dat nie?
         if (CollectionYouWantToAdd == null)
@@ -105,25 +105,7 @@ class MyLinkedList<T>: IMyCollection<T>
             throw new ArgumentOutOfRangeException(nameof(index));
         }
         
-        // if (index == 0)
-        // {
-        //     linkedlist.Add(item);
-        // }
-        // else if (index == _count)
-        // {
-        //     linkedlist.Add(item);
-        // }
-        // else
-        // {
-        //     var currentNode = linkedlist.First;
-        //     for (int i = 0; i < index - 1; i++)
-        //     {
-        //         currentNode = currentNode.Next;
-        //     }
-        //     linkedlist.AddAfter(currentNode, item);
-        // }
         
-        // _count++;
     }
 
     public void AddFirst(T item) // add first wordt gebruikt voor dingen aan het begin toevoegen 
