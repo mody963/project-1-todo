@@ -2,11 +2,15 @@
 
 class MyLinkedList<T>: IMyCollection<T>
 {
-    private LinkedList<T> linkedlist = new LinkedList<T>();
+    // data
+    private Node<T>? _head;
+    //adress 
+    private Node<T>? _tail;
+    private int _count;
 
-    // data en adress
-    private T FirstNode = default(T);
-    private T LastNode = default(T);
+    // what does dirty do?
+
+
 
 
     // je moet ook de keuzen krijgen om een legen linked list aan te maken. 
@@ -19,7 +23,7 @@ class MyLinkedList<T>: IMyCollection<T>
     // public LinkedList(hoeveel items en de items zelf)
     // kijken of hoeveelheid items null is zo ja dan argument exception.
     // via de add de items toevoegen. 
-    public MyLinkedList(IMyIterator<T>? CollectionYouWantToAdd)
+    public MyLinkedList(IMyCollection<T>? CollectionYouWantToAdd)
     {
         // willen we het accepteren als het leeg is en dan vullen met default waardes of dat nie?
         if (CollectionYouWantToAdd == null)
@@ -27,9 +31,11 @@ class MyLinkedList<T>: IMyCollection<T>
             ArgumentNullException.ThrowIfNull(CollectionYouWantToAdd);
         }
 
-        foreach (T item in CollectionYouWantToAdd)
+        var iterator = CollectionYouWantToAdd.GetIterator();
+
+        while (iterator.HasNext())
         {
-            Add(item);
+            Add(iterator.Next());
         }
 
     }
@@ -37,11 +43,136 @@ class MyLinkedList<T>: IMyCollection<T>
 
     public void Add(T item) // add wordt gebruikt voor dingen aan het einde toevoegen 
     {
-        return;
+        if (item == null)
+            throw new ArgumentNullException(nameof(item));
+
+        Node<T> newNode = new Node<T>(item);
+
+        if (_head == null)
+        {
+            _head = newNode;
+            _tail = newNode; // dit moet zo zijn omdat je dan aangeeft dat dit zowel heet begin als het einde is van de linked list.
+        }
+        else
+        {
+            _tail.Next = newNode; // de oude tail wordt de nieuwe node met info. de head verander je niet. 
+            _tail = newNode;
+        }
+
+    _count++;
+}
+
+    public void AddBefore(T item, int index) // bij add before gaan we vooral dingen toevoegen op basis van index dus eerst loopt het door de ding heen en daarna voegt het het toe en daarna zie uitleg blaadje. 
+    {
+        if (item == null)
+        {
+            throw new ArgumentNullException(nameof(item));
+        }
+        if (index < 0 || index > _count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index));
+        }
+        
+        // if (index == 0)
+        // {
+        //     linkedlist.Add(item);
+        // }
+        // else if (index == _count)
+        // {
+        //     linkedlist.Add(item);
+        // }
+        // else
+        // {
+        //     var currentNode = linkedlist.First;
+        //     for (int i = 0; i < index - 1; i++)
+        //     {
+        //         currentNode = currentNode.Next;
+        //     }
+        //     linkedlist.AddBefore(currentNode, item);
+        // }
+        
+        // _count++;
+    }
+
+    public void AddAfter(T item, int index) // bij add after gaan we vooral dingen toevoegen op basis van index dus eerst loopt het door de ding heen en daarna voegt het het toe en daarna zie uitleg blaadje. 
+    {
+        if (item == null)
+        {
+            throw new ArgumentNullException(nameof(item));
+        }
+        if (index < 0 || index > _count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index));
+        }
+        
+        // if (index == 0)
+        // {
+        //     linkedlist.Add(item);
+        // }
+        // else if (index == _count)
+        // {
+        //     linkedlist.Add(item);
+        // }
+        // else
+        // {
+        //     var currentNode = linkedlist.First;
+        //     for (int i = 0; i < index - 1; i++)
+        //     {
+        //         currentNode = currentNode.Next;
+        //     }
+        //     linkedlist.AddAfter(currentNode, item);
+        // }
+        
+        // _count++;
+    }
+
+    public void AddFirst(T item) // add first wordt gebruikt voor dingen aan het begin toevoegen 
+    {
+        if (item == null)
+        {
+            throw new ArgumentNullException(nameof(item));
+        }
+        Node<T> newNode = new Node<T>(item);
+        newNode.Next = _head; // hierbij verwijst de nieuwe node naar de oude head. en dus komt het ervoor. 
+        _head = newNode; // hierna vervangt de nieuwe node de oude head.
+
+        if (_tail == null)
+        _tail = newNode;
+
+        _count++;
+
     }
 
     public void Insert(T item, int index)// bij insert gaan we vooral dingen toevoegen op basis van index dus eerst loopt het door de ding heen en daarna voegt het het toe en daarna zie uitleg blaadje. 
     {
+        if (item == null)
+        {
+            throw new ArgumentNullException(nameof(item));
+        }
+        if (index < 0 || index > _count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index));
+        }
+        
+        // if (index == 0)
+        // {
+        //     linkedlist.Add(item);
+        // }
+        // else if (index == _count)
+        // {
+        //     linkedlist.AddLast(item);
+        // }
+        // else
+        // {
+        //     var currentNode = linkedlist.First;
+        //     for (int i = 0; i < index - 1; i++)
+        //     {
+        //         currentNode = currentNode.Next;
+        //     }
+        //     linkedlist.AddAfter(currentNode, item);
+        // }
+        
+        // _count++;
         
     }
 
@@ -115,10 +246,25 @@ class MyLinkedList<T>: IMyCollection<T>
         throw new NotImplementedException();
     }
     
-    public IEnumerator<T> GetEnumerator()
-    {
-        throw new NotImplementedException();
-    }
+    // public IEnumerator<T> GetEnumerator()
+    // {
+    //     throw new NotImplementedException();
+    // }
 
+}
+
+
+class Node<T>
+{
+    // data
+    public T Data;
+    // adress
+    public Node<T>? Next;
+
+    public Node(T data)
+    {
+        Data = data;
+        Next = null;
+    }
 }
 
