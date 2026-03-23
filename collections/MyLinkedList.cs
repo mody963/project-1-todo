@@ -2,6 +2,7 @@
 
 class MyLinkedList<T>: IMyCollection<T>
 {
+    // could be both singly or double depends what we like to do. 
 
     private class Node<T>
     {
@@ -23,9 +24,10 @@ class MyLinkedList<T>: IMyCollection<T>
     private int _count;
 
     // what does dirty do?
+    // deserialization is wnr je de list afleest en het dan in een json file gaat zetten. 
 
 
-
+    
 
     // je moet ook de keuzen krijgen om een legen linked list aan te maken. 
     public MyLinkedList()
@@ -55,7 +57,9 @@ class MyLinkedList<T>: IMyCollection<T>
     }
 
 
-    public void Add(T item) // add wordt gebruikt voor dingen aan het einde toevoegen 
+    // add wordt gebruikt voor dingen aan het einde toevoegen 
+    // noemen het gwn add wegens de interface.
+    public void Add(T item) 
     {
         if (item == null)
             throw new ArgumentNullException(nameof(item));
@@ -74,52 +78,6 @@ class MyLinkedList<T>: IMyCollection<T>
         }
 
     _count++;
-}
-
-    public void AddBefore(T item, int index) // bij add before gaan we vooral dingen toevoegen op basis van index dus eerst loopt het door de ding heen en daarna voegt het het toe en daarna zie uitleg blaadje. 
-    {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
-        if (index < 0 || index > _count)
-        {
-            throw new ArgumentOutOfRangeException(nameof(index));
-        }
-        
-        // if (index == 0)
-        // {
-        //     linkedlist.Add(item);
-        // }
-        // else if (index == _count)
-        // {
-        //     linkedlist.Add(item);
-        // }
-        // else
-        // {
-        //     var currentNode = linkedlist.First;
-        //     for (int i = 0; i < index - 1; i++)
-        //     {
-        //         currentNode = currentNode.Next;
-        //     }
-        //     linkedlist.AddBefore(currentNode, item);
-        // }
-        
-        // _count++;
-    }
-
-    public void AddAfter(T item, int index) // bij add after gaan we vooral dingen toevoegen op basis van index dus eerst loopt het door de ding heen en daarna voegt het het toe en daarna zie uitleg blaadje. 
-    {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
-        if (index < 0 || index > _count)
-        {
-            throw new ArgumentOutOfRangeException(nameof(index));
-        }
-        
-        
     }
 
     public void AddFirst(T item) // add first wordt gebruikt voor dingen aan het begin toevoegen 
@@ -139,7 +97,10 @@ class MyLinkedList<T>: IMyCollection<T>
 
     }
 
-    public void Insert(T item, int index)// bij insert gaan we vooral dingen toevoegen op basis van index dus eerst loopt het door de ding heen en daarna voegt het het toe en daarna zie uitleg blaadje. 
+    
+    // bij insert gaan we vooral dingen toevoegen op basis van index dus eerst loopt het door de ding heen 
+    // en daarna voegt het het toe en daarna zie uitleg blaadje.
+    public void Insert(T item, int index) 
     {
         if (item == null)
         {
@@ -150,25 +111,27 @@ class MyLinkedList<T>: IMyCollection<T>
             throw new ArgumentOutOfRangeException(nameof(index));
         }
         
-        // if (index == 0)
-        // {
-        //     linkedlist.Add(item);
-        // }
-        // else if (index == _count)
-        // {
-        //     linkedlist.AddLast(item);
-        // }
-        // else
-        // {
-        //     var currentNode = linkedlist.First;
-        //     for (int i = 0; i < index - 1; i++)
-        //     {
-        //         currentNode = currentNode.Next;
-        //     }
-        //     linkedlist.AddAfter(currentNode, item);
-        // }
-        
-        // _count++;
+        if (index == 0) // als je aan het begin wil zetten automatisch add fist. 
+        {
+            AddFirst(item);
+            return;
+        }
+
+        Node<T> newNode = new Node<T>(item); // nu is de next ofc nog null
+        Node<T> current = _head;
+
+        for (int i = 0; i < index - 1; i++) // -1 zodat het op de plek van de index uitkomt en niet erna. 
+        {
+            current = current.Next;
+        }
+
+        newNode.Next = current.Next; // de nieuwe node wijst nu naar het adress waar de vorige naar wees. 
+        current.Next = newNode; // het adress van de current node wijst nu naar de nieuwe. 
+
+        if (newNode.Next == null)
+            _tail = newNode;
+
+        _count++;
         
     }
 
@@ -247,7 +210,7 @@ class MyLinkedList<T>: IMyCollection<T>
     //     throw new NotImplementedException();
     // }
 
-    public bool TryFindBy<K>(K key, Func<T, K, bool> comparer, out T? result)
+    public bool TryFindBy<K>(K key, Func<T, K, int> comparer, out T? result)
     {
         throw new NotImplementedException();
     }
