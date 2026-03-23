@@ -507,7 +507,7 @@ class ConsoleTaskView : ITaskView
         }
     }
 
-    public void Assigntask()
+    private void Assigntask()
     {
         Console.Clear();
         TaskItem task = ChooseTasks(_taskservice.GetAllTasks());
@@ -532,7 +532,7 @@ class ConsoleTaskView : ITaskView
         }  
     }
 
-    public void UnAssigntask()
+    private void UnAssigntask()
     {
         Console.Clear();
         Task_Allocation chosen_allocation = ChooseAllocation(_allocationservice.GetAllAllocations());
@@ -570,7 +570,7 @@ class ConsoleTaskView : ITaskView
                 return status;
         }
     }
-    public void SelectPerson()
+    private void SelectPerson()
     {
         // _personservice.AddPerson("Fernando");
         // _personservice.AddPerson("Aimee");
