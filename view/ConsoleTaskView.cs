@@ -411,7 +411,17 @@ class ConsoleTaskView : ITaskView
     }
     private void UpdateTask()
     {
-        int id = ChooseTasks(_taskservice.GetAllTasks(), true);
+        IMyCollection<Task_Allocation> allocations = _allocationservice.GetAllAllocations();
+        IMyCollection<Task_Allocation> filtered = allocations.Filter(t =>
+            !string.IsNullOrWhiteSpace(Convert.ToString(t.Person.Id)) &&
+            Convert.ToString(t.Person.Id).Trim().Equals(Convert.ToString(activePerson.Id).Trim(), StringComparison.OrdinalIgnoreCase));
+        var iterator = filtered.GetIterator();
+        IMyCollection<TaskItem> tasks = new MyArrayList<TaskItem>();
+        while(iterator.HasNext())
+        {
+            tasks.Add(iterator.Next().Task);
+        }
+        int id = ChooseTasks(tasks, true);
 
         if (id == 0)
             return;
