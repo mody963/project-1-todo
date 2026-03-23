@@ -28,7 +28,7 @@ class AllocationService : IAllocationService
     public void RemoveAllocation(TaskItem task, Person person)
     {
         if (_Task_Allocations.TryFindBy(task, (item, key) =>
-        (item.Task == key && item.Person == person) ? 0 : 1,
+        (item.Task.Id == key.Id && item.Person.Id == person.Id) ? 0 : 1,
         out var allocation))
         {
             _Task_Allocations.Remove(allocation);
