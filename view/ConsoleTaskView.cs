@@ -421,16 +421,22 @@ class ConsoleTaskView : ITaskView
         {
             tasks.Add(iterator.Next().Task);
         }
-        int id = ChooseTasks(tasks, true);
+        TaskItem Task = ChooseTasks(tasks);
 
-        if (id == 0)
+        if (Task == null)
             return;
 
         string description = Prompt("Enter task description: ");
         string priority = AskPriority();
         string status = AskStatus();
 
-        _taskservice.UpdateTask(id, description, priority, status);
+        IMyCollection<Person> people = _personservice.GetAllPersons();
+        var it = people.GetIterator();
+        while(it.HasNext())
+        {
+            _allocationservice.UpdateAllocations(Task, it.Next(), description, priority, status);
+        }
+        _taskservice.UpdateTask(Task.Id, description, priority, status);
     }
 
     private void AssignMenu()
