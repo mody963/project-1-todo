@@ -232,7 +232,7 @@ class MyLinkedList<T>: IMyCollection<T>
         throw new ArgumentNullException(nameof(comparison));
 
         if (_head == null || _head.Next == null)
-            return; // niets te sorteren
+            return;
 
         bool swapped;
 
