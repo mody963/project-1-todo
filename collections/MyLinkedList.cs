@@ -17,17 +17,18 @@ class MyLinkedList<T>: IMyCollection<T>
             Next = null;
         }
     }
+
+
     // data
     private Node<T>? _head;
     //adress 
     private Node<T>? _tail;
     private int _count;
-
+    // public int Count => _count;
     // what does dirty do?
     // deserialization is wnr je de list afleest en het dan in een json file gaat zetten. 
 
-
-    
+    public bool Dirty { get; private set; }
 
     // je moet ook de keuzen krijgen om een legen linked list aan te maken. 
     public MyLinkedList()
@@ -41,12 +42,7 @@ class MyLinkedList<T>: IMyCollection<T>
     // via de add de items toevoegen. 
     public MyLinkedList(IMyCollection<T>? CollectionYouWantToAdd)
     {
-        // willen we het accepteren als het leeg is en dan vullen met default waardes of dat nie?
-        if (CollectionYouWantToAdd == null)
-        {
-            ArgumentNullException.ThrowIfNull(CollectionYouWantToAdd);
-        }
-
+        ArgumentNullException.ThrowIfNull(CollectionYouWantToAdd);
         var iterator = CollectionYouWantToAdd.GetIterator();
 
         while (iterator.HasNext())
@@ -61,7 +57,7 @@ class MyLinkedList<T>: IMyCollection<T>
     // noemen het gwn add wegens de interface.
     public void Add(T item) 
     {
-        if (item == null)
+        if (item == null && default(T) == null)
             throw new ArgumentNullException(nameof(item));
 
         Node<T> newNode = new Node<T>(item);
@@ -77,7 +73,8 @@ class MyLinkedList<T>: IMyCollection<T>
             _tail = newNode;
         }
 
-    _count++;
+        _count++;
+        Dirty = true;
     }
 
     public void AddFirst(T item) // add first wordt gebruikt voor dingen aan het begin toevoegen 
@@ -94,7 +91,7 @@ class MyLinkedList<T>: IMyCollection<T>
         _tail = newNode;
 
         _count++;
-
+        Dirty = true;
     }
 
     
@@ -105,6 +102,11 @@ class MyLinkedList<T>: IMyCollection<T>
         if (item == null)
         {
             throw new ArgumentNullException(nameof(item));
+        }
+        if (index == _count)
+        {
+            Add(item);
+            return;
         }
         if (index < 0 || index > _count)
         {
@@ -118,7 +120,7 @@ class MyLinkedList<T>: IMyCollection<T>
         }
 
         Node<T> newNode = new Node<T>(item); // nu is de next ofc nog null
-        Node<T> current = _head;
+        Node<T>? current = _head;
 
         for (int i = 0; i < index - 1; i++) // -1 zodat het op de plek van de index uitkomt en niet erna. 
         {
@@ -132,50 +134,135 @@ class MyLinkedList<T>: IMyCollection<T>
             _tail = newNode;
 
         _count++;
-        
+        Dirty = true;
     }
 
 
     public void Remove(T item) // hierbij geeft het gewoon de naam van de item mee en dan pakt hij het meteen en delete hij het. 
     {
+        if (_head == null)
         return;
-    }
-    
 
+        if (_head.Data.Equals(item))
+        {
+            _head = _head.Next;
+
+            if (_head == null)
+                _tail = null;
+
+            _count--;
+            return;
+        }
+
+        Node<T>? current = _head;
+
+        while (current.Next != null)
+        {
+            if (current.Next.Data.Equals(item)) // mag niet dezelfde data hebben vandaar de equals. 
+            {
+                current.Next = current.Next.Next;
+
+                if (current.Next == null)
+                    _tail = current;
+
+                _count--;
+                return;
+            }
+
+            current = current.Next;
+        }
+        Dirty = true;
+    }
+
+
+    // list.FindBy("John", (student, name) => student.Name == name); vb van input. 
     public T? FindBy<K>(K key, Func<T, K, bool> comparer)
     {
         if (comparer == null)
         {
             throw new ArgumentNullException(nameof(comparer));
         }
-        
-        // for (int i = 0; i < _count; i++)
-        // {
-        //     if (comparer(_items[i], key)) return _items[i];
-        // }
-            
-        return default(T);
+
+        Node<T>? current = _head;
+
+
+
+        // comparisons looop. 
+        while (current != null)
+            {
+                if (comparer(current.Data, key))
+                    return current.Data;
+
+                current = current.Next;
+            }
+
+            return default;
     }
 
 
     public IMyCollection<T> Filter(Func<T, bool> predicate)
     {
-        throw new NotImplementedException();
+        if (predicate == null)
+        throw new ArgumentNullException(nameof(predicate));
+
+        MyLinkedList<T> result = new MyLinkedList<T>();
+
+        Node<T>? current = _head;
+
+
+        // zo goed als zelfde als findby. maar dan met predicate. 
+        while (current != null)
+        {
+            if (predicate(current.Data))
+                result.Add(current.Data);
+
+            current = current.Next;
+        }
+
+        return result;
     }
 
 
+
+
+    // gebruik gemaakt van bubblesort. 
     public void Sort(Comparison<T> comparison)
     {
-        throw new NotImplementedException();
+        if (comparison == null)
+        throw new ArgumentNullException(nameof(comparison));
+
+        if (_head == null || _head.Next == null)
+            return; // niets te sorteren
+
+        bool swapped;
+
+        do
+        {
+            swapped = false;
+            Node<T>? current = _head;
+
+            while (current.Next != null)
+            {
+                if (comparison(current.Data, current.Next.Data) > 0)
+                {
+                    // swap data
+                    T temp = current.Data;
+                    current.Data = current.Next.Data;
+                    current.Next.Data = temp;
+
+                    swapped = true;
+                }
+
+                current = current.Next;
+            }
+
+        } while (swapped);
     }
 
 
     public int Count { get; }
     
-    
-    public bool Dirty {get;} // was get set maar ik heb alleen get van gemaakt, omdat set private moet zijn
-    
-    
+
     public T Reduce(Func<T, T, T> accumulator)
     {
         throw new NotImplementedException();
