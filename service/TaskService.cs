@@ -105,4 +105,8 @@ class TaskService : ITaskService
             _repository.SaveTasks(_tasks);
         }
     }
+    public void SaveIfDirty()
+    {
+        _repository.SaveIfDirty(_tasks);
+    }
 }
