@@ -242,7 +242,24 @@ class ConsoleTaskView : ITaskView
                 case "Add Task":
                     string description = Prompt("Enter task description: ");
                     string priority = AskPriority();
-                    _taskservice.AddTask(description, priority);
+                    var isItDependant = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                    .Title("[yellow]is it dependant[/]")
+                    .HighlightStyle(new Style(Color.Cyan1))
+                    .AddChoices(new[]
+                    {
+                        "Yes",
+                        "No"
+                    }));
+                    TaskItem chosenTask = null;
+                    switch (isItDependant)
+                    {
+                        case "Yes":
+                            chosenTask = ChooseTasks(_taskservice.GetAllTasks());
+                            break;
+                        case "No":
+                            break;
+                    }
+                    _taskservice.AddTask(description, priority, chosenTask);
                     break;
 
                 case "Remove Task":

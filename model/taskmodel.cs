@@ -6,6 +6,8 @@ public class TaskItem : IEquatable<TaskItem>
     public string Priority { get; set; }
 
     private string _status;
+    
+    public TaskItem dependant{get; set;}
 
     public string Status
     {

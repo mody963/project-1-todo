@@ -31,7 +31,7 @@ class TaskService : ITaskService
     //     _tasks.Add(newTask);
     //     _repository.SaveTasks(_tasks);
     // }
-    public void AddTask(string description, string priority)
+    public void AddTask(string description, string priority, TaskItem chosenTask)
     {
         int newId = 1;
         var iterator = _tasks.GetIterator();
@@ -47,7 +47,8 @@ class TaskService : ITaskService
             Description = description,
             Priority = priority,
             Status = "to do",
-            CreationDate = DateTime.Now
+            CreationDate = DateTime.Now,
+            dependant = chosenTask
         };
 
         _tasks.Add(newTask);
