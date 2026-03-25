@@ -284,9 +284,15 @@ class ConsoleTaskView : ITaskView
                     FilterTasks.FiltersTasks(_taskservice.GetAllTasks());
                     break;
                 case "Exit":
+                    SaveIfNeeded();
                     return;
             }
+            SaveIfNeeded();
         }
+    }
+    private void SaveIfNeeded()
+    {
+        _taskservice.SaveIfDirty();
     }
     private void ListTasksMenu()
     {

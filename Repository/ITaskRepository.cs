@@ -4,4 +4,5 @@ interface ITaskRepository
     // void SaveTasks(List<TaskItem> tasks);
     IMyCollection<TaskItem> LoadTasks();
     void SaveTasks(IMyCollection<TaskItem> tasks);
+    public void SaveIfDirty(IMyCollection<TaskItem> tasks);
 }

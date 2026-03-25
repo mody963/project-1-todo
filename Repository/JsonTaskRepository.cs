@@ -37,4 +37,13 @@ class JsonTaskRepository : ITaskRepository
         string json = JsonSerializer.Serialize(arr, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(_filePath, json);
     }
+   public void SaveIfDirty(IMyCollection<TaskItem> tasks)
+    {
+        if (!tasks.Dirty)
+            return;
+
+        SaveTasks(tasks);
+        if (tasks is MyArrayList<TaskItem> list) // need another 1 for linked list 
+            list.ResetDirty();
+    }
 }

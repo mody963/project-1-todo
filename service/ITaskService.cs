@@ -10,4 +10,5 @@ interface ITaskService
     void RemoveTask(int id);
 
     void ToggleTaskCompletion(int id);
+    void SaveIfDirty();
 }

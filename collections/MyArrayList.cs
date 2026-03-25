@@ -231,5 +231,9 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
             arr[i] = _items[i];
         return arr;
     }
+    public void ResetDirty()
+    {
+        Dirty = false;
+    }
   
 }
