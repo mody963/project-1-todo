@@ -14,7 +14,7 @@ class MyLinkedListIterator<T> : IMyIterator<T>
         if (_current == null)
             return _head != null;
 
-        return _current.Next != null;
+        return _current.Next != null; // omdat je wilt weten of er nog een volgende is.
     }
 
     public T Next()

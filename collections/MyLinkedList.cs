@@ -265,7 +265,7 @@ class MyLinkedList<T>: IMyCollection<T>
     public int Count { get; }
     
 
-    public T Reduce(Func<T, T, T> accumulator)
+    public T Reduce(Func<T, T, T> accumulator)  // je wil hierbij bijvb de getallen of dingen opellen. 
     {
         if (accumulator == null)
         throw new ArgumentNullException(nameof(accumulator));
@@ -278,7 +278,7 @@ class MyLinkedList<T>: IMyCollection<T>
 
         while (current != null)
         {
-            result = accumulator(result, current.Data);
+            result = accumulator(result, current.Data); // info 1 en info 2 door de gegeven functie halen.
             current = current.Next;
         }
 
@@ -326,7 +326,7 @@ class MyLinkedList<T>: IMyCollection<T>
 
     public IMyIterator<T> GetIterator()
     {
-        return new MyLinkedListIterator<T>(_head);
+        return new MyLinkedListIterator<T>(_head); // je hoeft alleen maar de head mee te geven because it references the rest. 
     }
 
     
@@ -340,7 +340,7 @@ class MyLinkedList<T>: IMyCollection<T>
     //     throw new NotImplementedException();
     // }
 
-    public bool TryFindBy<K>(K key, Func<T, K, int> comparer, out T? result)
+    public bool TryFindBy<K>(K key, Func<T, K, int> comparer, out T? result) // als je de variabele niet mee geeft maar aanmaakt in de class dan is het out. 
     {
         if (comparer == null)
         throw new ArgumentNullException(nameof(comparer));
@@ -349,7 +349,12 @@ class MyLinkedList<T>: IMyCollection<T>
 
         while (current != null)
         {
-            if (comparer(current.Data, key) == 0)
+
+            // rede  waarom is het 0 is omdat het de comparer is dus met die 0, -1 en 1. 
+            // als het 0 is dan zijn ze gelijk, als het groter is dan 0 dan is current groter en als het kleiner 
+            // is dan 0 dan is current kleiner.
+            // de reden dat je het dan ook in result opslaat is.          
+            if (comparer(current.Data, key) == 0) 
             {
                 result = current.Data;
                 return true;
