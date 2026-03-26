@@ -31,8 +31,8 @@
     "Description": "task10",
     "Priority": "must have",
     "dependant": null,
-    "Status": "to do",
-    "Completed": false,
+    "Status": "completed",
+    "Completed": true,
     "CreationDate": "2026-03-01T12:02:42.954344+01:00"
   },
   {
@@ -140,5 +140,22 @@
     "Status": "to do",
     "Completed": false,
     "CreationDate": "2026-03-25T18:33:57.163966+01:00"
+  },
+  {
+    "Id": 23,
+    "Description": "test dependancy",
+    "Priority": "could have",
+    "dependant": {
+      "Id": 10,
+      "Description": "task10",
+      "Priority": "must have",
+      "dependant": null,
+      "Status": "completed",
+      "Completed": true,
+      "CreationDate": "2026-03-01T12:02:42.954344+01:00"
+    },
+    "Status": "to do",
+    "Completed": false,
+    "CreationDate": "2026-03-26T11:48:39.150661+01:00"
   }
 ]

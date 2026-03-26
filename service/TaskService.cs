@@ -1,3 +1,5 @@
+using Spectre.Console;
+
 class TaskService : ITaskService
 {
     private readonly ITaskRepository _repository;
@@ -54,13 +56,23 @@ class TaskService : ITaskService
         _tasks.Add(newTask);
     }
 
-   public void UpdateTask(int id, string description, string priority, string status)
+    public void UpdateTask(int id, string description, string priority, string status)
     {
         if (_tasks.TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var task))
         {
             task.Description = description;
             task.Priority = priority;
             task.Status = status;
+        }
+    }
+
+    public void UpdateDependantTask(int id, string description, string priority, string status)
+    {
+        if (_tasks.TryFindBy(id, (item, key) => (item.dependant != null && item.dependant.Id == key) ? 0 : 1, out var task))
+        {
+            task.dependant.Description = description;
+            task.dependant.Priority = priority;
+            task.dependant.Status = status;
         }
     }
 

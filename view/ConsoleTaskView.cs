@@ -445,6 +445,34 @@ class ConsoleTaskView : ITaskView
         }
         return tasks;
     }
+
+    private IMyCollection<TaskItem> GetNonDependantTasks(IMyCollection<TaskItem> tasks)
+    {
+        IMyCollection<TaskItem> filtered = tasks.Filter(t =>
+            t.dependant == null || t.dependant.Completed == true);
+        return filtered;
+    }
+
+    private void UpdateAllocations(TaskItem Task, string description, string priority, string status)
+    {
+        IMyCollection<Person> people = _personservice.GetAllPersons();
+        var it = people.GetIterator();
+        while(it.HasNext())
+        {
+            Person person = it.Next();
+            _allocationservice.UpdateAllocations(Task, person, description, priority, status);
+            _allocationservice.UpdateDependantAllocations(Task, person, description, priority, status);
+        }
+    }
+
+    private void UpdateDependantTask(int id, string description, string priority, string status)
+    {
+        var iterator = _taskservice.GetAllTasks().GetIterator();
+        while(iterator.HasNext())
+        {
+            _taskservice.UpdateDependantTask(id, description, priority, status);
+        }
+    }
     
     private void Remove()
     {
@@ -464,7 +492,8 @@ class ConsoleTaskView : ITaskView
     
     private void UpdateTask()
     {
-        TaskItem Task = ChooseTasks(GetUserTasks());
+        IMyCollection<TaskItem> tasks = GetNonDependantTasks(GetUserTasks());
+        TaskItem Task = ChooseTasks(tasks);
 
         if (Task == null)
             return;
@@ -472,13 +501,8 @@ class ConsoleTaskView : ITaskView
         string description = Prompt("Enter task description: ");
         string priority = AskPriority();
         string status = AskStatus();
-
-        IMyCollection<Person> people = _personservice.GetAllPersons();
-        var it = people.GetIterator();
-        while(it.HasNext())
-        {
-            _allocationservice.UpdateAllocations(Task, it.Next(), description, priority, status);
-        }
+        UpdateAllocations(Task, description, priority, status);
+        UpdateDependantTask(Task.Id, description, priority, status);
         _taskservice.UpdateTask(Task.Id, description, priority, status);
     }
 

@@ -49,6 +49,19 @@ class AllocationService : IAllocationService
         }
     }
 
+    public void UpdateDependantAllocations(TaskItem task, Person person, string description, string priority, string status)
+    {
+        if (_Task_Allocations.TryFindBy(task, (item, key) =>
+        (item.Task.dependant != null && item.Task.dependant.Id == key.Id && item.Person.Id == person.Id) ? 0 : 1,
+        out var allocation))
+        {
+            allocation.Task.dependant.Description = description;
+            allocation.Task.dependant.Priority = priority;
+            allocation.Task.dependant.Status = status;
+            _repository.SaveTaskAllocations(_Task_Allocations);
+        }
+    }
+
     public bool CheckIfAllocationExists(TaskItem task, Person person)
     {
         // use the find method on item and then compare the id's if the same return 0 so equal otherwise 1 so not equal and save it in the out variable and return true.
