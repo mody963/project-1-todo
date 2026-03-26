@@ -6,14 +6,14 @@ class MyLinkedList<T>: IMyCollection<T>
 
 
     // internal betekent dat het alleen binnen dezelfde map gebruikt kan worden. geen internal meer nodig toestemming docent. 
-    public class Node<T> // reden wrm is omdat my linked list iterator het nodig had. 
+    public class Node // reden wrm is omdat my linked list iterator het nodig had. 
     {
         // data
         public T Data;
         // adress
-        public Node<T>? Next;
+        public Node? Next;
 
-        public Node<T>? Previous; // voor doubly referencie naar de vorrige. 
+        public Node? Previous; // voor doubly referencie naar de vorrige. 
 
         public Node(T data)
         {
@@ -24,9 +24,9 @@ class MyLinkedList<T>: IMyCollection<T>
 
 
     // data
-    private Node<T>? _head;
+    private Node? _head;
     //adress 
-    private Node<T>? _tail;
+    private Node? _tail;
     private int _count;
     // public int Count => _count;
     // what does dirty do?
@@ -64,9 +64,9 @@ class MyLinkedList<T>: IMyCollection<T>
         if (item == null && default(T) == null)
             throw new ArgumentNullException(nameof(item));
 
-        Node<T> newNode = new Node<T>(item);
+        Node newNode = new Node(item);
 
-        if (_head == null)
+        if (_head == null || _tail == null)
         {
             _head = newNode;
             _tail = newNode; // dit moet zo zijn omdat je dan aangeeft dat dit zowel heet begin als het einde is van de linked list.
@@ -88,7 +88,7 @@ class MyLinkedList<T>: IMyCollection<T>
         {
             throw new ArgumentNullException(nameof(item));
         }
-        Node<T> newNode = new Node<T>(item);
+        Node newNode = new Node(item);
         newNode.Next = _head; // hierbij verwijst de nieuwe node naar de oude head. en dus komt het ervoor. 
         if (_head != null)
             _head.Previous = newNode;
@@ -106,6 +106,11 @@ class MyLinkedList<T>: IMyCollection<T>
     // en daarna voegt het het toe en daarna zie uitleg blaadje.
     public void Insert(T item, int index) 
     {
+
+        Node newNode = new Node(item); // nu is de next ofc nog null
+        Node? current = _head;
+
+        
         if (item == null)
         {
             throw new ArgumentNullException(nameof(item));
@@ -126,14 +131,19 @@ class MyLinkedList<T>: IMyCollection<T>
             return;
         }
 
-        Node<T> newNode = new Node<T>(item); // nu is de next ofc nog null
-        Node<T>? current = _head;
+        
 
-        for (int i = 0; i < index - 1; i++) // -1 zodat het op de plek van de index uitkomt en niet erna. 
+        for (int i = 0; current!=null && i < index - 1 ; i++, current = current.Next) ;// -1 zodat het op de plek van de index uitkomt en niet erna. 
+        // {
+
+        //     current = current.Next;
+        // }
+
+
+        if (current == null)
         {
-            current = current.Next;
+            throw new ArgumentNullException(nameof(item));
         }
-
         newNode.Next = current.Next; // de nieuwe node wijst nu naar het adress waar de vorige naar wees. 
         newNode.Previous = current; // de pev die wordt dus de current want dat was de oude. 
 
@@ -152,7 +162,7 @@ class MyLinkedList<T>: IMyCollection<T>
 
     public void Remove(T item) // hierbij geeft het gewoon de naam van de item mee en dan pakt hij het meteen en delete hij het. 
     {
-        if (_head == null)
+        if (_head == null ||_head.Data == null || item == null)
         return;
 
         if (_head.Data.Equals(item))
@@ -168,13 +178,13 @@ class MyLinkedList<T>: IMyCollection<T>
             return;
         }
 
-        Node<T>? current = _head;
+        Node? current = _head;
 
-        while (current.Next != null)
+        while (current.Next != null && current.Next.Data != null)
         {
             if (current.Next.Data.Equals(item)) // mag niet dezelfde data hebben vandaar de equals. 
             {
-                Node<T>? nodeToRemove = current.Next;
+                Node? nodeToRemove = current.Next;
                 current.Next = nodeToRemove.Next;
 
                 if (nodeToRemove.Next != null)
@@ -201,7 +211,7 @@ class MyLinkedList<T>: IMyCollection<T>
             throw new ArgumentNullException(nameof(comparer));
         }
 
-        Node<T>? current = _head;
+        Node? current = _head;
 
 
 
@@ -225,7 +235,7 @@ class MyLinkedList<T>: IMyCollection<T>
 
         MyLinkedList<T> result = new MyLinkedList<T>();
 
-        Node<T>? current = _head;
+        Node? current = _head;
 
 
         // zo goed als zelfde als findby. maar dan met predicate. 
@@ -257,7 +267,7 @@ class MyLinkedList<T>: IMyCollection<T>
         do
         {
             swapped = false;
-            Node<T>? current = _head;
+            Node? current = _head;
 
             while (current.Next != null)
             {
@@ -290,7 +300,7 @@ class MyLinkedList<T>: IMyCollection<T>
             throw new InvalidOperationException("Collection is empty");
 
         T result = _head.Data;
-        Node<T>? current = _head.Next;
+        Node? current = _head.Next;
 
         while (current != null)
         {
@@ -308,7 +318,7 @@ class MyLinkedList<T>: IMyCollection<T>
         throw new ArgumentNullException(nameof(accumulator));
 
         R result = initial;
-        Node<T>? current = _head;
+        Node? current = _head;
 
         while (current != null)
         {
@@ -328,7 +338,7 @@ class MyLinkedList<T>: IMyCollection<T>
             throw new ArgumentNullException(nameof(resultSelector));
 
         R result = initial;
-        Node<T>? current = _head;
+        Node? current = _head;
 
         while (current != null)
         {
@@ -361,7 +371,7 @@ class MyLinkedList<T>: IMyCollection<T>
         if (comparer == null)
         throw new ArgumentNullException(nameof(comparer));
 
-        Node<T>? current = _head;
+        Node? current = _head;
 
         while (current != null)
         {

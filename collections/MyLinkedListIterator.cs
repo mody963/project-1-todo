@@ -1,9 +1,9 @@
 class MyLinkedListIterator<T> : IMyIterator<T>
 {
-    private MyLinkedList<T>.Node<T>? _head;
-    private MyLinkedList<T>.Node<T>? _current;
+    private MyLinkedList<T>.Node? _head;
+    private MyLinkedList<T>.Node? _current;
 
-    public MyLinkedListIterator(MyLinkedList<T>.Node<T>? head) // gebruik maken van de node in andere class alleen deze wil je natuurlijk niet opnieuw hoeven maken. 
+    public MyLinkedListIterator(MyLinkedList<T>.Node? head) // gebruik maken van de node in andere class alleen deze wil je natuurlijk niet opnieuw hoeven maken. 
     {
         _head = head; // allee head nodig want die refereerd naar de rest sws toe. 
         _current = null;
