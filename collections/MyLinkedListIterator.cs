@@ -1,0 +1,37 @@
+class MyLinkedListIterator<T> : IMyIterator<T>
+{
+    private MyLinkedList<T>.Node<T>? _head;
+    private MyLinkedList<T>.Node<T>? _current;
+
+    public MyLinkedListIterator(MyLinkedList<T>.Node<T>? head) // gebruik maken van de node in andere class alleen deze wil je natuurlijk niet opnieuw hoeven maken. 
+    {
+        _head = head; // allee head nodig want die refereerd naar de rest sws toe. 
+        _current = null;
+    }
+
+    public bool HasNext()
+    {
+        if (_current == null)
+            return _head != null;
+
+        return _current.Next != null;
+    }
+
+    public T Next()
+    {
+        if (!HasNext())
+            throw new InvalidOperationException();
+
+        if (_current == null)
+            _current = _head;
+        else
+            _current = _current.Next;
+
+        return _current.Data;
+    }
+
+    public void Reset()
+    {
+        _current = null;
+    }
+}

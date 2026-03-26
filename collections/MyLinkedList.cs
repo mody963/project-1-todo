@@ -4,7 +4,9 @@ class MyLinkedList<T>: IMyCollection<T>
 {
     // could be both singly or double depends what we like to do. 
 
-    private class Node<T>
+
+    // internal betekent dat het alleen binnen dezelfde map gebruikt kan worden. geen internal meer nodig toestemming docent. 
+    public class Node<T> // reden wrm is omdat my linked list iterator het nodig had. 
     {
         // data
         public T Data;
@@ -265,28 +267,69 @@ class MyLinkedList<T>: IMyCollection<T>
 
     public T Reduce(Func<T, T, T> accumulator)
     {
-        throw new NotImplementedException();
+        if (accumulator == null)
+        throw new ArgumentNullException(nameof(accumulator));
+
+        if (_head == null)
+            throw new InvalidOperationException("Collection is empty");
+
+        T result = _head.Data;
+        Node<T>? current = _head.Next;
+
+        while (current != null)
+        {
+            result = accumulator(result, current.Data);
+            current = current.Next;
+        }
+
+        return result;
     }
-    // or
     
     
     public R Reduce<R>(R initial, Func<R, T, R> accumulator)
     {
-        throw new NotImplementedException();
+        if (accumulator == null)
+        throw new ArgumentNullException(nameof(accumulator));
+
+        R result = initial;
+        Node<T>? current = _head;
+
+        while (current != null)
+        {
+            result = accumulator(result, current.Data);
+            current = current.Next;
+        }
+
+        return result;
     }
-    //or
     
     
     public RResult Reduce<R, RResult>(R initial, Func<R, T, R> accumulator, Func<R, RResult> resultSelector)
     {
-        throw new NotImplementedException();
+        if (accumulator == null)
+        throw new ArgumentNullException(nameof(accumulator));
+        if (resultSelector == null)
+            throw new ArgumentNullException(nameof(resultSelector));
+
+        R result = initial;
+        Node<T>? current = _head;
+
+        while (current != null)
+        {
+            result = accumulator(result, current.Data);
+            current = current.Next;
+        }
+
+        return resultSelector(result);
     }
     
 
     public IMyIterator<T> GetIterator()
     {
-        throw new NotImplementedException();
+        return new MyLinkedListIterator<T>(_head);
     }
+
+    
     public T[] ToArray()
     {
         throw new NotImplementedException();
@@ -299,7 +342,24 @@ class MyLinkedList<T>: IMyCollection<T>
 
     public bool TryFindBy<K>(K key, Func<T, K, int> comparer, out T? result)
     {
-        throw new NotImplementedException();
+        if (comparer == null)
+        throw new ArgumentNullException(nameof(comparer));
+
+        Node<T>? current = _head;
+
+        while (current != null)
+        {
+            if (comparer(current.Data, key) == 0)
+            {
+                result = current.Data;
+                return true;
+            }
+
+            current = current.Next;
+        }
+
+        result = default;
+        return false;
     }
 }
 
