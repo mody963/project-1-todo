@@ -13,6 +13,8 @@ class MyLinkedList<T>: IMyCollection<T>
         // adress
         public Node<T>? Next;
 
+        public Node<T>? Previous; // voor doubly referencie naar de vorrige. 
+
         public Node(T data)
         {
             Data = data;
@@ -72,6 +74,7 @@ class MyLinkedList<T>: IMyCollection<T>
         else
         {
             _tail.Next = newNode; // de oude tail wordt de nieuwe node met info. de head verander je niet. 
+            newNode.Previous = _tail; // neiuwe node naar oude tail. 
             _tail = newNode;
         }
 
@@ -87,10 +90,12 @@ class MyLinkedList<T>: IMyCollection<T>
         }
         Node<T> newNode = new Node<T>(item);
         newNode.Next = _head; // hierbij verwijst de nieuwe node naar de oude head. en dus komt het ervoor. 
+        if (_head != null)
+            _head.Previous = newNode;
         _head = newNode; // hierna vervangt de nieuwe node de oude head.
 
         if (_tail == null)
-        _tail = newNode;
+            _tail = newNode;
 
         _count++;
         Dirty = true;
@@ -130,6 +135,11 @@ class MyLinkedList<T>: IMyCollection<T>
         }
 
         newNode.Next = current.Next; // de nieuwe node wijst nu naar het adress waar de vorige naar wees. 
+        newNode.Previous = current; // de pev die wordt dus de current want dat was de oude. 
+
+        if (current.Next != null)
+            current.Next.Previous = newNode; // doubly linked list update
+
         current.Next = newNode; // het adress van de current node wijst nu naar de nieuwe. 
 
         if (newNode.Next == null)
@@ -148,6 +158,8 @@ class MyLinkedList<T>: IMyCollection<T>
         if (_head.Data.Equals(item))
         {
             _head = _head.Next;
+            if (_head != null)
+                _head.Previous = null; // a;s head nie null is dan moey je hey wel leeg maken. 
 
             if (_head == null)
                 _tail = null;
@@ -162,7 +174,11 @@ class MyLinkedList<T>: IMyCollection<T>
         {
             if (current.Next.Data.Equals(item)) // mag niet dezelfde data hebben vandaar de equals. 
             {
-                current.Next = current.Next.Next;
+                Node<T>? nodeToRemove = current.Next;
+                current.Next = nodeToRemove.Next;
+
+                if (nodeToRemove.Next != null)
+                    nodeToRemove.Next.Previous = current;
 
                 if (current.Next == null)
                     _tail = current;
@@ -265,7 +281,7 @@ class MyLinkedList<T>: IMyCollection<T>
     public int Count { get; }
     
 
-    public T Reduce(Func<T, T, T> accumulator)
+    public T Reduce(Func<T, T, T> accumulator)  // je wil hierbij bijvb de getallen of dingen opellen. 
     {
         if (accumulator == null)
         throw new ArgumentNullException(nameof(accumulator));
@@ -278,7 +294,7 @@ class MyLinkedList<T>: IMyCollection<T>
 
         while (current != null)
         {
-            result = accumulator(result, current.Data);
+            result = accumulator(result, current.Data); // info 1 en info 2 door de gegeven functie halen.
             current = current.Next;
         }
 
@@ -326,7 +342,7 @@ class MyLinkedList<T>: IMyCollection<T>
 
     public IMyIterator<T> GetIterator()
     {
-        return new MyLinkedListIterator<T>(_head);
+        return new MyLinkedListIterator<T>(_head); // je hoeft alleen maar de head mee te geven because it references the rest. 
     }
 
     
@@ -340,7 +356,7 @@ class MyLinkedList<T>: IMyCollection<T>
     //     throw new NotImplementedException();
     // }
 
-    public bool TryFindBy<K>(K key, Func<T, K, int> comparer, out T? result)
+    public bool TryFindBy<K>(K key, Func<T, K, int> comparer, out T? result) // als je de variabele niet mee geeft maar aanmaakt in de class dan is het out. 
     {
         if (comparer == null)
         throw new ArgumentNullException(nameof(comparer));
@@ -349,7 +365,12 @@ class MyLinkedList<T>: IMyCollection<T>
 
         while (current != null)
         {
-            if (comparer(current.Data, key) == 0)
+
+            // rede  waarom is het 0 is omdat het de comparer is dus met die 0, -1 en 1. 
+            // als het 0 is dan zijn ze gelijk, als het groter is dan 0 dan is current groter en als het kleiner 
+            // is dan 0 dan is current kleiner.
+            // de reden dat je het dan ook in result opslaat is.          
+            if (comparer(current.Data, key) == 0) 
             {
                 result = current.Data;
                 return true;
