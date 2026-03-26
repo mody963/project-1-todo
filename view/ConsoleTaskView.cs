@@ -470,7 +470,8 @@ class ConsoleTaskView : ITaskView
         var iterator = _taskservice.GetAllTasks().GetIterator();
         while(iterator.HasNext())
         {
-            _taskservice.UpdateDependantTask(id, description, priority, status);
+            TaskItem item = iterator.Next();
+            _taskservice.UpdateDependantTask(item, id, description, priority, status);
         }
     }
     
