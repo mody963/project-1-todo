@@ -21,7 +21,7 @@ class JsonTaskRepository : ITaskRepository
         // Deserialize into an array       IK MOET VRAGEN OF DIT MAG MET ARRAYS MAAR VGM KAN HET NIET ANDERS
         TaskItem[] tasks = JsonSerializer.Deserialize<TaskItem[]>(json) ?? new TaskItem[0];
 
-        for (int i = 0; i < tasks.Length; i++)
+        for (int i = 0; i < tasks.Length; i++) // dit moet een eigen loop zijn dus geen for loop enz 
         {
             collection.Add(tasks[i]);
         }

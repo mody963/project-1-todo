@@ -21,7 +21,7 @@ class JsonPersonRepository : IPersonRepository
         // Deserialize into an array       IK MOET VRAGEN OF DIT MAG MET ARRAYS MAAR VGM KAN HET NIET ANDERS
         Person[] persons = JsonSerializer.Deserialize<Person[]>(json) ?? new Person[0];
 
-        for (int i = 0; i < persons.Length; i++)
+        for (int i = 0; i < persons.Length; i++) // wss ook eigen loop implemetatie met iterator
         {
             collection.Add(persons[i]);
         }
