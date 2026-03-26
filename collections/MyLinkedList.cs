@@ -234,7 +234,7 @@ class MyLinkedList<T>: IMyCollection<T>
         if (_head == null || _head.Next == null)
             return;
 
-        bool swapped;
+        bool swapped; 
 
         do
         {
