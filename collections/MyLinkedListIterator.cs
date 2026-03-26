@@ -20,13 +20,11 @@ class MyLinkedListIterator<T> : IMyIterator<T>
     public T Next()
     {
         if (!HasNext())
-            throw new InvalidOperationException();
+            throw new InvalidOperationException("No more elements");
 
-        if (_current == null)
-            _current = _head;
-        else
-            _current = _current.Next;
-
+        _current = _current == null ? _head : _current.Next;
+        if (_current == null || _current.Data == null)
+            throw new InvalidOperationException("Current node is null");
         return _current.Data;
     }
 
