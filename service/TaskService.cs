@@ -31,7 +31,7 @@ class TaskService : ITaskService
     //     _tasks.Add(newTask);
     //     _repository.SaveTasks(_tasks);
     // }
-    public void AddTask(string description, string priority)
+    public void AddTask(string description, string priority, TaskItem chosenTask)
     {
         int newId = 1;
         var iterator = _tasks.GetIterator();
@@ -47,11 +47,11 @@ class TaskService : ITaskService
             Description = description,
             Priority = priority,
             Status = "to do",
-            CreationDate = DateTime.Now
+            CreationDate = DateTime.Now,
+            dependant = chosenTask
         };
 
         _tasks.Add(newTask);
-        _repository.SaveTasks(_tasks);
     }
 
    public void UpdateTask(int id, string description, string priority, string status)
@@ -61,8 +61,6 @@ class TaskService : ITaskService
             task.Description = description;
             task.Priority = priority;
             task.Status = status;
-
-            _repository.SaveTasks(_tasks);
         }
     }
 
@@ -81,7 +79,6 @@ class TaskService : ITaskService
         if (_tasks.TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var task))
         {
             _tasks.Remove(task);
-            _repository.SaveTasks(_tasks);
         }
     }
 
@@ -101,7 +98,10 @@ class TaskService : ITaskService
         if (_tasks.TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var task))
         {
             task.Status = task.Status == "completed" ? "to do" : "completed";
-            _repository.SaveTasks(_tasks);
         }
+    }
+    public void SaveIfDirty()
+    {
+        _repository.SaveIfDirty(_tasks);
     }
 }

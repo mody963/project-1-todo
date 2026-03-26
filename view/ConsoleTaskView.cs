@@ -242,12 +242,28 @@ class ConsoleTaskView : ITaskView
                 case "Add Task":
                     string description = Prompt("Enter task description: ");
                     string priority = AskPriority();
-                    _taskservice.AddTask(description, priority);
+                    var isItDependant = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                    .Title("[yellow]is it dependant[/]")
+                    .HighlightStyle(new Style(Color.Cyan1))
+                    .AddChoices(new[]
+                    {
+                        "Yes",
+                        "No"
+                    }));
+                    TaskItem chosenTask = null;
+                    switch (isItDependant)
+                    {
+                        case "Yes":
+                            chosenTask = ChooseTasks(_taskservice.GetAllTasks());
+                            break;
+                        case "No":
+                            break;
+                    }
+                    _taskservice.AddTask(description, priority, chosenTask);
                     break;
 
                 case "Remove Task":
-                    int id = ChooseTasks(_taskservice.GetAllTasks(), true);
-                    _taskservice.RemoveTask(id);
+                    Remove();
                     break;
 
                 case "Update Task":  
@@ -255,8 +271,7 @@ class ConsoleTaskView : ITaskView
                     break;
 
                 case "Toggle Task State":
-                    int toggleId = ChooseTasks(_taskservice.GetAllTasks(), true);
-                    _taskservice.ToggleTaskCompletion(toggleId);
+                    ToggleTaskCompletion();
                     break;
 
                 case "Assign task":
@@ -269,9 +284,15 @@ class ConsoleTaskView : ITaskView
                     FilterTasks.FiltersTasks(_taskservice.GetAllTasks());
                     break;
                 case "Exit":
+                    SaveIfNeeded();
                     return;
             }
+            SaveIfNeeded();
         }
+    }
+    private void SaveIfNeeded()
+    {
+        _taskservice.SaveIfDirty();
     }
     private void ListTasksMenu()
     {
@@ -409,18 +430,72 @@ class ConsoleTaskView : ITaskView
                     "completed"
                 ));
     }
+    
+    private IMyCollection<TaskItem> GetUserTasks()
+    {
+        IMyCollection<Task_Allocation> allocations = _allocationservice.GetAllAllocations();
+        IMyCollection<Task_Allocation> filtered = allocations.Filter(t =>
+            !string.IsNullOrWhiteSpace(Convert.ToString(t.Person.Id)) &&
+            Convert.ToString(t.Person.Id).Trim().Equals(Convert.ToString(activePerson.Id).Trim(), StringComparison.OrdinalIgnoreCase));
+        var iterator = filtered.GetIterator();
+        IMyCollection<TaskItem> tasks = new MyArrayList<TaskItem>();
+        while(iterator.HasNext())
+        {
+            tasks.Add(iterator.Next().Task);
+        }
+        return tasks;
+    }
+    
+    private void Remove()
+    {
+        TaskItem task = ChooseTasks(GetUserTasks());
+        if(task == null)
+        {
+            return;
+        }
+        _taskservice.RemoveTask(task.Id);
+        IMyCollection<Person> people = _personservice.GetAllPersons();
+        var it = people.GetIterator();
+        while(it.HasNext())
+        {
+            _allocationservice.RemoveAllocation(task, it.Next());
+        }
+    }
+    
     private void UpdateTask()
     {
-        int id = ChooseTasks(_taskservice.GetAllTasks(), true);
+        TaskItem Task = ChooseTasks(GetUserTasks());
 
-        if (id == 0)
+        if (Task == null)
             return;
 
         string description = Prompt("Enter task description: ");
         string priority = AskPriority();
         string status = AskStatus();
 
-        _taskservice.UpdateTask(id, description, priority, status);
+        IMyCollection<Person> people = _personservice.GetAllPersons();
+        var it = people.GetIterator();
+        while(it.HasNext())
+        {
+            _allocationservice.UpdateAllocations(Task, it.Next(), description, priority, status);
+        }
+        _taskservice.UpdateTask(Task.Id, description, priority, status);
+    }
+
+    private void ToggleTaskCompletion()
+    {
+        TaskItem toggleTask = ChooseTasks(GetUserTasks());
+        if(toggleTask == null)
+        {
+            return;
+        }
+        _taskservice.ToggleTaskCompletion(toggleTask.Id);
+        IMyCollection<Person> allPeople = _personservice.GetAllPersons();
+        var iterator = allPeople.GetIterator();
+        while(iterator.HasNext())
+        {
+            _allocationservice.RemoveAllocation(toggleTask, iterator.Next());
+        }
     }
 
     private void AssignMenu()
@@ -455,7 +530,7 @@ class ConsoleTaskView : ITaskView
         }
     }
 
-    public void Assigntask()
+    private void Assigntask()
     {
         Console.Clear();
         TaskItem task = ChooseTasks(_taskservice.GetAllTasks());
@@ -480,7 +555,7 @@ class ConsoleTaskView : ITaskView
         }  
     }
 
-    public void UnAssigntask()
+    private void UnAssigntask()
     {
         Console.Clear();
         Task_Allocation chosen_allocation = ChooseAllocation(_allocationservice.GetAllAllocations());
@@ -518,7 +593,7 @@ class ConsoleTaskView : ITaskView
                 return status;
         }
     }
-    public void SelectPerson()
+    private void SelectPerson()
     {
         // _personservice.AddPerson("Fernando");
         // _personservice.AddPerson("Aimee");

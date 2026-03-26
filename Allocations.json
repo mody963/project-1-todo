@@ -4,6 +4,7 @@
       "Id": 17,
       "Description": "momomo",
       "Priority": "must have",
+      "dependant": null,
       "Status": "to do",
       "Completed": false,
       "CreationDate": "2026-03-11T10:43:12.213458+01:00"
@@ -18,6 +19,7 @@
       "Id": 5,
       "Description": "momo1",
       "Priority": "should have",
+      "dependant": null,
       "Status": "in progress",
       "Completed": false,
       "CreationDate": "2026-03-01T12:02:24.967821+01:00"
@@ -32,6 +34,7 @@
       "Id": 9,
       "Description": "task9",
       "Priority": "must have",
+      "dependant": null,
       "Status": "to do",
       "Completed": false,
       "CreationDate": "2026-03-01T12:02:38.648497+01:00"
@@ -46,6 +49,7 @@
       "Id": 11,
       "Description": "task11",
       "Priority": "must have",
+      "dependant": null,
       "Status": "to do",
       "Completed": false,
       "CreationDate": "2026-03-01T12:02:46.260302+01:00"
@@ -60,6 +64,7 @@
       "Id": 14,
       "Description": "newtaskmo",
       "Priority": "must have",
+      "dependant": null,
       "Status": "completed",
       "Completed": true,
       "CreationDate": "2026-03-11T10:21:11.55275+01:00"
@@ -74,6 +79,7 @@
       "Id": 7,
       "Description": "r",
       "Priority": "must have",
+      "dependant": null,
       "Status": "to do",
       "Completed": false,
       "CreationDate": "2026-03-01T12:02:31.958381+01:00"
@@ -88,6 +94,7 @@
       "Id": 18,
       "Description": "momo",
       "Priority": "must have",
+      "dependant": null,
       "Status": "to do",
       "Completed": false,
       "CreationDate": "2026-03-13T08:25:38.673509+01:00"
@@ -99,26 +106,13 @@
   },
   {
     "Task": {
-      "Id": 19,
-      "Description": "mmmm",
+      "Id": 18,
+      "Description": "momo",
       "Priority": "must have",
+      "dependant": null,
       "Status": "to do",
       "Completed": false,
-      "CreationDate": "2026-03-14T09:29:09.764752+01:00"
-    },
-    "Person": {
-      "Id": 1,
-      "Name": "Fernando"
-    }
-  },
-  {
-    "Task": {
-      "Id": 19,
-      "Description": "mmmm",
-      "Priority": "must have",
-      "Status": "to do",
-      "Completed": false,
-      "CreationDate": "2026-03-14T09:29:09.764752+01:00"
+      "CreationDate": "2026-03-13T08:25:38.673509+01:00"
     },
     "Person": {
       "Id": 3,
@@ -127,12 +121,21 @@
   },
   {
     "Task": {
-      "Id": 18,
-      "Description": "momo",
+      "Id": 21,
+      "Description": "newssss",
       "Priority": "must have",
+      "dependant": {
+        "Id": 18,
+        "Description": "momo",
+        "Priority": "must have",
+        "dependant": null,
+        "Status": "to do",
+        "Completed": false,
+        "CreationDate": "2026-03-13T08:25:38.673509+01:00"
+      },
       "Status": "to do",
       "Completed": false,
-      "CreationDate": "2026-03-13T08:25:38.673509+01:00"
+      "CreationDate": "2026-03-25T18:28:16.996325+01:00"
     },
     "Person": {
       "Id": 3,
