@@ -8,7 +8,7 @@ interface ITaskService
 
     public void UpdateTask(int id, string description, string priority, string status);
 
-    public void UpdateDependantTask(int id, string description, string priority, string status);
+    public void UpdateDependantTask(TaskItem task, int id, string description, string priority, string status);
     void RemoveTask(int id);
 
     void ToggleTaskCompletion(int id);
