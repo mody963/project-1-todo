@@ -1,49 +1,49 @@
-using System.Text.Json;
+// using System.Text.Json;
 
-class JsonTaskRepository : ITaskRepository
-{
-    private readonly string _filePath;
+// class JsonTaskRepository : ITaskRepository
+// {
+//     private readonly string _filePath;
 
-    public JsonTaskRepository(string filePath)
-    {
-        _filePath = filePath;
-    }
+//     public JsonTaskRepository(string filePath)
+//     {
+//         _filePath = filePath;
+//     }
 
-    public IMyCollection<TaskItem> LoadTasks()
-    {
-        var collection = new MyArrayList<TaskItem>();
+//     public IMyCollection<TaskItem> LoadTasks()
+//     {
+//         var collection = new MyArrayList<TaskItem>();
 
-        if (!File.Exists(_filePath))
-            return collection;
+//         if (!File.Exists(_filePath))
+//             return collection;
 
-        string json = File.ReadAllText(_filePath);
+//         string json = File.ReadAllText(_filePath);
 
-        // Deserialize into an array       IK MOET VRAGEN OF DIT MAG MET ARRAYS MAAR VGM KAN HET NIET ANDERS
-        TaskItem[] tasks = JsonSerializer.Deserialize<TaskItem[]>(json) ?? new TaskItem[0];
+//         // Deserialize into an array       IK MOET VRAGEN OF DIT MAG MET ARRAYS MAAR VGM KAN HET NIET ANDERS
+//         TaskItem[] tasks = JsonSerializer.Deserialize<TaskItem[]>(json) ?? new TaskItem[0];
 
-        for (int i = 0; i < tasks.Length; i++) // dit moet een eigen loop zijn dus geen for loop enz 
-        {
-            collection.Add(tasks[i]);
-        }
+//         for (int i = 0; i < tasks.Length; i++) // dit moet een eigen loop zijn dus geen for loop enz 
+//         {
+//             collection.Add(tasks[i]);
+//         }
 
-        return collection;
-    }
+//         return collection;
+//     }
 
-    public void SaveTasks(IMyCollection<TaskItem> tasks)
-    {
-        // helper method to convert IMyCollection into an array
-        TaskItem[] arr = tasks.ToArray();
+//     public void SaveTasks(IMyCollection<TaskItem> tasks)
+//     {
+//         // helper method to convert IMyCollection into an array
+//         TaskItem[] arr = tasks.ToArray();
 
-        string json = JsonSerializer.Serialize(arr, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(_filePath, json);
-    }
-   public void SaveIfDirty(IMyCollection<TaskItem> tasks)
-    {
-        if (!tasks.Dirty)
-            return;
+//         string json = JsonSerializer.Serialize(arr, new JsonSerializerOptions { WriteIndented = true });
+//         File.WriteAllText(_filePath, json);
+//     }
+//    public void SaveIfDirty(IMyCollection<TaskItem> tasks)
+//     {
+//         if (!tasks.Dirty)
+//             return;
 
-        SaveTasks(tasks);
-        if (tasks is MyArrayList<TaskItem> list) // need another 1 for linked list 
-            list.ResetDirty();
-    }
-}
+//         SaveTasks(tasks);
+//         if (tasks is MyArrayList<TaskItem> list) // need another 1 for linked list 
+//             list.ResetDirty();
+//     }
+// }

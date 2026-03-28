@@ -6,7 +6,7 @@ class AllocationService : IAllocationService
     public AllocationService(IAllocationRepository repository)
     {
         _repository = repository;
-        _Task_Allocations = new MyArrayList<Task_Allocation>();
+        //_Task_Allocations = new MyArrayList<Task_Allocation>();
        // _Task_Allocations = _repository.LoadTasks();
        _Task_Allocations = _repository.LoadTaskAllocation();
     }
@@ -21,7 +21,7 @@ class AllocationService : IAllocationService
         var newTask_Allocation = new Task_Allocation{Task = task, Person = person};
 
         _Task_Allocations.Add(newTask_Allocation);
-        _repository.SaveTaskAllocations(_Task_Allocations);
+        
     }
 
  
@@ -32,7 +32,6 @@ class AllocationService : IAllocationService
         out var allocation))
         {
             _Task_Allocations.Remove(allocation);
-            _repository.SaveTaskAllocations(_Task_Allocations);
         }
     }
 
@@ -45,7 +44,6 @@ class AllocationService : IAllocationService
             allocation.Task.Description = description;
             allocation.Task.Priority = priority;
             allocation.Task.Status = status;
-            _repository.SaveTaskAllocations(_Task_Allocations);
         }
     }
 
@@ -58,7 +56,6 @@ class AllocationService : IAllocationService
             allocation.Task.dependant.Description = description;
             allocation.Task.dependant.Priority = priority;
             allocation.Task.dependant.Status = status;
-            _repository.SaveTaskAllocations(_Task_Allocations);
         }
     }
 
@@ -72,6 +69,10 @@ class AllocationService : IAllocationService
             return true;
         }
         return false;
+    }
+    public void SaveIfDirty()
+    {
+        _repository.SaveIfDirty(_Task_Allocations);
     }
 
 

@@ -28,6 +28,12 @@ class MyLinkedList<T>: IMyCollection<T>
     //adress 
     private Node? _tail;
     private int _count;
+    public int Count => _count;
+
+    public void ResetDirty()
+    {
+        Dirty = false;
+    }
     // public int Count => _count;
     // what does dirty do?
     // deserialization is wnr je de list afleest en het dan in een json file gaat zetten. 
@@ -286,9 +292,6 @@ class MyLinkedList<T>: IMyCollection<T>
 
         } while (swapped);
     }
-
-
-    public int Count { get; }
     
 
     public T Reduce(Func<T, T, T> accumulator)  // je wil hierbij bijvb de getallen of dingen opellen. 
@@ -358,7 +361,16 @@ class MyLinkedList<T>: IMyCollection<T>
     
     public T[] ToArray()
     {
-        throw new NotImplementedException();
+        T[] arr = new T[_count];
+        int i = 0;
+
+        var iterator = GetIterator();
+        while (iterator.HasNext())
+        {
+            arr[i++] = iterator.Next();
+        }
+
+        return arr;
     }
     
     // public IEnumerator<T> GetEnumerator()
@@ -392,6 +404,7 @@ class MyLinkedList<T>: IMyCollection<T>
         result = default;
         return false;
     }
+  
 }
 
 

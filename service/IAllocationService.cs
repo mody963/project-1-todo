@@ -13,5 +13,6 @@ interface IAllocationService
     public void UpdateDependantAllocations(TaskItem task, Person person, string description, string priority, string status);
 
     bool CheckIfAllocationExists(TaskItem task, Person person);
+    void SaveIfDirty();
 
 }

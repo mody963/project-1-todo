@@ -6,12 +6,22 @@
         string filePath = "tasks.json";
         string filePath2 = "Persons.json";
         string filePath3 = "Allocations.json";
-        ITaskRepository repository = new JsonTaskRepository(filePath);
-        IPersonRepository repository2 = new JsonPersonRepository(filePath2);
-        IAllocationRepository repository3 = new JsonAllocationRepository(filePath3);
+        //collection
+        ICollectionFactory<TaskItem> taskFactory = new MyArrayListFactory<TaskItem>();
+        ICollectionFactory<Person> personFactory = new MyArrayListFactory<Person>();
+        ICollectionFactory<Task_Allocation> allocationFactory = new MyArrayListFactory<Task_Allocation>();
+
+
+        ITaskRepository repository = new TaskRepository(filePath, taskFactory);
+        IPersonRepository repository2 = new PersonRepository(filePath2, personFactory);
+        IAllocationRepository repository3 = new AllocationRepository(filePath3, allocationFactory);
+
+
         ITaskService service = new TaskService(repository);
         IPersonService service2 = new PersonService(repository2);
         IAllocationService service3 = new AllocationService(repository3);
+
+
         ITaskView view = new ConsoleTaskView(service, service2, service3);
         // Run the view
         view.Run();

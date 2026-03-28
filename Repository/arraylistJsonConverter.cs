@@ -1,38 +1,40 @@
-using System.Text.Json.Serialization;
-using System.Text.Json;
-public class MyArrayListJsonConverter<T> : JsonConverter<MyArrayList<T>> where T : IEquatable<T>
-{
-    public override MyArrayList<T>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        if (reader.TokenType != JsonTokenType.StartArray)
-        {
-            throw new JsonException();
-        }
-        var collection = new MyArrayList<T>();
-        while (reader.Read())
-        {
-            if (reader.TokenType == JsonTokenType.EndArray)
-            {
-                return collection;
-            }
-            T item = JsonSerializer.Deserialize<T>(ref reader, options);
-            collection.Add(item);
-        }
-        throw new JsonException();
-    }
-    public override void Write(Utf8JsonWriter writer, MyArrayList<T> value, JsonSerializerOptions options)
-    {
-        writer.WriteStartArray();
-        var iterator = value.GetIterator();
-        while (iterator.HasNext())
-        {
-            T item = iterator.Next();
-            JsonSerializer.Serialize(writer, item, options);
-        }
-        writer.WriteEndArray();   
+// not used anywhere.
 
-    }
-}
+// using System.Text.Json.Serialization;
+// using System.Text.Json;
+// public class MyArrayListJsonConverter<T> : JsonConverter<MyArrayList<T>> where T : IEquatable<T>
+// {
+//     public override MyArrayList<T>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+//     {
+//         if (reader.TokenType != JsonTokenType.StartArray)
+//         {
+//             throw new JsonException();
+//         }
+//         var collection = new MyArrayList<T>();
+//         while (reader.Read())
+//         {
+//             if (reader.TokenType == JsonTokenType.EndArray)
+//             {
+//                 return collection;
+//             }
+//             T item = JsonSerializer.Deserialize<T>(ref reader, options);
+//             collection.Add(item);
+//         }
+//         throw new JsonException();
+//     }
+//     public override void Write(Utf8JsonWriter writer, MyArrayList<T> value, JsonSerializerOptions options)
+//     {
+//         writer.WriteStartArray();
+//         var iterator = value.GetIterator();
+//         while (iterator.HasNext())
+//         {
+//             T item = iterator.Next();
+//             JsonSerializer.Serialize(writer, item, options);
+//         }
+//         writer.WriteEndArray();   
+
+//     }
+// }
 
 
 // public override Dictionary<TKey, TValue> Read(

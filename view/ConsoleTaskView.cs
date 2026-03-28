@@ -293,6 +293,8 @@ class ConsoleTaskView : ITaskView
     private void SaveIfNeeded()
     {
         _taskservice.SaveIfDirty();
+        _allocationservice.SaveIfDirty();
+        _personservice.SaveIfDirty();
     }
     private void ListTasksMenu()
     {

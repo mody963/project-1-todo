@@ -6,7 +6,7 @@ class PersonService : IPersonService
     public PersonService(IPersonRepository repository)
     {
         _repository = repository;
-        _persons = new MyArrayList<Person>();
+        //_persons = new MyArrayList<Person>();
        // _persons = _repository.LoadTasks();
        _persons = _repository.LoadPerson();
     }
@@ -28,7 +28,6 @@ class PersonService : IPersonService
         var newPerson = new Person{ Id = newId, Name = name};
 
         _persons.Add(newPerson);
-        _repository.SavePerson(_persons);
     }
 
  
@@ -37,8 +36,11 @@ class PersonService : IPersonService
         if (_persons.TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var person))
         {
             _persons.Remove(person);
-            _repository.SavePerson(_persons);
         }
+    }
+    public void SaveIfDirty()
+    {
+        _repository.SaveIfDirty(_persons);
     }
 
 

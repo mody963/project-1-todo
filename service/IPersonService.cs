@@ -8,4 +8,5 @@ interface IPersonService
 
     //public void UpdatePerson(int id, string name);
     void RemovePerson(int id);
+    void SaveIfDirty();
 }
