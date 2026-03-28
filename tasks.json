@@ -27,15 +27,6 @@
     "CreationDate": "2026-03-01T12:02:38.648497+01:00"
   },
   {
-    "Id": 10,
-    "Description": "task10",
-    "Priority": "must have",
-    "dependant": null,
-    "Status": "completed",
-    "Completed": true,
-    "CreationDate": "2026-03-01T12:02:42.954344+01:00"
-  },
-  {
     "Id": 11,
     "Description": "task11",
     "Priority": "must have",
@@ -108,6 +99,23 @@
     "CreationDate": "2026-03-16T08:45:52.622538+01:00"
   },
   {
+    "Id": 21,
+    "Description": "newssss",
+    "Priority": "must have",
+    "dependant": {
+      "Id": 18,
+      "Description": "momo",
+      "Priority": "must have",
+      "dependant": null,
+      "Status": "to do",
+      "Completed": false,
+      "CreationDate": "2026-03-13T08:25:38.673509+01:00"
+    },
+    "Status": "to do",
+    "Completed": false,
+    "CreationDate": "2026-03-25T18:28:16.996325+01:00"
+  },
+  {
     "Id": 22,
     "Description": "savetas",
     "Priority": "must have",
@@ -127,44 +135,19 @@
   {
     "Id": 23,
     "Description": "test dependancy",
-    "Priority": "could have",
-    "dependant": {
-      "Id": 10,
-      "Description": "task10",
-      "Priority": "must have",
-      "dependant": null,
-      "Status": "completed",
-      "Completed": true,
-      "CreationDate": "2026-03-01T12:02:42.954344+01:00"
-    },
-    "Status": "to do",
+    "Priority": "should have",
+    "dependant": null,
+    "Status": "in progress",
     "Completed": false,
     "CreationDate": "2026-03-26T11:48:39.150661+01:00"
   },
   {
     "Id": 24,
-    "Description": "....",
-    "Priority": "must have",
-    "dependant": {
-      "Id": 5,
-      "Description": "momomom",
-      "Priority": "could have",
-      "dependant": null,
-      "Status": "completed",
-      "Completed": true,
-      "CreationDate": "2026-03-01T12:02:24.967821+01:00"
-    },
-    "Status": "to do",
-    "Completed": false,
-    "CreationDate": "2026-03-28T16:58:03.264864+01:00"
-  },
-  {
-    "Id": 25,
-    "Description": ";",
-    "Priority": "must have",
+    "Description": "test depandancy 2",
+    "Priority": "should have",
     "dependant": null,
     "Status": "to do",
     "Completed": false,
-    "CreationDate": "2026-03-28T17:23:22.413758+01:00"
+    "CreationDate": "2026-03-26T13:43:20.4530688+01:00"
   }
 ]

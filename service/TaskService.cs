@@ -66,9 +66,9 @@ class TaskService : ITaskService
         }
     }
 
-    public void UpdateDependantTask(int id, string description, string priority, string status)
+    public void UpdateDependantTask(TaskItem currenttask, int id, string description, string priority, string status)
     {
-        if (_tasks.TryFindBy(id, (item, key) => (item.dependant != null && item.dependant.Id == key) ? 0 : 1, out var task))
+        if (_tasks.TryFindBy(id, (item, key) => (item.dependant != null && item.dependant.Id == key && currenttask.Id == item.Id) ? 0 : 1, out var task))
         {
             task.dependant.Description = description;
             task.dependant.Priority = priority;
@@ -86,11 +86,19 @@ class TaskService : ITaskService
     //         _repository.SaveTasks(_tasks);
     //     }
     // }
-   public void RemoveTask(int id)
+    public void RemoveTask(int id)
     {
         if (_tasks.TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var task))
         {
             _tasks.Remove(task);
+        }
+    }
+
+    public void RemoveDependantTask(int id, TaskItem currenttask)
+    {
+        if (_tasks.TryFindBy(id, (item, key) => (item.dependant != null && item.dependant.Id == key && currenttask.Id == item.Id) ? 0 : 1, out var task))
+        {
+            task.dependant = null;
         }
     }
 
