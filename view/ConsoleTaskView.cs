@@ -235,6 +235,7 @@ class ConsoleTaskView : ITaskView
                     "Assign task",
                     "List Tasks",
                     "Filter Tasks",
+                    "Dependency Graph",
                     "Exit"
                 }));
             switch (option)
@@ -282,6 +283,9 @@ class ConsoleTaskView : ITaskView
                     break;
                 case "Filter Tasks":
                     FilterTasks.FiltersTasks(_taskservice.GetAllTasks());
+                    break;
+                case "Dependency Graph":
+                    DisplayDependencyGraph();
                     break;
                 case "Exit":
                     SaveIfNeeded();
@@ -690,5 +694,53 @@ class ConsoleTaskView : ITaskView
             return "[grey]Unassigned[/]";
 
         return result;
+    }
+
+
+
+    private void DisplayDependencyGraph()
+    {
+        Console.Clear();
+
+        var tasks = _taskservice.GetAllTasks();
+        var root = new Tree("[yellow]Task Dependency Graph[/]"); // het zit in spectre console zelf.
+
+        var iterator = tasks.GetIterator();
+
+        while (iterator.HasNext())
+        {
+            var task = iterator.Next();
+            if (task.dependant == null) // een task die op zichzelf nergens van dependant is. 
+            {
+                var node = root.AddNode(FormatTaskForGraph(task)); 
+                AddChildren(node, task, tasks, new MyArrayList<int>()); // recursive. 
+            }
+        }
+
+        AnsiConsole.Write(root);
+        AnsiConsole.MarkupLine("\n[grey]Press any key to return...[/]");
+        Console.ReadKey();
+    }
+
+    private void AddChildren(TreeNode parentNode, TaskItem parentTask, IMyCollection<TaskItem> allTasks, MyArrayList<int> algehad)
+    {
+        var iterator = allTasks.GetIterator();
+
+        while (iterator.HasNext())
+        {
+            var task = iterator.Next();
+
+            if (task.dependant != null && task.dependant.Id == parentTask.Id) // is het afhankelijk van parent task?
+            {
+                var childNode = parentNode.AddNode(FormatTaskForGraph(task));
+
+                AddChildren(childNode, task, allTasks, algehad); // childnode wordt nieuwe node om te zien wat de volgende dependancy is. 
+            }
+        }
+    }
+
+    private string FormatTaskForGraph(TaskItem t)
+    {
+        return $"[bold]#{t.Id}[/] {t.Description} ({FormatStatus(t.Status)})";
     }
 }
