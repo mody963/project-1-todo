@@ -460,8 +460,13 @@ class ConsoleTaskView : ITaskView
         while(it.HasNext())
         {
             Person person = it.Next();
-            _allocationservice.UpdateAllocations(Task, person, description, priority, status);
-            _allocationservice.UpdateDependantAllocations(Task, person, description, priority, status);
+            var iterator = _taskservice.GetAllTasks().GetIterator();
+            while(iterator.HasNext())
+            {
+                TaskItem item = iterator.Next();
+                _allocationservice.UpdateAllocations(Task, person, description, priority, status);
+                _allocationservice.UpdateDependantAllocations(Task, item, person, description, priority, status);
+            }
         }
     }
 
@@ -477,18 +482,32 @@ class ConsoleTaskView : ITaskView
     
     private void Remove()
     {
-        TaskItem task = ChooseTasks(GetUserTasks());
+        IMyCollection<TaskItem> tasks = GetNonDependantTasks(GetUserTasks());
+        TaskItem task = ChooseTasks(tasks);
         if(task == null)
         {
             return;
         }
-        _taskservice.RemoveTask(task.Id);
+        var iterator = _taskservice.GetAllTasks().GetIterator();
+        while(iterator.HasNext())
+        {
+            TaskItem item = iterator.Next();
+            _taskservice.RemoveDependantTask(task.Id, item);
+        }
         IMyCollection<Person> people = _personservice.GetAllPersons();
         var it = people.GetIterator();
         while(it.HasNext())
         {
-            _allocationservice.RemoveAllocation(task, it.Next());
+            Person person = it.Next();
+            var iterator2 = _taskservice.GetAllTasks().GetIterator();
+            while(iterator2.HasNext())
+            {
+                TaskItem item = iterator2.Next();
+                _allocationservice.RemoveAllocation(task, person);
+                _allocationservice.RemoveDependantAllocations(item, person, task.Id);
+            }
         }
+        _taskservice.RemoveTask(task.Id);
     }
     
     private void UpdateTask()
@@ -509,18 +528,24 @@ class ConsoleTaskView : ITaskView
 
     private void ToggleTaskCompletion()
     {
-        TaskItem toggleTask = ChooseTasks(GetUserTasks());
+        IMyCollection<TaskItem> tasks = GetNonDependantTasks(GetUserTasks());
+        TaskItem toggleTask = ChooseTasks(tasks);
         if(toggleTask == null)
         {
             return;
         }
-        _taskservice.ToggleTaskCompletion(toggleTask.Id);
-        IMyCollection<Person> allPeople = _personservice.GetAllPersons();
-        var iterator = allPeople.GetIterator();
-        while(iterator.HasNext())
+        string status;
+        if(toggleTask.Status != "completed")
         {
-            _allocationservice.RemoveAllocation(toggleTask, iterator.Next());
+            status = "completed";
         }
+        else
+        {
+            status = "to do";
+        }
+        UpdateAllocations(toggleTask, toggleTask.Description, toggleTask.Priority, status);
+        UpdateDependantTask(toggleTask.Id, toggleTask.Description, toggleTask.Priority, status);
+        _taskservice.ToggleTaskCompletion(toggleTask.Id);
     }
 
     private void AssignMenu()
