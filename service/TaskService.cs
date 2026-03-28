@@ -86,11 +86,19 @@ class TaskService : ITaskService
     //         _repository.SaveTasks(_tasks);
     //     }
     // }
-   public void RemoveTask(int id)
+    public void RemoveTask(int id)
     {
         if (_tasks.TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var task))
         {
             _tasks.Remove(task);
+        }
+    }
+
+    public void RemoveDependantTask(int id, TaskItem currenttask)
+    {
+        if (_tasks.TryFindBy(id, (item, key) => (item.dependant != null && item.dependant.Id == key && currenttask.Id == item.Id) ? 0 : 1, out var task))
+        {
+            task.dependant = null;
         }
     }
 
