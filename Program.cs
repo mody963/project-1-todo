@@ -12,6 +12,8 @@
         ICollectionFactory<Task_Allocation> allocationFactory = new MyArrayListFactory<Task_Allocation>();
 
 
+        // hierin ervoor zorgen stel dat jekrijgt dat het ll is dan linked list implemeten enz. 
+
         ITaskRepository repository = new TaskRepository(filePath, taskFactory);
         IPersonRepository repository2 = new PersonRepository(filePath2, personFactory);
         IAllocationRepository repository3 = new AllocationRepository(filePath3, allocationFactory);
