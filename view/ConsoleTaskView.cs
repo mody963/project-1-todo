@@ -56,7 +56,7 @@ class ConsoleTaskView : ITaskView
                 GetAssignedPersonName(t.Id),
                 t.CreationDate.ToString("g")
             );
-        }
+        } // provide trigger for next page.
 
         AnsiConsole.Write(table);
         AnsiConsole.MarkupLine("\n[grey]Press any key to return...[/]");
