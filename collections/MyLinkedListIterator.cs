@@ -6,7 +6,7 @@ class MyLinkedListIterator<T> : IMyIterator<T>
     public MyLinkedListIterator(MyLinkedList<T>.Node? head) // gebruik maken van de node in andere class alleen deze wil je natuurlijk niet opnieuw hoeven maken. 
     {
         _head = head; // allee head nodig want die refereerd naar de rest sws toe. 
-        _current = null;
+        _current = null; // je begint altijd bij null omdat je eerst kijkt of de head wel meer heeft en daarna ga je pas bij next kijken. 
     }
 
     public bool HasNext()

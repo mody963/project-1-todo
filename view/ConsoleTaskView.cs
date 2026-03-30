@@ -712,7 +712,7 @@ class ConsoleTaskView : ITaskView
             var task = iterator.Next();
             if (task.dependant == null) // een task die op zichzelf nergens van dependant is. 
             {
-                var node = root.AddNode(FormatTaskForGraph(task)); 
+                var node = root.AddNode(FormatTaskForGraph(task)); // spectre console build in functions. 
                 AddChildren(node, task, tasks, new MyArrayList<int>()); // recursive. 
             }
         }

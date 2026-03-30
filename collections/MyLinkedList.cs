@@ -6,7 +6,7 @@ class MyLinkedList<T>: IMyCollection<T>
 
 
     // internal betekent dat het alleen binnen dezelfde map gebruikt kan worden. geen internal meer nodig toestemming docent. 
-    public class Node // reden wrm is omdat my linked list iterator het nodig had. 
+    public class Node 
     {
         // data
         public T Data;
@@ -30,15 +30,17 @@ class MyLinkedList<T>: IMyCollection<T>
     private int _count;
     public int Count => _count;
 
+    public bool Dirty { get; private set; }
+
     public void ResetDirty()
     {
         Dirty = false;
     }
-    // public int Count => _count;
     // what does dirty do?
+    // dirty is een boolean die aangeeft of er iets veranderd is aan de linked list sinds de laatste keer dat het opgeslagen is.
     // deserialization is wnr je de list afleest en het dan in een json file gaat zetten. 
 
-    public bool Dirty { get; private set; }
+    
 
     // je moet ook de keuzen krijgen om een legen linked list aan te maken. 
     public MyLinkedList()
@@ -260,24 +262,25 @@ class MyLinkedList<T>: IMyCollection<T>
 
 
     // gebruik gemaakt van bubblesort. 
-    public void Sort(Comparison<T> comparison)
+    public void Sort(Comparison<T> comparison)  // > than 0 first is larger, 0= the same < 0 first is smaller.
     {
         if (comparison == null)
         throw new ArgumentNullException(nameof(comparison));
 
-        if (_head == null || _head.Next == null)
+        if (_head == null || _head.Next == null) // check if already sorted or empty.
             return;
 
-        bool swapped; 
 
+
+        bool swapped; 
         do
         {
             swapped = false;
-            Node? current = _head;
+            Node current = _head;
 
             while (current.Next != null)
             {
-                if (comparison(current.Data, current.Next.Data) > 0)
+                if (comparison(current.Data, current.Next.Data) > 0) // if current groter dan next dan en dus niet gelijk aan of kleiner dan dn sort. 
                 {
                     // swap data
                     T temp = current.Data;
