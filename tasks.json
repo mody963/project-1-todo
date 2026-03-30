@@ -165,14 +165,5 @@
     "Status": "to do",
     "Completed": false,
     "CreationDate": "2026-03-30T12:14:32.7688587+02:00"
-  },
-  {
-    "Id": 26,
-    "Description": "d",
-    "Priority": "could have",
-    "dependant": null,
-    "Status": "to do",
-    "Completed": false,
-    "CreationDate": "2026-03-30T13:50:27.1991754+02:00"
   }
 ]
