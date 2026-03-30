@@ -7,29 +7,29 @@
         string filepath_persons = "Persons.json";
         string filepath_allocations = "Allocations.json";
         //collection
-        ICollectionFactory<TaskItem> taskFactory;
-        ICollectionFactory<Person> personFactory;
-        ICollectionFactory<Task_Allocation> allocationFactory;
+        ICollectionFactory<TaskItem> taskFactory = new MyArrayListFactory<TaskItem>();
+        ICollectionFactory<Person> personFactory = new MyArrayListFactory<Person>();
+        ICollectionFactory<Task_Allocation> allocationFactory = new MyArrayListFactory<Task_Allocation>();
 
-        switch(args[0])
-        {
-            case "arraylist":
-                taskFactory = new MyArrayListFactory<TaskItem>();
-                personFactory = new MyArrayListFactory<Person>();
-                allocationFactory = new MyArrayListFactory<Task_Allocation>();
-                break;
-            case "linkedlist":
-                taskFactory = new MyLinkedListFactory<TaskItem>();
-                personFactory = new MyLinkedListFactory<Person>();
-                allocationFactory = new MyLinkedListFactory<Task_Allocation>();
-                break;
-            default:
-                Console.WriteLine("Invalid collection type specified. Defaulting to ArrayList.");
-                taskFactory = new MyArrayListFactory<TaskItem>();
-                personFactory = new MyArrayListFactory<Person>();
-                allocationFactory = new MyArrayListFactory<Task_Allocation>();
-                break;
-        }
+        // switch(args[0])
+        // {
+        //     case "arraylist":
+        //         taskFactory = new MyArrayListFactory<TaskItem>();
+        //         personFactory = new MyArrayListFactory<Person>();
+        //         allocationFactory = new MyArrayListFactory<Task_Allocation>();
+        //         break;
+        //     case "linkedlist":
+        //         taskFactory = new MyLinkedListFactory<TaskItem>();
+        //         personFactory = new MyLinkedListFactory<Person>();
+        //         allocationFactory = new MyLinkedListFactory<Task_Allocation>();
+        //         break;
+        //     default:
+        //         Console.WriteLine("Invalid collection type specified. Defaulting to ArrayList.");
+        //         taskFactory = new MyArrayListFactory<TaskItem>();
+        //         personFactory = new MyArrayListFactory<Person>();
+        //         allocationFactory = new MyArrayListFactory<Task_Allocation>();
+        //         break;
+        // }
 
         ITaskRepository repository = new TaskRepository(filepath_task, taskFactory);
         IPersonRepository repository2 = new PersonRepository(filepath_persons, personFactory);
