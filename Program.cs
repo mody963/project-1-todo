@@ -12,7 +12,8 @@ class Program
     static void Main(string[] args)
     {
         // Dependency injection: wiring up our components
-        string FilePath_Tasks = "tasks.json";
+        // Program.cs wijziging
+        string FilePath_Tasks = "jsontasks"; // Dit is nu de mapnaam
         string FilePath_Persons = "Persons.json";
         string FilePath_Allocations = "Allocations.json";
 

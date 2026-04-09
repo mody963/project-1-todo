@@ -1,18 +1,18 @@
-class TaskRepository : ITaskRepository
-{
-    private readonly JsonRepository<TaskItem> _repo;
+// class TaskRepository : ITaskRepository
+// {
+//     private readonly JsonRepository<TaskItem> _repo;
 
-    public TaskRepository(string path, ICollectionFactory<TaskItem> factory)
-    {
-        _repo = new JsonRepository<TaskItem>(path, factory);
-    }
+//     public TaskRepository(string path, ICollectionFactory<TaskItem> factory)
+//     {
+//         _repo = new JsonRepository<TaskItem>(path, factory);
+//     }
 
-    public IMyCollection<TaskItem> LoadTasks() => _repo.Load();
+//     public IMyCollection<TaskItem> LoadTasks() => _repo.Load();
 
-    public void SaveTasks(IMyCollection<TaskItem> tasks) => _repo.Save(tasks);
+//     public void SaveTasks(IMyCollection<TaskItem> tasks) => _repo.Save(tasks);
 
-    public void SaveIfDirty(IMyCollection<TaskItem> tasks) => _repo.SaveIfDirty(tasks);
-}
+//     public void SaveIfDirty(IMyCollection<TaskItem> tasks) => _repo.SaveIfDirty(tasks);
+// }
 
 class PersonRepository : IPersonRepository
 {
@@ -46,3 +46,5 @@ class AllocationRepository : IAllocationRepository
 
     public void SaveIfDirty(IMyCollection<Task_Allocation> allocations) => _repo.SaveIfDirty(allocations);
 }
+
+
