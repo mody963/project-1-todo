@@ -1,3 +1,6 @@
+// Aimee
+
+
 class MyLinkedListIterator<T> : IMyIterator<T>
 {
     private MyLinkedList<T>.Node? _head;

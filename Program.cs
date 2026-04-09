@@ -1,5 +1,14 @@
-﻿class Program
+﻿// Aimee
+
+using Spectre.Console;
+
+class Program
 {
+// Wanneer je dotnet run gebruikt, moet je de argumenten doorgeven na een dubbel koppelteken --. 
+// Dit vertelt de .NET CLI dat de argumenten niet voor de compiler zijn, maar voor jouw programma:
+// Voor de Linked List: dotnet run -- ll
+// Voor de Array List: dotnet run -- al 
+// enz enz. 
     static void Main(string[] args)
     {
         // Dependency injection: wiring up our components
@@ -14,42 +23,50 @@
         ICollectionFactory<Task_Allocation> allocationFactory;
 
 
+        // kijken of er een value wordt mee gegeven wat dan de bijbehorende collectie is. 
+        string collectionType = (args.Length > 0) ? args[0].ToLower() : "al";
+
+
         // hierin ervoor zorgen stel dat jekrijgt dat het ll is dan linked list implemeten enz. 
-        if (args.Length > 0)
+        switch (collectionType)
         {
-            string collectionType = args[0].ToLower();
-            switch (collectionType)
-            {
-                case "arraylist":
-                    taskFactory = new MyArrayListFactory<TaskItem>();
-                    personFactory = new MyArrayListFactory<Person>();
-                    allocationFactory = new MyArrayListFactory<Task_Allocation>();
-                    break;
-                case "linkedlist":
-                    taskFactory = new MyLinkedListFactory<TaskItem>();
-                    personFactory = new MyLinkedListFactory<Person>();
-                    allocationFactory = new MyLinkedListFactory<Task_Allocation>();
-                    break;
-                default:
-                    Console.WriteLine("Unknown collection type specified. Defaulting to ArrayList.");
-                    taskFactory = new MyArrayListFactory<TaskItem>();
-                    personFactory = new MyArrayListFactory<Person>();
-                    allocationFactory = new MyArrayListFactory<Task_Allocation>();
-                    break;
-            }
+            case "ll":
+                Console.WriteLine("[INFO] Modus: Linked List");
+                taskFactory = new MyLinkedListFactory<TaskItem>();
+                personFactory = new MyLinkedListFactory<Person>();
+                allocationFactory = new MyLinkedListFactory<Task_Allocation>();
+                break;
+            // als het fout gaat dan als default array list gebruiken.
+            case "al":
+            default:
+                Console.WriteLine("[INFO] Modus: Array List");
+                taskFactory = new MyArrayListFactory<TaskItem>();
+                personFactory = new MyArrayListFactory<Person>();
+                allocationFactory = new MyArrayListFactory<Task_Allocation>();
+                break;
+        
         }
-        ITaskRepository repository = new TaskRepository(FilePath_Tasks, taskFactory);
-        IPersonRepository repository2 = new PersonRepository(FilePath_Persons, personFactory);
-        IAllocationRepository repository3 = new AllocationRepository(FilePath_Allocations, allocationFactory);
 
+        // repositorys. 
+        ITaskRepository taskRepo = new TaskRepository(FilePath_Tasks, taskFactory);
+        IPersonRepository personRepo = new PersonRepository(FilePath_Persons, personFactory);   
+        IAllocationRepository allocationRepo = new AllocationRepository(FilePath_Allocations, allocationFactory);
 
-        ITaskService service = new TaskService(repository);
-        IPersonService service2 = new PersonService(repository2);
-        IAllocationService service3 = new AllocationService(repository3);
+        //de Services
+        ITaskService taskService = new TaskService(taskRepo);
+        IPersonService personService = new PersonService(personRepo);
+        IAllocationService allocationService = new AllocationService(allocationRepo);
 
-
-        ITaskView view = new ConsoleTaskView(service, service2, service3);
-        // Run the view
-        view.Run();
+        // 6. View opstarten
+        ITaskView view = new ConsoleTaskView(taskService, personService, allocationService);
+        
+        try 
+        {
+            view.Run();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"fix dit stuk: {ex.Message}");
+        }
     }
 }
