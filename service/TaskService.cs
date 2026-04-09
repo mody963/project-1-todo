@@ -33,16 +33,45 @@ class TaskService : ITaskService
     //     _tasks.Add(newTask);
     //     _repository.SaveTasks(_tasks);
     // }
+    // public void AddTask(string description, string priority, TaskItem chosenTask)
+    // {
+    //     int newId = 1;
+    //     var iterator = _tasks.GetIterator();
+    //     while (iterator.HasNext())
+    //     {
+    //         var task = iterator.Next();
+    //         if (task.Id >= newId)
+    //             newId = task.Id + 1;
+    //     }
+    //     var newTask = new TaskItem
+    //     {
+    //         Id = newId,
+    //         Description = description,
+    //         Priority = priority,
+    //         Status = "to do",
+    //         CreationDate = DateTime.Now,
+    //         dependant = chosenTask
+    //     };
+
+    //     _tasks.Add(newTask);
+    // }
+
+
+    // Aimee
     public void AddTask(string description, string priority, TaskItem chosenTask)
     {
         int newId = 1;
         var iterator = _tasks.GetIterator();
+        
         while (iterator.HasNext())
         {
             var task = iterator.Next();
             if (task.Id >= newId)
-                newId = task.Id + 1;
+            {
+                newId = task.Id + 1; // om te kijken welke id's er al gebruikt zijn zodat het nooit dubbele id heeft. 
+            }
         }
+
         var newTask = new TaskItem
         {
             Id = newId,
@@ -54,8 +83,8 @@ class TaskService : ITaskService
         };
 
         _tasks.Add(newTask);
+        SaveIfDirty();
     }
-
     public void UpdateTask(int id, string description, string priority, string status)
     {
         if (_tasks.TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var task))

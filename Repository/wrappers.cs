@@ -13,6 +13,80 @@
 
 //     public void SaveIfDirty(IMyCollection<TaskItem> tasks) => _repo.SaveIfDirty(tasks);
 // }
+using System.Text.Json;
+// Aimee
+class TaskRepository : ITaskRepository
+{
+    private readonly string _directoryPath;
+    private readonly ICollectionFactory<TaskItem> _factory;
+
+    public TaskRepository(string path, ICollectionFactory<TaskItem> factory)
+    {
+        _directoryPath = path;
+        _factory = factory;
+        if (!Directory.Exists(_directoryPath))
+        {
+            Directory.CreateDirectory(_directoryPath);
+        }
+    }
+
+    public IMyCollection<TaskItem> LoadTasks()
+    {
+        var collection = _factory.Create();
+        
+        // Zoek alle .json bestanden in de map
+        var files = Directory.GetFiles(_directoryPath, "*.json");
+
+        foreach (var file in files)
+        {
+            try 
+            {
+                string jsonString = File.ReadAllText(file);
+                var task = JsonSerializer.Deserialize<TaskItem>(jsonString);
+                if (task != null)
+                {
+                    collection.Add(task);
+                }
+            }
+            catch 
+            {
+                Console.WriteLine($"[ERROR] Fout bij het laden van bestand: {file}");
+            }
+        }
+        return collection;
+    }
+
+    public void SaveTasks(IMyCollection<TaskItem> tasks)
+    {
+        var existingFiles = Directory.GetFiles(_directoryPath, "*.json");
+        foreach (var file in existingFiles) File.Delete(file);
+
+        var iterator = tasks.GetIterator();
+        while (iterator.HasNext())
+        {
+            var task = iterator.Next();
+
+            string safeDescription = string.Concat(task.Description.Split(Path.GetInvalidFileNameChars())).Replace(" ", "_");
+            string fileName = $"{task.Id}_{safeDescription}.json";
+        
+            string filePath = Path.Combine(_directoryPath, fileName);
+            string jsonString = JsonSerializer.Serialize(task, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(filePath, jsonString);
+        }
+    }
+
+    public void SaveIfDirty(IMyCollection<TaskItem> tasks)
+    {
+        if (tasks.Dirty)
+        {
+            SaveTasks(tasks);
+            tasks.ResetDirty();
+        }
+    }
+}
+
+
+// iemand anders 
 
 class PersonRepository : IPersonRepository
 {
