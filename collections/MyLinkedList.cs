@@ -1,4 +1,7 @@
 // find should find, delete should only delete so find is an helper method. 
+// Aimee
+
+
 
 class MyLinkedList<T>: IMyCollection<T>
 {
