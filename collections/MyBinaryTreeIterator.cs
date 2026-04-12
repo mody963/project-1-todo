@@ -23,6 +23,10 @@ class MyBinaryTreeIterator<T> : IMyIterator<T> where T : IComparable<T>
         {
             return false;
         }
+        if(value == _current)
+        {
+            return false;
+        }
         
         return true;
     }
@@ -66,12 +70,12 @@ class MyBinaryTreeIterator<T> : IMyIterator<T> where T : IComparable<T>
 
         while (ancestor != null)
         {
-            if (root.Value.CompareTo(target.Value) == 1)
+            if (target.Value.CompareTo(ancestor.Value) < 0)
             {
                 successor = ancestor; // potential successor
                 ancestor = ancestor.Left;
             }
-            else if (root.Value.CompareTo(target.Value) == -1)
+            else if (target.Value.CompareTo(ancestor.Value) > 0)
             {
                 ancestor = ancestor.Right;
             }

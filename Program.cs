@@ -36,6 +36,12 @@ class Program
                 personFactory = new MyLinkedListFactory<Person>();
                 allocationFactory = new MyLinkedListFactory<Task_Allocation>();
                 break;
+            case "bt":
+                Console.WriteLine("[INFO] Modus: Binary Tree");
+                taskFactory = new MyBinaryTreeFactory<TaskItem>();
+                personFactory = new MyBinaryTreeFactory<Person>();
+                allocationFactory = new MyBinaryTreeFactory<Task_Allocation>();
+                break;
             // als het fout gaat dan als default array list gebruiken.
             case "al":
             default:

@@ -34,11 +34,6 @@ public class MyBinaryTree<T>: IMyCollection<T> where T : IComparable<T>
     {
     }
     
-
-    // uiteindelijk ook de keuzen om een gevulde linked list aan te maken. 
-    // public LinkedList(hoeveel items en de items zelf)
-    // kijken of hoeveelheid items null is zo ja dan argument exception.
-    // via de add de items toevoegen. 
     public MyBinaryTree(IMyCollection<T>? CollectionYouWantToAdd)
     {
         ArgumentNullException.ThrowIfNull(CollectionYouWantToAdd);
@@ -54,6 +49,10 @@ public class MyBinaryTree<T>: IMyCollection<T> where T : IComparable<T>
     // Insert a value into the MyBinaryTree
     public void Add(T value)
     {
+        if(value == null)
+        {
+            throw new ArgumentNullException(nameof(value), "Cannot insert null value.");
+        }
         Root = InsertRec(Root, value);
         _count++;
         Dirty = true;
@@ -64,9 +63,9 @@ public class MyBinaryTree<T>: IMyCollection<T> where T : IComparable<T>
         if (root == null)
             return new Node(value);
 
-        if (root.Value.CompareTo(value) == 1)
+        if (root.Value.CompareTo(value) > 0)
             root.Left = InsertRec(root.Left, value);
-        else if (root.Value.CompareTo(value) == -1)
+        else if (root.Value.CompareTo(value) < 0)
             root.Right = InsertRec(root.Right, value);
 
         return root;
@@ -154,9 +153,9 @@ public class MyBinaryTree<T>: IMyCollection<T> where T : IComparable<T>
     {
         if (root == null) return null;
 
-        if (root.Value.CompareTo(value) == 1)
+        if (root.Value.CompareTo(value) > 0)
             root.Left = RemoveRecursive(root.Left, value);
-        else if (root.Value.CompareTo(value) == -1)
+        else if (root.Value.CompareTo(value) < 0)
             root.Right = RemoveRecursive(root.Right, value);
         else
         {
@@ -384,12 +383,12 @@ public class MyBinaryTree<T>: IMyCollection<T> where T : IComparable<T>
 
         while (ancestor != null)
         {
-            if (root.Value.CompareTo(target.Value) == 1)
+            if (root.Value.CompareTo(target.Value) > 0)
             {
                 successor = ancestor; // potential successor
                 ancestor = ancestor.Left;
             }
-            else if (root.Value.CompareTo(target.Value) == -1)
+            else if (root.Value.CompareTo(target.Value) < 0)
             {
                 ancestor = ancestor.Right;
             }

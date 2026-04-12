@@ -12,3 +12,8 @@ public class MyLinkedListFactory<T> : ICollectionFactory<T>
 {
     public IMyCollection<T> Create() => new MyLinkedList<T>();
 }
+
+public class MyBinaryTreeFactory<T> : ICollectionFactory<T> where T : IComparable<T>
+{
+    public IMyCollection<T> Create() => new MyBinaryTree<T>();
+}
