@@ -44,7 +44,12 @@ class Program
                 personFactory = new MyArrayListFactory<Person>();
                 allocationFactory = new MyArrayListFactory<Task_Allocation>();
                 break;
-        
+            case "hm":
+                Console.WriteLine("[INFO] Modus: HashMap");
+                taskFactory = new MyHashMapFactory<TaskItem>();
+                personFactory = new MyHashMapFactory<Person>();
+                allocationFactory = new MyHashMapFactory<Task_Allocation>();
+                break;     
         }
 
         // repositorys. 
