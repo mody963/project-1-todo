@@ -18,9 +18,9 @@ class Program
 
 
         //collection
-        ICollectionFactory<TaskItem> taskFactory;
-        ICollectionFactory<Person> personFactory;
-        ICollectionFactory<Task_Allocation> allocationFactory;
+        ICollectionFactory<TaskItem> taskFactory = new MyArrayListFactory<TaskItem>();
+        ICollectionFactory<Person> personFactory = new MyArrayListFactory<Person>();
+        ICollectionFactory<Task_Allocation> allocationFactory = new MyArrayListFactory<Task_Allocation>();
 
 
         // kijken of er een value wordt mee gegeven wat dan de bijbehorende collectie is. 
@@ -50,7 +50,12 @@ class Program
                 personFactory = new MyArrayListFactory<Person>();
                 allocationFactory = new MyArrayListFactory<Task_Allocation>();
                 break;
-        
+            case "hm":
+                Console.WriteLine("[INFO] Modus: HashMap");
+                taskFactory = new MyHashMapFactory<TaskItem>();
+                personFactory = new MyHashMapFactory<Person>();
+                allocationFactory = new MyHashMapFactory<Task_Allocation>();
+                break;     
         }
 
         // repositorys. 
