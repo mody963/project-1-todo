@@ -1,5 +1,3 @@
-// Node definition
-
 using Spectre.Console;
 
 public class MyBinaryTree<T>: IMyCollection<T> where T : IComparable<T>
