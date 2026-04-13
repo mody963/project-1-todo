@@ -58,18 +58,16 @@ class TaskRepository : ITaskRepository
 
     public void SaveTasks(IMyCollection<TaskItem> tasks)
     {
-        var existingFiles = Directory.GetFiles(_directoryPath, "*.json");
-        foreach (var file in existingFiles) File.Delete(file);
-
         var iterator = tasks.GetIterator();
         while (iterator.HasNext())
         {
             var task = iterator.Next();
-
-            string safeDescription = string.Concat(task.Description.Split(Path.GetInvalidFileNameChars())).Replace(" ", "_");
-            string fileName = $"{task.Id}_{safeDescription}.json";
-        
+            
+            // Gebruik Regex om de bestandsnaam veilig te maken (net als in de generator)
+            string safeDesc = System.Text.RegularExpressions.Regex.Replace(task.Description, @"[^a-zA-Z0-9]", "_");
+            string fileName = $"{task.Id}_{safeDesc}.json";
             string filePath = Path.Combine(_directoryPath, fileName);
+
             string jsonString = JsonSerializer.Serialize(task, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(filePath, jsonString);
         }
@@ -79,7 +77,16 @@ class TaskRepository : ITaskRepository
     {
         if (tasks.Dirty)
         {
+            if (Directory.Exists(_directoryPath))
+            {
+                var existingFiles = Directory.GetFiles(_directoryPath, "*.json");
+                foreach (var file in existingFiles)
+                {
+                    File.Delete(file);
+                }
+            }
             SaveTasks(tasks);
+            
             tasks.ResetDirty();
         }
     }
