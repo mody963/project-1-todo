@@ -1,5 +1,6 @@
 using System.Text.Json;
-class JsonRepository<T> where T : IEquatable<T>
+
+class JsonRepository<T> : IJsonRepository<T> where T : IEquatable<T>
 {
     private readonly string _filePath;
     private readonly ICollectionFactory<T> _factory;
@@ -45,3 +46,6 @@ class JsonRepository<T> where T : IEquatable<T>
        
     }
 }
+
+
+/*.   */

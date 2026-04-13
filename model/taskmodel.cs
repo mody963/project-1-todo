@@ -1,4 +1,4 @@
-public class TaskItem : IEquatable<TaskItem> 
+public class TaskItem : IEquatable<TaskItem>, IComparable<TaskItem>
 {
     public int Id { get; set; }
     public required string Description { get; set; }
@@ -27,5 +27,13 @@ public class TaskItem : IEquatable<TaskItem>
     public bool Equals(TaskItem? other) => other is not null && other.Id == Id;
 
     public override bool Equals(object? obj) => Equals(obj as TaskItem);
+
+    public int CompareTo(TaskItem other)
+    {
+        if (other == null) return 1; // Current object is greater than null
+
+        // Compare salaries (ascending order)
+        return this.Id.CompareTo(other.Id);
+    }
 
 }
