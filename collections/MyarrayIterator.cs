@@ -1,3 +1,4 @@
+// mo
 public class MyArrayIterator<T> : IMyIterator<T>
 {
     private readonly T[] _items;

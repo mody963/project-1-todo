@@ -1,3 +1,5 @@
+// mo
+
 public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
 {
     private T[] _items;

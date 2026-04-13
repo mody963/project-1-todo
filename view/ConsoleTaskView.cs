@@ -62,8 +62,6 @@ class ConsoleTaskView : ITaskView
         AnsiConsole.MarkupLine("\n[grey]Press any key to return...[/]");
         Console.ReadKey();
     }
-
-
     private TaskItem ChooseTasks(IMyCollection<TaskItem> tasks)
     {
         Console.Clear();
@@ -532,6 +530,7 @@ class ConsoleTaskView : ITaskView
         _taskservice.UpdateTask(Task.Id, description, priority, status);
     }
 
+    // 
     private void ToggleTaskCompletion()
     {
         IMyCollection<TaskItem> tasks = GetNonDependantTasks(GetUserTasks());

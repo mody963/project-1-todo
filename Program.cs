@@ -1,5 +1,4 @@
 ﻿// Aimee
-
 class Program
 {
 // Wanneer je dotnet run gebruikt, moet je de argumenten doorgeven na een dubbel koppelteken --. 

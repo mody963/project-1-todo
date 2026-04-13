@@ -1,3 +1,5 @@
+// mo
+
 public class MyHashMap<TKey, TValue> : IMyCollection<KeyValuePair<TKey, TValue>>
 {
     private MyLinkedList<KeyValuePair<TKey, TValue>>[] _buckets;
