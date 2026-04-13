@@ -160,6 +160,7 @@ public class MyBinaryTree<T>: IMyCollection<T> where T : IComparable<T>
         else
         {
             // Node found
+            _count--;
             if (root.Left == null) return root.Right;
             if (root.Right == null) return root.Left;
 
