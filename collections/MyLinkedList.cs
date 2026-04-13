@@ -176,7 +176,7 @@ class MyLinkedList<T>: IMyCollection<T>
         if (_head == null ||_head.Data == null || item == null)
         return;
 
-        if (_head.Data.Equals(item))
+        if (_head.Data.Equals(item))// use something else since it is reference data do the find by id. 
         {
             _head = _head.Next;
             if (_head != null)
