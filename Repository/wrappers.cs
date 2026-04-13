@@ -62,11 +62,14 @@ class TaskRepository : ITaskRepository
         while (iterator.HasNext())
         {
             var task = iterator.Next();
-            
-            // Gebruik Regex om de bestandsnaam veilig te maken (net als in de generator)
             string safeDesc = System.Text.RegularExpressions.Regex.Replace(task.Description, @"[^a-zA-Z0-9]", "_");
+            // Bestandsnamen mogen vaak geen spaties of speciale tekens bevatten. 
+            // Deze regel vervangt alles wat geen letter of cijfer is door een underscore (_). 
+            // "Was de ramen!" wordt dan "Was_de_ramen_".
+
             string fileName = $"{task.Id}_{safeDesc}.json";
             string filePath = Path.Combine(_directoryPath, fileName);
+            // combineerd de map en de bestandnaam tot een afleesbaar pasd. 
 
             string jsonString = JsonSerializer.Serialize(task, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(filePath, jsonString);
