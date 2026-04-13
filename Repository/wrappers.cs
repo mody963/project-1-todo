@@ -96,7 +96,7 @@ class TaskRepository : ITaskRepository
 }
 
 
-// iemand anders 
+// mo
 
 class PersonRepository : IPersonRepository
 {

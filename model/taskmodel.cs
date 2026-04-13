@@ -1,3 +1,5 @@
+// fernando
+
 public class TaskItem : IEquatable<TaskItem>, IComparable<TaskItem>
 {
     public int Id { get; set; }

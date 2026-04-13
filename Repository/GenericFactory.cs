@@ -1,4 +1,4 @@
-
+// mo
 public interface ICollectionFactory<T>
 {
     IMyCollection<T> Create();

@@ -1,3 +1,5 @@
+// fernando
+
 public class Person : IEquatable<Person>, IComparable<Person>
 {
     public int Id{get; set;}
@@ -8,6 +10,8 @@ public class Person : IEquatable<Person>, IComparable<Person>
     //     Id = id;
     //     Name = name;
     // }
+
+    // aimee
     public bool Equals(Person? other) => other is not null && other.Id == Id;
 
     public override bool Equals(object? obj) => Equals(obj as Person);
