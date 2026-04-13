@@ -554,6 +554,7 @@ class ConsoleTaskView : ITaskView
         _taskservice.ToggleTaskCompletion(toggleTask.Id);
     }
 
+    // fernando 
     private void AssignMenu()
     {
         while (true)
@@ -586,6 +587,7 @@ class ConsoleTaskView : ITaskView
         }
     }
 
+    // fernando
     private void Assigntask()
     {
         Console.Clear();
@@ -611,6 +613,7 @@ class ConsoleTaskView : ITaskView
         }  
     }
 
+    // fernando
     private void UnAssigntask()
     {
         Console.Clear();
@@ -621,6 +624,7 @@ class ConsoleTaskView : ITaskView
         }
     }
 
+    // mo
     private string FormatPriority(string priority)
     {
         switch (priority)
@@ -635,6 +639,8 @@ class ConsoleTaskView : ITaskView
                 return priority;
         }
     }
+
+    // mo
     private string FormatStatus(string status)
     {
         switch (status)
@@ -649,6 +655,7 @@ class ConsoleTaskView : ITaskView
                 return status;
         }
     }
+    // fernando
     private void SelectPerson()
     {
         // _personservice.AddPerson("Fernando");
@@ -670,6 +677,8 @@ class ConsoleTaskView : ITaskView
 
         AnsiConsole.MarkupLine($"[green]Welcome, {selected.Name}![/]");
     }
+
+    // mo
     private string GetAssignedPersonName(int taskId)
     {
         var allocations = _allocationservice.GetAllAllocations();
@@ -697,7 +706,7 @@ class ConsoleTaskView : ITaskView
     }
 
 
-
+    // Aimee
     private void DisplayDependencyGraph()
     {
         Console.Clear();
@@ -721,7 +730,7 @@ class ConsoleTaskView : ITaskView
         AnsiConsole.MarkupLine("\n[grey]Press any key to return...[/]");
         Console.ReadKey();
     }
-
+    // Aimee
     private void AddChildren(TreeNode parentNode, TaskItem parentTask, IMyCollection<TaskItem> allTasks, MyArrayList<int> algehad)
     {
         var iterator = allTasks.GetIterator();
@@ -738,7 +747,7 @@ class ConsoleTaskView : ITaskView
             }
         }
     }
-
+    // Aimee
     private string FormatTaskForGraph(TaskItem t)
     {
         return $"[bold]#{t.Id}[/] {t.Description} ({FormatStatus(t.Status)})";

@@ -14,6 +14,8 @@ public static class FilterTasks
         PriorityRanking.Add(("should have", 2));
         PriorityRanking.Add(("could have", 1));
     }
+
+    // Aimee
     public static void FiltersTasks(IMyCollection<TaskItem> tasks)
     {
         while (true)
@@ -54,6 +56,7 @@ public static class FilterTasks
             }
         }
     }
+    // aimee
     private static IMyCollection<TaskItem> FilterByStatus(IMyCollection<TaskItem> tasks)
     {
         var statusOptions = new MyArrayList<string>();
@@ -75,6 +78,7 @@ public static class FilterTasks
             !string.IsNullOrWhiteSpace(t.Status) &&
             t.Status.Trim().Equals(selected.Trim(), StringComparison.OrdinalIgnoreCase));
     }
+    // aimee
     private static IMyCollection<TaskItem> FilterByPriority(IMyCollection<TaskItem> tasks)
     {
         var priorityOptions = new MyArrayList<string>();
