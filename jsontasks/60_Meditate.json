@@ -1,9 +1,0 @@
-{
-  "Id": 60,
-  "Description": "Meditate",
-  "Priority": "must have",
-  "dependant": null,
-  "Status": "to do",
-  "Completed": false,
-  "CreationDate": "2026-02-08T14:03:02.956193+01:00"
-}

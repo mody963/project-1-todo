@@ -1,0 +1,9 @@
+{
+  "Id": 2,
+  "Description": "drying dishes",
+  "Priority": "must have",
+  "dependant": null,
+  "Status": "to do",
+  "Completed": false,
+  "CreationDate": "2026-04-16T11:20:04.5841134+02:00"
+}
