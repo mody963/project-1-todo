@@ -75,8 +75,8 @@ public static class FilterTasks
             return null;
 
         return tasks.Filter(t =>
-            !string.IsNullOrWhiteSpace(t.Status) &&
-            t.Status.Trim().Equals(selected.Trim(), StringComparison.OrdinalIgnoreCase));
+            !string.IsNullOrWhiteSpace(t.Status.ToString()) &&
+            t.Status.ToString().Trim().Equals(selected.Trim(), StringComparison.OrdinalIgnoreCase));
     }
     // aimee
     private static IMyCollection<TaskItem> FilterByPriority(IMyCollection<TaskItem> tasks)
@@ -97,8 +97,8 @@ public static class FilterTasks
             return null;
 
         return tasks.Filter(t =>
-            !string.IsNullOrWhiteSpace(t.Priority) &&
-            t.Priority.Trim().Equals(selected.Trim(), StringComparison.OrdinalIgnoreCase));
+            !string.IsNullOrWhiteSpace(t.Priority.ToString()) &&
+            t.Priority.ToString().Trim().Equals(selected.Trim(), StringComparison.OrdinalIgnoreCase));
     }
 
     private static IMyCollection<TaskItem> SortByCreationDate(IMyCollection<TaskItem> tasks)
@@ -151,8 +151,8 @@ public static class FilterTasks
             table.AddRow(
                 t.Id.ToString(),
                 t.Description,
-                t.Priority,
-                t.Status,
+                t.Priority.ToString(),
+                t.Status.ToString(),
                 t.CreationDate.ToString("g")
             );
         }
