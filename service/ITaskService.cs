@@ -4,7 +4,7 @@ interface ITaskService
     
     IMyCollection<TaskItem> GetAllTasks();
 
-    void AddTask(string description, string priority, TaskItem chosenTask);
+    void AddTask(string description, string priority, MyArrayList<int> chosenTask);
 
     public void UpdateTask(int id, string description, string priority, string status);
 
@@ -13,6 +13,6 @@ interface ITaskService
 
     public void RemoveDependantTask(int id, TaskItem currenttask);
 
-    void ToggleTaskCompletion(int id);
+    void ToggleTaskCompletion(int id, string status);
     void SaveIfDirty();
 }

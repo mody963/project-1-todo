@@ -40,11 +40,19 @@ class AllocationService : IAllocationService
     public void RemoveDependantAllocations(TaskItem currenttask, Person person, int id)
     {
         if (_Task_Allocations.TryFindBy(id, (item, key) =>
-        (item.Task.dependant != null && currenttask.Id == item.Task.Id && item.Person.Id == person.Id && item.Task.dependant.Id == key) ? 0 : 1,
+        (item.Task.dependant != null && currenttask.Id == item.Task.Id && item.Person.Id == person.Id && item.Task.dependant.Count != 0) ? 0 : 1,
         out var allocation))
         {
-            allocation.Task.dependant = null;
-            _repository.SaveTaskAllocations(_Task_Allocations);
+            var it = allocation.Task.dependant.GetIterator();
+            while(it.HasNext())
+            {
+                var item_id = it.Next();
+                if(item_id == id)
+                {
+                    allocation.Task.dependant.Remove(item_id);
+                    _repository.SaveTaskAllocations(_Task_Allocations);
+                }
+            }
         }
     }
 
@@ -62,14 +70,12 @@ class AllocationService : IAllocationService
 
     public void UpdateDependantAllocations(TaskItem task, TaskItem currentTask, Person person, string description, string priority, string status)
     {
-        if (_Task_Allocations.TryFindBy(task, (item, key) =>
-        (item.Task.dependant != null && item.Task.dependant.Id == key.Id && item.Person.Id == person.Id && currentTask.Id == item.Task.Id) ? 0 : 1,
-        out var allocation))
-        {
-            allocation.Task.dependant.Description = description;
-            allocation.Task.dependant.Priority = priority;
-            allocation.Task.dependant.Status = status;
-        }
+        // if (_Task_Allocations.TryFindBy(task, (item, key) =>
+        // (item.Task.dependant != null && item.Task.dependant.Count != 0 && item.Person.Id == person.Id && currentTask.Id == item.Task.Id) ? 0 : 1,
+        // out var allocation))
+        // {
+        //     if(allocation.Task.dependant.TryFindBy(task.Id (item, key) => () ? 0 : 1, out var id))
+        // }
     }
 
     public bool CheckIfAllocationExists(TaskItem task, Person person)

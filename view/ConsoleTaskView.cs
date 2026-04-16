@@ -250,15 +250,32 @@ class ConsoleTaskView : ITaskView
                         "No"
                     }));
                     TaskItem chosenTask = null;
+                    MyArrayList<int> ids = new();
                     switch (isItDependant)
                     {
                         case "Yes":
-                            chosenTask = ChooseTasks(_taskservice.GetAllTasks());
+                            var list = _taskservice.GetAllTasks();
+                            do
+                            {
+                                chosenTask = ChooseTasks(list);
+                                if(chosenTask != null)
+                                {
+                                    if(!ids.TryFindBy(chosenTask.Id, (item, key) => item.CompareTo(key), out var foundTask))
+                                    {
+                                        ids.Add(chosenTask.Id);
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Already dependant on that task.");
+                                        Console.ReadLine();
+                                    }
+                                }
+                            }while(chosenTask != null);
                             break;
                         case "No":
                             break;
                     }
-                    _taskservice.AddTask(description, priority, chosenTask);
+                    _taskservice.AddTask(description, priority, ids);
                     break;
 
                 case "Remove Task":
@@ -452,8 +469,32 @@ class ConsoleTaskView : ITaskView
 
     private IMyCollection<TaskItem> GetNonDependantTasks(IMyCollection<TaskItem> tasks)
     {
-        IMyCollection<TaskItem> filtered = tasks.Filter(t =>
-            t.dependant == null || t.dependant.Completed == true);
+        IMyCollection<TaskItem> filtered = new MyArrayList<TaskItem>();
+        var it = tasks.GetIterator();
+        while(it.HasNext())
+        {
+            TaskItem task = it.Next();
+            bool completed = true;
+            if(task.dependant != null && task.dependant.Count != 0)
+            {
+                var it2 = task.dependant.GetIterator();
+                while(it2.HasNext())
+                {
+                    var id = it2.Next();
+                    if(_taskservice.GetAllTasks().TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var foundTask))
+                    {
+                        if(!foundTask.Completed)
+                        {
+                            completed = false;
+                        }
+                    }
+                }
+            }
+            if(completed)
+            {
+                filtered.Add(task);
+            }
+        }
         return filtered;
     }
 
@@ -550,7 +591,7 @@ class ConsoleTaskView : ITaskView
         }
         UpdateAllocations(toggleTask, toggleTask.Description, toggleTask.Priority, status);
         UpdateDependantTask(toggleTask.Id, toggleTask.Description, toggleTask.Priority, status);
-        _taskservice.ToggleTaskCompletion(toggleTask.Id);
+        _taskservice.ToggleTaskCompletion(toggleTask.Id, status);
     }
 
     // fernando 
@@ -738,11 +779,19 @@ class ConsoleTaskView : ITaskView
         {
             var task = iterator.Next();
 
-            if (task.dependant != null && task.dependant.Id == parentTask.Id) // is het afhankelijk van parent task?
+            if (task.dependant != null && task.dependant.Count != 0) // is het afhankelijk van parent task?
             {
-                var childNode = parentNode.AddNode(FormatTaskForGraph(task));
+                var dependant = task.dependant.GetIterator();
+                while(dependant.HasNext())
+                {
+                    var id = dependant.Next();
+                    if(id == parentTask.Id)
+                    {
+                        var childNode = parentNode.AddNode(FormatTaskForGraph(task));
 
-                AddChildren(childNode, task, allTasks, algehad); // childnode wordt nieuwe node om te zien wat de volgende dependancy is. 
+                        AddChildren(childNode, task, allTasks, algehad); // childnode wordt nieuwe node om te zien wat de volgende dependancy is.
+                    }
+                } 
             }
         }
     }

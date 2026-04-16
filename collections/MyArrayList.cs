@@ -6,6 +6,13 @@ public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>
     private int _count;
     private const int DefaultCapacity = 4;
 
+    public T[] array
+    {
+        get{ return ToArray();}
+        set{_items = value;
+        _count = _items.Count();}
+    }
+
     public int Count {get => _count;} // met die count kan je bij elke andere file zien wat de lengte van array is, maar je kan het niet aanpassen
 
     public bool Dirty { get; private set; } // maybe backingfield same as count.

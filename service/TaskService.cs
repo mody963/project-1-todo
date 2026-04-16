@@ -58,7 +58,7 @@ class TaskService : ITaskService
 
 
     // Aimee
-    public void AddTask(string description, string priority, TaskItem chosenTask)
+    public void AddTask(string description, string priority, MyArrayList<int> chosenTask)
     {
         int newId = 1;
         var iterator = _tasks.GetIterator();
@@ -97,12 +97,12 @@ class TaskService : ITaskService
 
     public void UpdateDependantTask(TaskItem currenttask, int id, string description, string priority, string status)
     {
-        if (_tasks.TryFindBy(id, (item, key) => (item.dependant != null && item.dependant.Id == key && currenttask.Id == item.Id) ? 0 : 1, out var task))
-        {
-            task.dependant.Description = description;
-            task.dependant.Priority = priority;
-            task.dependant.Status = status;
-        }
+        // if (_tasks.TryFindBy(id, (item, key) => (item.dependant != null && item.dependant.Id == key && currenttask.Id == item.Id) ? 0 : 1, out var task))
+        // {
+        //     task.dependant.Description = description;
+        //     task.dependant.Priority = priority;
+        //     task.dependant.Status = status;
+        // }
     }
 
     // public void RemoveTask(int id)
@@ -125,9 +125,19 @@ class TaskService : ITaskService
 
     public void RemoveDependantTask(int id, TaskItem currenttask)
     {
-        if (_tasks.TryFindBy(id, (item, key) => (item.dependant != null && item.dependant.Id == key && currenttask.Id == item.Id) ? 0 : 1, out var task))
+        if (_tasks.TryFindBy(id, (item, key) => (item.dependant != null && item.dependant.Count != 0 && currenttask.Id == item.Id) ? 0 : 1, out var task))
         {
-            task.dependant = null;
+            var it = task.dependant.GetIterator();
+            while(it.HasNext())
+            {
+                var item_id = it.Next();
+                {
+                    if(item_id == id)
+                    {
+                        task.dependant.Remove(item_id);
+                    }
+                }
+            }
         }
     }
 
@@ -142,11 +152,11 @@ class TaskService : ITaskService
     //         _repository.SaveTasks(_tasks);
     //     }
     // }
-    public void ToggleTaskCompletion(int id)
+    public void ToggleTaskCompletion(int id, string status)
     {
         if (_tasks.TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var task))
         {
-            task.Status = task.Status == "completed" ? "to do" : "completed";
+            task.Status = status;
         }
     }
     public void SaveIfDirty()

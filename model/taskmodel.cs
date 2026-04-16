@@ -9,7 +9,7 @@ public class TaskItem : IEquatable<TaskItem>, IComparable<TaskItem>
 
     private string _status;
     
-    public TaskItem dependant{get; set;}
+    public MyArrayList<int> dependant{get; set;}
 
     public string Status
     {
