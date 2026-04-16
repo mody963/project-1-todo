@@ -3,13 +3,9 @@
   "Description": "laundry",
   "Priority": "must have",
   "dependant": {
-    "Id": -1,
-    "Description": "No dependency",
-    "Priority": "must have",
-    "dependant": null,
-    "Status": "to do",
-    "Completed": false,
-    "CreationDate": "0001-01-01T00:00:00"
+    "array": [],
+    "Count": 0,
+    "Dirty": false
   },
   "Status": "to do",
   "Completed": false,
