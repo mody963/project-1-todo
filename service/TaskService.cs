@@ -17,7 +17,7 @@ class TaskService : ITaskService
     public IMyCollection<TaskItem> GetAllTasks() => _tasks;
 
     // Aimee
-    public void AddTask(string description, string priority, TaskItem chosenTask)
+    public void AddTask(string description, TaskPriority priority, TaskItem chosenTask)
     {
         int newId = 1;
         var iterator = _tasks.GetIterator();
@@ -36,7 +36,7 @@ class TaskService : ITaskService
             Id = newId,
             Description = description,
             Priority = priority,
-            Status = "to do",
+            Status = TaskStatus.todo,
             CreationDate = DateTime.Now,
             dependant = chosenTask
         };
@@ -44,7 +44,7 @@ class TaskService : ITaskService
         _tasks.Add(newTask);
         SaveIfDirty();
     }
-    public void UpdateTask(int id, string description, string priority, string status)
+    public void UpdateTask(int id, string description, TaskPriority priority, TaskStatus status)
     {
         if (_tasks.TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var task))
         {
@@ -54,7 +54,7 @@ class TaskService : ITaskService
         }
     }
 
-    public void UpdateDependantTask(TaskItem currenttask, int id, string description, string priority, string status)
+    public void UpdateDependantTask(TaskItem currenttask, int id, string description, TaskPriority priority, TaskStatus status)
     {
         if (_tasks.TryFindBy(id, (item, key) => (item.dependant != null && item.dependant.Id == key && currenttask.Id == item.Id) ? 0 : 1, out var task))
         {
@@ -105,7 +105,7 @@ class TaskService : ITaskService
     {
         if (_tasks.TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var task))
         {
-            task.Status = task.Status == "completed" ? "to do" : "completed";
+            task.Status = task.Status == TaskStatus.Completed ? TaskStatus.todo : TaskStatus.Completed;
         }
     }
     public void SaveIfDirty()

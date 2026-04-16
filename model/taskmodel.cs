@@ -5,24 +5,17 @@ public class TaskItem : IEquatable<TaskItem>, IComparable<TaskItem>
     public int Id { get; set; }
     public required string Description { get; set; }
     
-    public string Priority { get; set; }
+    public TaskPriority Priority { get; set; }
 
-    private string _status;
+    private TaskStatus _status;
     
     public TaskItem dependant{get; set;}
 
-    public string Status
-    {
-        get => _status;
-        set
-        {
-            _status = value;
-        }
-    }
+    public TaskStatus Status{get;set;}
 
     public bool Completed
     {
-        get => _status == "completed";
+        get => _status == TaskStatus.Completed;
     }
     public DateTime CreationDate { get; set; }
 

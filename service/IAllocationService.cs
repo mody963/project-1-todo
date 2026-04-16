@@ -10,9 +10,9 @@ interface IAllocationService
 
     public void RemoveDependantAllocations(TaskItem currenttask, Person person, int id);
 
-    void UpdateAllocations(TaskItem task, Person person, string description, string priority, string status);
+    void UpdateAllocations(TaskItem task, Person person, string description, TaskPriority priority, TaskStatus status);
 
-    public void UpdateDependantAllocations(TaskItem task, TaskItem currentTask, Person person, string description, string priority, string status);
+    public void UpdateDependantAllocations(TaskItem task, TaskItem currentTask, Person person, string description, TaskPriority priority, TaskStatus status);
 
     bool CheckIfAllocationExists(TaskItem task, Person person);
     void SaveIfDirty();

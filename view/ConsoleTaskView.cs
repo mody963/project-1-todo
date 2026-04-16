@@ -240,7 +240,7 @@ class ConsoleTaskView : ITaskView
             {
                 case "Add Task":
                     string description = Prompt("Enter task description: ");
-                    string priority = AskPriority();
+                    TaskPriority priority = AskPriority();
                     var isItDependant = AnsiConsole.Prompt(new SelectionPrompt<string>()
                     .Title("[yellow]is it dependant[/]")
                     .HighlightStyle(new Style(Color.Cyan1))
@@ -257,6 +257,11 @@ class ConsoleTaskView : ITaskView
                             break;
                         case "No":
                             break;
+                    }
+                    // null reference weg werken
+                    if (chosenTask == null)
+                    {
+                        chosenTask = new TaskItem { Id = -1, Description = "No dependency" };
                     }
                     _taskservice.AddTask(description, priority, chosenTask);
                     break;
@@ -339,9 +344,9 @@ class ConsoleTaskView : ITaskView
 
         var tasks = _taskservice.GetAllTasks();
 
-        var todo = tasks.Filter(t => t.Status == "to do");
-        var progress = tasks.Filter(t => t.Status == "in progress");
-        var done = tasks.Filter(t => t.Status == "completed");
+        var todo = tasks.Filter(t => t.Status == TaskStatus.todo);
+        var progress = tasks.Filter(t => t.Status == TaskStatus.InProgress);
+        var done = tasks.Filter(t => t.Status == TaskStatus.Completed);
 
         var todoTable = CreateStatusTable("To Do", todo);
         var progressTable = CreateStatusTable("In Progress", progress);
@@ -412,32 +417,37 @@ class ConsoleTaskView : ITaskView
 
         DisplayTasks(filtered);
     }
-    private string AskPriority()
+    private TaskPriority AskPriority()
     {
         return AnsiConsole.Prompt(
-            new SelectionPrompt<string>()
+            new SelectionPrompt<TaskPriority>()
                 .Title("[yellow]Select task priority[/]")
                 .AddChoices(
-                    "must have",
-                    "should have",
-                    "could have"
+                    TaskPriority.Low,
+                    TaskPriority.Medium,
+                    TaskPriority.High
                 ));
     }
-    private string AskStatus()
+    private TaskStatus AskStatus()
     {
         return AnsiConsole.Prompt(
-            new SelectionPrompt<string>()
+            new SelectionPrompt<TaskStatus>()
                 .Title("[yellow]Select task status[/]")
                 .AddChoices(
-                    "to do",
-                    "in progress",
-                    "completed"
+                    TaskStatus.todo,
+                    TaskStatus.InProgress,
+                    TaskStatus.Completed
                 ));
     }
     
     private IMyCollection<TaskItem> GetUserTasks()
     {
         IMyCollection<Task_Allocation> allocations = _allocationservice.GetAllAllocations();
+
+        if (activePerson == null)
+        {
+            return new MyArrayList<TaskItem>();
+        }   
         IMyCollection<Task_Allocation> filtered = allocations.Filter(t =>
             !string.IsNullOrWhiteSpace(Convert.ToString(t.Person.Id)) &&
             Convert.ToString(t.Person.Id).Trim().Equals(Convert.ToString(activePerson.Id).Trim(), StringComparison.OrdinalIgnoreCase));
@@ -457,7 +467,7 @@ class ConsoleTaskView : ITaskView
         return filtered;
     }
 
-    private void UpdateAllocations(TaskItem Task, string description, string priority, string status)
+    private void UpdateAllocations(TaskItem Task, string description, TaskPriority priority, TaskStatus status)
     {
         IMyCollection<Person> people = _personservice.GetAllPersons();
         var it = people.GetIterator();
@@ -474,7 +484,7 @@ class ConsoleTaskView : ITaskView
         }
     }
 
-    private void UpdateDependantTask(int id, string description, string priority, string status)
+    private void UpdateDependantTask(int id, string description, TaskPriority priority, TaskStatus status)
     {
         var iterator = _taskservice.GetAllTasks().GetIterator();
         while(iterator.HasNext())
@@ -523,8 +533,8 @@ class ConsoleTaskView : ITaskView
             return;
 
         string description = Prompt("Enter task description: ");
-        string priority = AskPriority();
-        string status = AskStatus();
+        TaskPriority priority = AskPriority();
+        TaskStatus status = AskStatus();
         UpdateAllocations(Task, description, priority, status);
         UpdateDependantTask(Task.Id, description, priority, status);
         _taskservice.UpdateTask(Task.Id, description, priority, status);
@@ -539,14 +549,14 @@ class ConsoleTaskView : ITaskView
         {
             return;
         }
-        string status;
-        if(toggleTask.Status != "completed")
+        TaskStatus status;
+        if(toggleTask.Status != TaskStatus.Completed)
         {
-            status = "completed";
+            status = TaskStatus.Completed;
         }
         else
         {
-            status = "to do";
+            status = TaskStatus.todo;
         }
         UpdateAllocations(toggleTask, toggleTask.Description, toggleTask.Priority, status);
         UpdateDependantTask(toggleTask.Id, toggleTask.Description, toggleTask.Priority, status);
@@ -624,34 +634,34 @@ class ConsoleTaskView : ITaskView
     }
 
     // mo
-    private string FormatPriority(string priority)
+    private string FormatPriority(TaskPriority priority)
     {
         switch (priority)
         {
-            case "must have":
-                return "[red]Must have[/]";
-            case "should have":
-                return "[yellow]Should have[/]";
-            case "could have":
-                return "[green]Could have[/]";
+            case TaskPriority.Low:
+                return "[grey]Low[/]";
+            case TaskPriority.Medium:
+                return "[yellow]Medium[/]";
+            case TaskPriority.High:
+                return "[red]High[/]";
             default:
-                return priority;
+                return priority.ToString();
         }
     }
 
     // mo
-    private string FormatStatus(string status)
+    private string FormatStatus(TaskStatus status)
     {
         switch (status)
         {
-            case "to do":
+            case TaskStatus.todo:
                 return "[grey]To do[/]";
-            case "in progress":
+            case TaskStatus.InProgress:
                 return "[blue]In progress[/]";
-            case "completed":
+            case TaskStatus.Completed:
                 return "[green]Completed[/]";
             default:
-                return status;
+                return status.ToString();
         }
     }
     // fernando
