@@ -1,9 +1,0 @@
-{
-  "Id": 41,
-  "Description": "Send invoice",
-  "Priority": "should have",
-  "dependant": null,
-  "Status": "to do",
-  "Completed": false,
-  "CreationDate": "2026-02-27T14:03:02.9348841+01:00"
-}

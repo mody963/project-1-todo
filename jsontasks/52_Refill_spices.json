@@ -1,9 +1,0 @@
-{
-  "Id": 52,
-  "Description": "Refill spices",
-  "Priority": "should have",
-  "dependant": null,
-  "Status": "to do",
-  "Completed": false,
-  "CreationDate": "2026-02-16T14:03:02.9492767+01:00"
-}

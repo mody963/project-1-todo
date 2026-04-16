@@ -1,9 +1,0 @@
-{
-  "Id": 73,
-  "Description": "Vacuum car",
-  "Priority": "should have",
-  "dependant": null,
-  "Status": "to do",
-  "Completed": false,
-  "CreationDate": "2026-01-26T14:03:02.9718462+01:00"
-}

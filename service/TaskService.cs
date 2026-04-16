@@ -16,49 +16,8 @@ class TaskService : ITaskService
     //public IEnumerable<TaskItem> GetAllTasks() => _tasks;
     public IMyCollection<TaskItem> GetAllTasks() => _tasks;
 
-
-    // public void AddTask(string description)
-    // {
-    //     int newId = _tasks.Count > 0
-    //         ? _tasks[_tasks.Count - 1].Id + 1
-    //         : 1;
-
-    //     var newTask = new TaskItem
-    //     {
-    //         Id = newId,
-    //         Description = description,
-    //         Completed = false
-    //     };
-
-    //     _tasks.Add(newTask);
-    //     _repository.SaveTasks(_tasks);
-    // }
-    // public void AddTask(string description, string priority, TaskItem chosenTask)
-    // {
-    //     int newId = 1;
-    //     var iterator = _tasks.GetIterator();
-    //     while (iterator.HasNext())
-    //     {
-    //         var task = iterator.Next();
-    //         if (task.Id >= newId)
-    //             newId = task.Id + 1;
-    //     }
-    //     var newTask = new TaskItem
-    //     {
-    //         Id = newId,
-    //         Description = description,
-    //         Priority = priority,
-    //         Status = "to do",
-    //         CreationDate = DateTime.Now,
-    //         dependant = chosenTask
-    //     };
-
-    //     _tasks.Add(newTask);
-    // }
-
-
     // Aimee
-    public void AddTask(string description, string priority, MyArrayList<int> chosenTask)
+    public void AddTask(string description, TaskPriority priority, MyArrayList<int> chosenTask)
     {
         int newId = 1;
         var iterator = _tasks.GetIterator();
@@ -77,7 +36,7 @@ class TaskService : ITaskService
             Id = newId,
             Description = description,
             Priority = priority,
-            Status = "to do",
+            Status = TaskStatus.todo,
             CreationDate = DateTime.Now,
             dependant = chosenTask
         };
@@ -85,7 +44,7 @@ class TaskService : ITaskService
         _tasks.Add(newTask);
         SaveIfDirty();
     }
-    public void UpdateTask(int id, string description, string priority, string status)
+    public void UpdateTask(int id, string description, TaskPriority priority, TaskStatus status)
     {
         if (_tasks.TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var task))
         {
@@ -95,7 +54,7 @@ class TaskService : ITaskService
         }
     }
 
-    public void UpdateDependantTask(TaskItem currenttask, int id, string description, string priority, string status)
+    public void UpdateDependantTask(TaskItem currenttask, int id, string description, TaskPriority priority, TaskStatus status)
     {
         // if (_tasks.TryFindBy(id, (item, key) => (item.dependant != null && item.dependant.Id == key && currenttask.Id == item.Id) ? 0 : 1, out var task))
         // {
@@ -156,7 +115,7 @@ class TaskService : ITaskService
     {
         if (_tasks.TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var task))
         {
-            task.Status = status;
+            task.Status = task.Status == TaskStatus.Completed ? TaskStatus.todo : TaskStatus.Completed;
         }
     }
     public void SaveIfDirty()

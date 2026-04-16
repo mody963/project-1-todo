@@ -171,46 +171,83 @@ class MyLinkedList<T>: IMyCollection<T>
     }
 
 
-    public void Remove(T item) // hierbij geeft het gewoon de naam van de item mee en dan pakt hij het meteen en delete hij het. 
+    // public void Remove(T item) // hierbij geeft het gewoon de naam van de item mee en dan pakt hij het meteen en delete hij het. 
+    // {
+    //     if (_head == null ||_head.Data == null || item == null)
+    //     return;
+
+
+        
+    //         // _head = _head.Next;
+    //         // if (_head != null)
+    //         //     _head.Previous = null; // a;s head nie null is dan moey je hey wel leeg maken. 
+
+    //         // if (_head == null)
+    //         //     _tail = null;
+
+    //         // _count--;
+    //         // return;
+
+    //     Node? current = _head;
+
+    //     while (current.Next != null && current.Next.Data != null)
+    //     {
+    //         if (current.Next.Data.Equals(item)) // mag niet dezelfde data hebben vandaar de equals. 
+    //         {
+    //             Node? nodeToRemove = current.Next;
+    //             current.Next = nodeToRemove.Next;
+
+    //             if (nodeToRemove.Next != null)
+    //                 nodeToRemove.Next.Previous = current;
+
+    //             if (current.Next == null)
+    //                 _tail = current;
+
+    //             _count--;
+    //             return;
+    //         }
+
+    //         current = current.Next;
+    //     }
+    //     Dirty = true;
+    // }
+
+    public void Remove(T item)
     {
-        if (_head == null ||_head.Data == null || item == null)
-        return;
-
-        if (_head.Data.Equals(item))// use something else since it is reference data do the find by id. 
+        if (item == null || _head == null) return;
+        // We geven 0 terug als de waarden gelijk zijn, anders 1.
+        if (TryFindBy(item, (data, targetdata) => data.Equals(targetdata) ? 0 : 1, out T? foundItem))
         {
-            _head = _head.Next;
-            if (_head != null)
-                _head.Previous = null; // a;s head nie null is dan moey je hey wel leeg maken. 
-
-            if (_head == null)
-                _tail = null;
-
-            _count--;
-            return;
-        }
-
-        Node? current = _head;
-
-        while (current.Next != null && current.Next.Data != null)
-        {
-            if (current.Next.Data.Equals(item)) // mag niet dezelfde data hebben vandaar de equals. 
+            Node? current = _head;
+            while (current != null)
             {
-                Node? nodeToRemove = current.Next;
-                current.Next = nodeToRemove.Next;
-
-                if (nodeToRemove.Next != null)
-                    nodeToRemove.Next.Previous = current;
-
-                if (current.Next == null)
-                    _tail = current;
-
-                _count--;
-                return;
+               
+                if (current.Data != null && current.Data.Equals(foundItem))
+                {
+                   
+                    RemoveNode(current);
+                    
+                    _count--;
+                    Dirty = true;
+                    return;
+                }
+                current = current.Next;
             }
-
-            current = current.Next;
         }
-        Dirty = true;
+    }
+
+    // wisseling van de nodes zelf gwn
+    private void RemoveNode(Node node)
+    {
+        if (node.Previous != null)
+            node.Previous.Next = node.Next;
+        else
+            _head = node.Next;
+
+        if (node.Next != null)
+            node.Next.Previous = node.Previous;
+        else
+            _tail = node.Previous;
     }
 
 

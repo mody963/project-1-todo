@@ -1,9 +1,0 @@
-{
-  "Id": 13,
-  "Description": "Clean washing machine",
-  "Priority": "should have",
-  "dependant": null,
-  "Status": "to do",
-  "Completed": false,
-  "CreationDate": "2026-03-27T14:03:02.9051181+01:00"
-}

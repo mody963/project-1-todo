@@ -56,7 +56,7 @@ class AllocationService : IAllocationService
         }
     }
 
-    public void UpdateAllocations(TaskItem task, Person person, string description, string priority, string status)
+    public void UpdateAllocations(TaskItem task, Person person, string description, TaskPriority priority, TaskStatus status)
     {
         if (_Task_Allocations.TryFindBy(task, (item, key) =>
         (item.Task.Id == key.Id && item.Person.Id == person.Id) ? 0 : 1,
@@ -64,11 +64,11 @@ class AllocationService : IAllocationService
         {
             allocation.Task.Description = description;
             allocation.Task.Priority = priority;
-            allocation.Task.Status = status;
+            allocation.Task.Status = task.Status = status;
         }
     }
 
-    public void UpdateDependantAllocations(TaskItem task, TaskItem currentTask, Person person, string description, string priority, string status)
+    public void UpdateDependantAllocations(TaskItem task, TaskItem currentTask, Person person, string description, TaskPriority priority, TaskStatus status)
     {
         // if (_Task_Allocations.TryFindBy(task, (item, key) =>
         // (item.Task.dependant != null && item.Task.dependant.Count != 0 && item.Person.Id == person.Id && currentTask.Id == item.Task.Id) ? 0 : 1,
