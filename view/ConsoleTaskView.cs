@@ -423,9 +423,9 @@ class ConsoleTaskView : ITaskView
             new SelectionPrompt<TaskPriority>()
                 .Title("[yellow]Select task priority[/]")
                 .AddChoices(
-                    TaskPriority.Low,
-                    TaskPriority.Medium,
-                    TaskPriority.High
+                    TaskPriority.MustHave,
+                    TaskPriority.ShouldHave,
+                    TaskPriority.CouldHave
                 ));
     }
     private TaskStatus AskStatus()
@@ -638,12 +638,12 @@ class ConsoleTaskView : ITaskView
     {
         switch (priority)
         {
-            case TaskPriority.Low:
-                return "[grey]Low[/]";
-            case TaskPriority.Medium:
-                return "[yellow]Medium[/]";
-            case TaskPriority.High:
-                return "[red]High[/]";
+            case TaskPriority.MustHave:
+                return "[grey]Must Have[/]";
+            case TaskPriority.ShouldHave:
+                return "[yellow]Should Have[/]";
+            case TaskPriority.CouldHave:
+                return "[red]Could Have[/]";
             default:
                 return priority.ToString();
         }
