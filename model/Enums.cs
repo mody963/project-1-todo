@@ -2,11 +2,13 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-public class TaskPriorityConverter : JsonConverter<TaskPriority>
+
+// priority omzetters
+public class TaskPriorityConverter : JsonConverter<TaskPriority> // o
 {
-    public override TaskPriority Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override TaskPriority Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) // utf8 lezer leest de 
     {
-        string? value = reader.GetString();
+        string? value = reader.GetString(); // leest het af als een string en zet het om naar de enum waarde.
         return value switch
         {
             "must have" => TaskPriority.MustHave,
@@ -18,7 +20,7 @@ public class TaskPriorityConverter : JsonConverter<TaskPriority>
 
     public override void Write(Utf8JsonWriter writer, TaskPriority value, JsonSerializerOptions options)
     {
-        string str = value switch
+        string str = value switch // zet het om naar strings. 
         {
             TaskPriority.MustHave => "must have",
             TaskPriority.ShouldHave => "should have",
@@ -29,6 +31,8 @@ public class TaskPriorityConverter : JsonConverter<TaskPriority>
     }
 }
 
+
+// sttatus omzetter zefde als bij de gene hierboven maar dan stat. 
 public class TaskStatusConverter : JsonConverter<TaskStatus>
 {
     public override TaskStatus Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
