@@ -5,6 +5,16 @@ public class MyHashMap<TKey, TValue> : IMyCollection<KeyValuePair<TKey, TValue>>
     private MyLinkedList<KeyValuePair<TKey, TValue>>[] _buckets;
     // total buckets
     private int _capacity;
+    
+    public KeyValuePair<TKey, TValue>[] array
+    {
+        get{ return ToArray();}
+        set{foreach( var item in value)
+            {
+                Add(item);
+            }
+        }
+    }
     // total key-value pairs (items) in all buckets
     private int _count;
 

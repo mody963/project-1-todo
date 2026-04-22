@@ -30,6 +30,16 @@ class MyLinkedList<T>: IMyCollection<T>
     private Node? _head;
     //adress 
     private Node? _tail;
+    
+    public T[] array
+    {
+        get{ return ToArray();}
+        set{foreach( var item in value)
+            {
+                Add(item);
+            }
+        }
+    }
     private int _count;
     public int Count => _count;
 

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 
 // mo
-class JsonRepository<T> : IJsonRepository<T> where T : IEquatable<T>
+class JsonRepository<T> : IJsonRepository<T> where T : IEquatable<T>, IComparable<T>
 {
     private readonly string _filePath;
     private readonly ICollectionFactory<T> _factory;
@@ -57,5 +57,20 @@ class JsonRepository<T> : IJsonRepository<T> where T : IEquatable<T>
     }
 }
 
+// Generic converter for interface serialization/deserialization
+public class InterfaceConverter<TInterface, TImplementation> : JsonConverter<TInterface>
+    where TImplementation : TInterface, new()
+{
+    public override TInterface Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        // Deserialize JSON into the concrete type
+        return JsonSerializer.Deserialize<TImplementation>(ref reader, options);
+    }
 
+    public override void Write(Utf8JsonWriter writer, TInterface value, JsonSerializerOptions options)
+    {
+        // Serialize using the concrete type
+        JsonSerializer.Serialize(writer, (TImplementation)value, options);
+    }
+}
 /*.   */

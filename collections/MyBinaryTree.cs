@@ -17,6 +17,15 @@ public class MyBinaryTree<T>: IMyCollection<T> where T : IComparable<T>
     }
     public Node? Root;
 
+    public T[] array
+    {
+        get{ return ToArray();}
+        set{foreach( var item in value)
+            {
+                Add(item);
+            }
+        }
+    }
     private int _count;
     public int Count => _count;
 

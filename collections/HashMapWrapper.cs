@@ -5,6 +5,15 @@ public class TaskHashMapCollection : IMyCollection<TaskItem>
 {
     private readonly MyHashMap<int, TaskItem> _map = new();
 
+    public TaskItem[] array
+    {
+        get{ return ToArray();}
+        set{foreach( var item in value)
+            {
+                Add(item);
+            }
+        }
+    }
     public int Count => _map.Count;
     public bool Dirty => _map.Dirty;
 
@@ -111,6 +120,15 @@ public class PersonHashMapCollection : IMyCollection<Person>
 {
     private readonly MyHashMap<int, Person> _map = new();
 
+    public Person[] array
+    {
+        get{ return ToArray();}
+        set{foreach( var item in value)
+            {
+                Add(item);
+            }
+        }
+    }
     public int Count => _map.Count;
     public bool Dirty => _map.Dirty;
 
@@ -199,6 +217,15 @@ public class AllocationHashMapCollection : IMyCollection<Task_Allocation>
 {
     private readonly MyHashMap<string, Task_Allocation> _map = new();
 
+    public Task_Allocation[] array
+    {
+        get{ return ToArray();}
+        set{foreach( var item in value)
+            {
+                Add(item);
+            }
+        }
+    }
     public int Count => _map.Count;
     public bool Dirty => _map.Dirty;
 

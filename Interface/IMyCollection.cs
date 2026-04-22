@@ -6,6 +6,7 @@ public interface IMyCollection<T>
     bool TryFindBy<K>(K key, Func<T, K, int> comparer, out T? result);
     IMyCollection<T> Filter(Func<T, bool> predicate);
     void Sort(Comparison<T> comparison);
+    T[] array {get; set;}
     int Count { get; }
     bool Dirty {get;} // was get set maar ik heb alleen get van gemaakt, omdat set private moet zijn
     T Reduce(Func<T, T, T> accumulator);
