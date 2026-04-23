@@ -1,5 +1,6 @@
 // fernando
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 public class TaskItem : IEquatable<TaskItem>, IComparable<TaskItem>
@@ -11,7 +12,7 @@ public class TaskItem : IEquatable<TaskItem>, IComparable<TaskItem>
 
     private TaskStatus _status;
     
-    [JsonConverter(typeof(InterfaceConverter<IMyCollection<int>, MyArrayList<int>>))]
+    [JsonConverter(typeof(CollectionConverter<int>))]
     public IMyCollection<int> dependant{ get; set; }
 
     public TaskStatus Status{get;set;}

@@ -1,4 +1,4 @@
-public interface IMyCollection<T> 
+public interface IMyCollection<T> where T : IEquatable<T>, IComparable<T>
 {
     void Add(T item);
     void Remove(T item);

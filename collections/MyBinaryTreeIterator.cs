@@ -2,7 +2,7 @@
 
 using Spectre.Console;
 
-class MyBinaryTreeIterator<T> : IMyIterator<T> where T : IComparable<T>
+class MyBinaryTreeIterator<T> : IMyIterator<T> where T : IEquatable<T>, IComparable<T>
 {
     private MyBinaryTree<T>.Node? _root;
     private MyBinaryTree<T>.Node? _current;

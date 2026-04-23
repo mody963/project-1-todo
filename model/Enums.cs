@@ -76,3 +76,101 @@ public enum TaskStatus
     Completed
 }
 
+// public class CollectionConverter<T> : JsonConverter<IMyCollection<T>> where T : IEquatable<T>, IComparable<T>
+// {
+//     public override IMyCollection<T>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+//     {
+//         // Parse into JsonDocument to inspect
+//         using var doc = JsonDocument.ParseValue(ref reader);
+//         var root = doc.RootElement;
+
+//         // Type discriminator
+//         if (!root.TryGetProperty("Type", out var typeProp))
+//             throw new JsonException("Missing Type discriminator.");
+
+//         var typeName = typeProp.GetString();
+
+//         return typeName switch
+//         {
+//             nameof(MyArrayList<T>) when typeof(T) == typeof(int) =>
+//                 (IMyCollection<T>)JsonSerializer.Deserialize<MyArrayList<T>>(root.GetRawText(), options)!,
+
+//             nameof(MyLinkedList<T>) when typeof(T) == typeof(string) =>
+//                 (IMyCollection<T>)JsonSerializer.Deserialize<MyLinkedList<T>>(root.GetRawText(), options)!,
+
+//             _ => throw new JsonException($"Unknown type: {typeName}")
+//         };
+//     }
+
+//     public override void Write(Utf8JsonWriter writer, IMyCollection<T> value, JsonSerializerOptions options)
+//     {
+//         var typeName = value.GetType().Name;
+
+//         // Serialize with type discriminator
+//         var json = JsonSerializer.Serialize(value, value.GetType(), options);
+//         using var doc = JsonDocument.Parse(json);
+
+//         writer.WriteStartObject();
+//         writer.WriteString("Type", typeName);
+
+//         foreach (var prop in doc.RootElement.EnumerateObject())
+//             prop.WriteTo(writer);
+
+//         writer.WriteEndObject();
+//     }
+// }
+
+public class CollectionConverter<T> : JsonConverter<IMyCollection<T>> where T : IEquatable<T>, IComparable<T>
+{
+    public override IMyCollection<T>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        using var doc = JsonDocument.ParseValue(ref reader);
+        var root = doc.RootElement;
+
+        string? typeName = null;
+        if (root.TryGetProperty("Type", out var typeProp))
+            typeName = typeProp.GetString();
+
+        // If no Type property, infer from T
+        if (string.IsNullOrWhiteSpace(typeName))
+        {
+            if (typeof(T) == typeof(int))
+                return (IMyCollection<T>)JsonSerializer.Deserialize<MyArrayList<T>>(root.GetRawText(), options)!;
+            if (typeof(T) == typeof(string))
+                return (IMyCollection<T>)JsonSerializer.Deserialize<MyLinkedList<T>>(root.GetRawText(), options)!;
+            if (typeof(T) == typeof(string))
+                return (IMyCollection<T>)JsonSerializer.Deserialize<MyBinaryTree<T>>(root.GetRawText(), options)!;
+
+            throw new JsonException($"Cannot infer type for generic parameter {typeof(T).Name}");
+        }
+
+        // If Type property exists, use it
+        return typeName switch
+        {
+            nameof(MyArrayList<T>) when typeof(T) == typeof(int) =>
+                (IMyCollection<T>)JsonSerializer.Deserialize<MyArrayList<T>>(root.GetRawText(), options)!,
+
+            nameof(MyLinkedList<T>) when typeof(T) == typeof(string) =>
+                (IMyCollection<T>)JsonSerializer.Deserialize<MyLinkedList<T>>(root.GetRawText(), options)!,
+            nameof(MyBinaryTree<T>) when typeof(T) == typeof(string) =>
+                (IMyCollection<T>)JsonSerializer.Deserialize<MyBinaryTree<T>>(root.GetRawText(), options)!,
+
+            _ => throw new JsonException($"Unknown type: {typeName}")
+        };
+    }
+
+    public override void Write(Utf8JsonWriter writer, IMyCollection<T> value, JsonSerializerOptions options)
+    {
+        var typeName = value.GetType().Name;
+        var json = JsonSerializer.Serialize(value, value.GetType(), options);
+        using var doc = JsonDocument.Parse(json);
+
+        writer.WriteStartObject();
+        //writer.WriteString("Type", typeName);
+
+        foreach (var prop in doc.RootElement.EnumerateObject())
+            prop.WriteTo(writer);
+
+        writer.WriteEndObject();
+    }
+}

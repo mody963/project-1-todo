@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -26,6 +28,7 @@ class JsonRepository<T> : IJsonRepository<T> where T : IEquatable<T>, IComparabl
         var options = new JsonSerializerOptions();
         options.Converters.Add(new TaskPriorityConverter());
         options.Converters.Add(new TaskStatusConverter());
+        options.Converters.Add(new CollectionConverter<T>());
 
         T[] items = JsonSerializer.Deserialize<T[]>(json, options) ?? new T[0];
 
@@ -41,6 +44,7 @@ class JsonRepository<T> : IJsonRepository<T> where T : IEquatable<T>, IComparabl
         var options = new JsonSerializerOptions { WriteIndented = true };
         options.Converters.Add(new TaskPriorityConverter());
         options.Converters.Add(new TaskStatusConverter());
+        options.Converters.Add(new CollectionConverter<T>());
         string json = JsonSerializer.Serialize(arr, options);
         File.WriteAllText(_filePath, json);
     }
@@ -58,19 +62,19 @@ class JsonRepository<T> : IJsonRepository<T> where T : IEquatable<T>, IComparabl
 }
 
 // Generic converter for interface serialization/deserialization
-public class InterfaceConverter<TInterface, TImplementation> : JsonConverter<TInterface>
-    where TImplementation : TInterface, new()
-{
-    public override TInterface Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        // Deserialize JSON into the concrete type
-        return JsonSerializer.Deserialize<TImplementation>(ref reader, options);
-    }
+// public class InterfaceConverter<TInterface, TImplementation> : JsonConverter<TInterface>
+//     where TImplementation : TInterface, new()
+// {
+//     public override TInterface Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+//     {
+//         // Deserialize JSON into the concrete type
+//         return JsonSerializer.Deserialize<TImplementation>(ref reader, options);
+//     }
 
-    public override void Write(Utf8JsonWriter writer, TInterface value, JsonSerializerOptions options)
-    {
-        // Serialize using the concrete type
-        JsonSerializer.Serialize(writer, (TImplementation)value, options);
-    }
-}
+//     public override void Write(Utf8JsonWriter writer, TInterface value, JsonSerializerOptions options)
+//     {
+//         // Serialize using the concrete type
+//         JsonSerializer.Serialize(writer, (TImplementation)value, options);
+//     }
+// }
 /*.   */

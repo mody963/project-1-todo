@@ -1,7 +1,7 @@
 // this file contains all 3 wrappers not just the taskitem
 // mo
 // taskitem wrapper
-public class TaskHashMapCollection : IMyCollection<TaskItem>
+public class TaskHashMapCollection : IMyCollection<TaskItem> 
 {
     private readonly MyHashMap<int, TaskItem> _map = new();
 
