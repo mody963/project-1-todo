@@ -13,6 +13,6 @@ interface ITaskService
 
     public void RemoveDependantTask(int id, TaskItem currenttask);
 
-    void ToggleTaskCompletion(int id);
+    void ToggleTaskCompletion(int id, TaskStatus status);
     void SaveIfDirty();
 }

@@ -596,7 +596,7 @@ class ConsoleTaskView : ITaskView
         }
         UpdateAllocations(toggleTask, toggleTask.Description, toggleTask.Priority, status);
         UpdateDependantTask(toggleTask.Id, toggleTask.Description, toggleTask.Priority, status);
-        _taskservice.ToggleTaskCompletion(toggleTask.Id);
+        _taskservice.ToggleTaskCompletion(toggleTask.Id, status);
     }
 
     // fernando 

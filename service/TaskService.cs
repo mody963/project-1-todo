@@ -111,11 +111,11 @@ class TaskService : ITaskService
     //         _repository.SaveTasks(_tasks);
     //     }
     // }
-    public void ToggleTaskCompletion(int id)
+    public void ToggleTaskCompletion(int id, TaskStatus status)
     {
         if (_tasks.TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var task))
         {
-            task.Status = task.Status == TaskStatus.Completed ? TaskStatus.todo : TaskStatus.Completed;
+            task.Status = status;
         }
     }
     public void SaveIfDirty()
