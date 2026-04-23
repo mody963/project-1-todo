@@ -1,5 +1,5 @@
 // mo
-public class MyArrayIterator<T> : IMyIterator<T> where T : IEquatable<T>, IComparable<T>
+public class MyArrayIterator<T> : IMyIterator<T>
 {
     private readonly T[] _items;
     private readonly int _count; // amount of items in the array

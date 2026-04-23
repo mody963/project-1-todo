@@ -3,7 +3,7 @@
 
 
 
-class MyLinkedList<T>: IMyCollection<T> where T : IEquatable<T>, IComparable<T>
+class MyLinkedList<T>: IMyCollection<T>
 {
     // could be both singly or double depends what we like to do. 
 

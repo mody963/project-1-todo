@@ -1,6 +1,6 @@
 // mo
 
-public class MyArrayList<T> : IMyCollection<T> where T : IEquatable<T>, IComparable<T>
+public class MyArrayList<T> : IMyCollection<T>
 {
     private T[] _items;
     private int _count;

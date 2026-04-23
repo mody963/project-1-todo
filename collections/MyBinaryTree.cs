@@ -1,5 +1,5 @@
 // fernando
-public class MyBinaryTree<T>: IMyCollection<T> where T : IEquatable<T>, IComparable<T>
+public class MyBinaryTree<T>: IMyCollection<T> where T : IComparable<T>
 {
     
     public class Node
