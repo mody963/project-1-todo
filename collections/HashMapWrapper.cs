@@ -15,7 +15,11 @@ public class TaskHashMapCollection : IMyCollection<TaskItem>
         }
     }
     public int Count => _map.Count;
-    public bool Dirty => _map.Dirty;
+    public bool Dirty
+    {
+        get{ return _map.Dirty;}
+        set{_map.Dirty = value;}
+    }
 
     public void Add(TaskItem item)
     {
@@ -130,7 +134,11 @@ public class PersonHashMapCollection : IMyCollection<Person>
         }
     }
     public int Count => _map.Count;
-    public bool Dirty => _map.Dirty;
+    public bool Dirty
+    {
+        get{ return _map.Dirty;}
+        set{_map.Dirty = value;}
+    }
 
     public void Add(Person item)
     {
@@ -227,7 +235,11 @@ public class AllocationHashMapCollection : IMyCollection<Task_Allocation>
         }
     }
     public int Count => _map.Count;
-    public bool Dirty => _map.Dirty;
+    public bool Dirty
+    {
+        get{ return _map.Dirty;}
+        set{_map.Dirty = value;}
+    }
 
     private string GetKey(Task_Allocation a)
         => $"{a.Task.Id}-{a.Person.Id}"; // shared key

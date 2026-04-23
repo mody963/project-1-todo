@@ -65,6 +65,7 @@ class AllocationService : IAllocationService
             allocation.Task.Description = description;
             allocation.Task.Priority = priority;
             allocation.Task.Status = task.Status = status;
+            _Task_Allocations.Dirty = true;
         }
     }
 

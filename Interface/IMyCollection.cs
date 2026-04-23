@@ -8,7 +8,7 @@ public interface IMyCollection<T> // where T : IEquatable<T>, IComparable<T>
     void Sort(Comparison<T> comparison);
     T[] array {get; set;}
     int Count { get; }
-    bool Dirty {get;} // was get set maar ik heb alleen get van gemaakt, omdat set private moet zijn
+    bool Dirty {get; set;} // was get set maar ik heb alleen get van gemaakt, omdat set private moet zijn
     T Reduce(Func<T, T, T> accumulator);
     // or
     R Reduce<R>(R initial, Func<R, T, R> accumulator);

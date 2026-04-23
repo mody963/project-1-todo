@@ -51,6 +51,7 @@ class TaskService : ITaskService
             task.Description = description;
             task.Priority = priority;
             task.Status = status;
+            _tasks.Dirty = true;
         }
     }
 

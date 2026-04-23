@@ -19,7 +19,7 @@ public class MyHashMap<TKey, TValue> : IMyCollection<KeyValuePair<TKey, TValue>>
     private int _count;
 
     public int Count => _count;
-    public bool Dirty { get; private set; }
+    public bool Dirty { get; set; }
     private const double LOAD_FACTOR = 0.75; // real hashmaps use 0.72
 
     // decides capacity and makes a bucket array

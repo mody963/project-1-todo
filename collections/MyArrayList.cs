@@ -15,7 +15,7 @@ public class MyArrayList<T> : IMyCollection<T>
 
     public int Count {get => _count;} // met die count kan je bij elke andere file zien wat de lengte van array is, maar je kan het niet aanpassen
 
-    public bool Dirty { get; private set; } // maybe backingfield same as count.
+    public bool Dirty { get; set; } // maybe backingfield same as count.
 
     public MyArrayList(int capacity = DefaultCapacity)
     {

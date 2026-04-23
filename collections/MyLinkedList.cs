@@ -43,7 +43,7 @@ class MyLinkedList<T>: IMyCollection<T>
     private int _count;
     public int Count => _count;
 
-    public bool Dirty { get; private set; }
+    public bool Dirty { get; set; }
 
     public void ResetDirty()
     {
