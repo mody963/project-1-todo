@@ -117,6 +117,7 @@ class TaskService : ITaskService
         if (_tasks.TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var task))
         {
             task.Status = status;
+            _tasks.Dirty = true;
         }
     }
     public void SaveIfDirty()
