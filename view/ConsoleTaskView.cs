@@ -764,7 +764,7 @@ class ConsoleTaskView : ITaskView
         while (iterator.HasNext())
         {
             var task = iterator.Next();
-            if (task.dependant == null) // een task die op zichzelf nergens van dependant is. 
+            if (task.dependant == null || task.dependant.Count == 0) // een task die op zichzelf nergens van dependant is. 
             {
                 var node = root.AddNode(FormatTaskForGraph(task)); // spectre console build in functions. 
                 AddChildren(node, task, tasks, new MyArrayList<int>()); // recursive. 
@@ -776,27 +776,37 @@ class ConsoleTaskView : ITaskView
         Console.ReadKey();
     }
     // Aimee
-    private void AddChildren(TreeNode parentNode, TaskItem parentTask, IMyCollection<TaskItem> allTasks, MyArrayList<int> algehad)
+    private void AddChildren(TreeNode parentNode, TaskItem parentTask, IMyCollection<TaskItem> allTasks, IMyCollection<int> visited)
     {
+        var visitedIterator = visited.GetIterator();
+        while (visitedIterator.HasNext())
+        {
+            if (visitedIterator.Next() == parentTask.Id)
+                return;
+        }
+
+        visited.Add(parentTask.Id);
+
         var iterator = allTasks.GetIterator();
 
         while (iterator.HasNext())
         {
             var task = iterator.Next();
 
-            if (task.dependant != null && task.dependant.Count != 0) // is het afhankelijk van parent task?
+            if (task.dependant != null && task.dependant.Count != 0)
             {
                 var dependant = task.dependant.GetIterator();
-                while(dependant.HasNext())
+                while (dependant.HasNext())
                 {
                     var id = dependant.Next();
-                    if(id == parentTask.Id)
+
+                    if (id == parentTask.Id)
                     {
                         var childNode = parentNode.AddNode(FormatTaskForGraph(task));
 
-                        AddChildren(childNode, task, allTasks, algehad); // childnode wordt nieuwe node om te zien wat de volgende dependancy is.
+                        AddChildren(childNode, task, allTasks, visited);
                     }
-                } 
+                }
             }
         }
     }
