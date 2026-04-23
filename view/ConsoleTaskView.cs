@@ -488,7 +488,7 @@ class ConsoleTaskView : ITaskView
                     var id = it2.Next();
                     if(_taskservice.GetAllTasks().TryFindBy(id, (item, key) => item.Id.CompareTo(key), out var foundTask))
                     {
-                        if(!foundTask.Completed)
+                        if(foundTask.Status != TaskStatus.Completed)
                         {
                             completed = false;
                         }
