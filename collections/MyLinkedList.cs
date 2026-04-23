@@ -344,6 +344,7 @@ class MyLinkedList<T>: IMyCollection<T>
             }
 
         } while (swapped);
+        Dirty = true;
     }
     
 

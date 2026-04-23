@@ -153,6 +153,7 @@ public class MyBinaryTree<T>: IMyCollection<T> where T : IComparable<T>
     {
         Root = RemoveRecursive(Root, value);
         Balance(); // Rebalance after deletion
+        Dirty = true;
     }
 
     private Node RemoveRecursive(Node root, T value)
@@ -369,6 +370,7 @@ public class MyBinaryTree<T>: IMyCollection<T> where T : IComparable<T>
             });
 
         } while (swapped);
+        Dirty = true;
     }
 
     private Node FindSuccessor(Node root, Node target)
