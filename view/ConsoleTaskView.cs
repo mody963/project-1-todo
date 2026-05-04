@@ -613,6 +613,7 @@ class ConsoleTaskView : ITaskView
                     {
                         "Assign Task",
                         "Unassign Task",
+                        "Add Person",
                         "Back"
                     }));
 
@@ -625,7 +626,12 @@ class ConsoleTaskView : ITaskView
                 case "Unassign Task":
                     UnAssigntask();
                     break;
-
+                // Aimee
+                case "Add Person":
+                    string name = Prompt("Enter person name: ");
+                    _personservice.AddPerson(name);
+                    break;
+                    
                 case "Back":
                     return;
             }

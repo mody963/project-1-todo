@@ -32,5 +32,28 @@
       "Id": 2,
       "Name": "Aimee"
     }
+  },
+  {
+    "Task": {
+      "Id": 10,
+      "Description": "\\",
+      "Priority": "must have",
+      "dependant": {
+        "array": [
+          2,
+          7,
+          8
+        ],
+        "Count": 3,
+        "Dirty": true
+      },
+      "Status": "to do",
+      "Completed": false,
+      "CreationDate": "2026-04-23T13:38:24.784884+02:00"
+    },
+    "Person": {
+      "Id": 2,
+      "Name": "Aimee"
+    }
   }
 ]
