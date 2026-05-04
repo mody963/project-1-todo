@@ -322,3 +322,121 @@ public class AllocationHashMapCollection : IMyCollection<Task_Allocation>
         public void Reset() => _it.Reset();
     }
 }
+
+public class intHashMapCollection : IMyCollection<int> 
+{
+    private readonly MyHashMap<int, int> _map = new();
+
+    public int[] array
+    {
+        get{ return ToArray();}
+        set{foreach( var item in value)
+            {
+                Add(item);
+            }
+        }
+    }
+    public int Count => _map.Count;
+    public bool Dirty
+    {
+        get{ return _map.Dirty;}
+        set{_map.Dirty = value;}
+    }
+
+    public void Add(int item)
+    {
+        _map.Add(new KeyValuePair<int, int>(item, item));
+    }
+
+    public void Remove(int item)
+    {
+        _map.Remove(new KeyValuePair<int, int>(item, item));
+    }
+
+    public bool TryFindBy<K>(K key, Func<int, K, int> comparer, out int result)
+    {
+        bool found = _map.TryFindBy(key, (pair, k) => comparer(pair.Value, k), out var kvp);
+
+        result = found ? kvp.Value : default;
+        return found;
+    }
+
+    public IMyCollection<int> Filter(Func<int, bool> predicate)
+    {
+        var result = new intHashMapCollection();
+        var it = _map.GetIterator();
+
+        while (it.HasNext())
+        {
+            var item = it.Next().Value;
+            if (predicate(item))
+                result.Add(item);
+        }
+
+        return result;
+    }
+
+    public void Sort(Comparison<int> comparison)
+    {
+        // nothing
+    }
+
+    public int Reduce(Func<int, int, int> accumulator)
+    {
+        var result = _map.Reduce((a, b) =>
+        {
+            var reduced = accumulator(a.Value, b.Value);
+            return new KeyValuePair<int, int>(a.Key, reduced);
+        });
+
+        return result.Value;
+    }
+
+    public R Reduce<R>(R initial, Func<R, int, R> accumulator)
+    {
+        return _map.Reduce(initial, (acc, kvp) => accumulator(acc, kvp.Value));
+    }
+
+    public RResult Reduce<R, RResult>(R initial, Func<R, int, R> accumulator, Func<R, RResult> resultSelector)
+    {
+        return _map.Reduce(initial, (acc, kvp) => accumulator(acc, kvp.Value), resultSelector);
+    }
+
+    public IMyIterator<int> GetIterator()
+    {
+        return new intIterator(_map);
+    }
+
+    public int[] ToArray()
+    {
+        var arr = new int[Count];
+        int i = 0;
+
+        var it = GetIterator();
+        while (it.HasNext())
+            arr[i++] = it.Next();
+
+        return arr;
+    }
+
+    public void ResetDirty()
+    {
+        _map.ResetDirty();
+    }
+
+    private class intIterator : IMyIterator<int>
+    {
+        private readonly IMyIterator<KeyValuePair<int, int>> _it;
+
+        public intIterator(MyHashMap<int, int> map)
+        {
+            _it = map.GetIterator();
+        }
+
+        public bool HasNext() => _it.HasNext();
+
+        public int Next() => _it.Next().Value;
+
+        public void Reset() => _it.Reset();
+    }
+}
