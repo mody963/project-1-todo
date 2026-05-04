@@ -19,48 +19,104 @@ class ConsoleTaskView : ITaskView
 
     private void DisplayTasks(IMyCollection<TaskItem> tasks)
     {
-        Console.Clear();
-        AnsiConsole.Write(new FigletText("TASKS")
-        .Color(Color.DarkViolet)
-        .Centered());
+        const int pageSize = 10;
 
         var iterator = tasks.GetIterator();
 
         if (!iterator.HasNext())
         {
+            Console.Clear();
             AnsiConsole.MarkupLine("[red]No tasks found.[/]");
             AnsiConsole.MarkupLine("[grey]Press any key to return...[/]");
             Console.ReadKey();
             return;
         }
 
-        var table = new Table()
-        .Border(TableBorder.Rounded)
-        .BorderColor(Color.DarkViolet)
-        .AddColumn("[bold]ID[/]")
-        .AddColumn("[bold]Description[/]")
-        .AddColumn("[bold]Priority[/]")
-        .AddColumn("[bold]Status[/]")
-        .AddColumn("[bold]Assigned To[/]")
-        .AddColumn("[bold]Creation Date[/]")
-        .Centered();
-
+        // Convert IMyCollection to list for pagination
+        var taskList = new MyArrayList<TaskItem>();
         while (iterator.HasNext())
         {
-            var t = iterator.Next();
-            table.AddRow(
-                t.Id.ToString(),
-                t.Description,
-                FormatPriority(t.Priority),
-                FormatStatus(t.Status),
-                GetAssignedPersonName(t.Id),
-                t.CreationDate.ToString("g")
-            );
-        } // provide trigger for next page.
+            taskList.Add(iterator.Next());
+        }
 
-        AnsiConsole.Write(table);
-        AnsiConsole.MarkupLine("\n[grey]Press any key to return...[/]");
-        Console.ReadKey();
+        int currentPage = 0;
+        int totalPages = (int)Math.Ceiling(taskList.Count / (double)pageSize);
+        
+        while (true)
+        {
+            Console.Clear();
+            AnsiConsole.Write(new FigletText("TASKS")
+                .Color(Color.DarkViolet)
+                .Centered());
+
+            // Get tasks for current page
+            var pageIterator = taskList.GetIterator();
+            var pageTaskList = new MyArrayList<TaskItem>();
+            int index = 0;
+            int startIndex = currentPage * pageSize;
+            int endIndex = startIndex + pageSize;
+
+            while (pageIterator.HasNext())
+            {
+                var task = pageIterator.Next();
+                if (index >= startIndex && index < endIndex)
+                {
+                    pageTaskList.Add(task);
+                }
+                index++;
+            }
+
+            var table = new Table()
+                .Border(TableBorder.Rounded)
+                .BorderColor(Color.DarkViolet)
+                .AddColumn("[bold]ID[/]")
+                .AddColumn("[bold]Description[/]")
+                .AddColumn("[bold]Priority[/]")
+                .AddColumn("[bold]Status[/]")
+                .AddColumn("[bold]Assigned To[/]")
+                .AddColumn("[bold]Creation Date[/]")
+                .Centered();
+
+            var tableIterator = pageTaskList.GetIterator();
+            while (tableIterator.HasNext())
+            {
+                var t = tableIterator.Next();
+                table.AddRow(
+                    t.Id.ToString(),
+                    t.Description,
+                    FormatPriority(t.Priority),
+                    FormatStatus(t.Status),
+                    GetAssignedPersonName(t.Id),
+                    t.CreationDate.ToString("g")
+                );
+            }
+
+            AnsiConsole.MarkupLine($"[bold cyan]Task List[/] [grey](Page {currentPage + 1} / {totalPages})[/]\n");
+            AnsiConsole.Write(table);
+            AnsiConsole.MarkupLine("\n[grey]← →  Page   Esc: Back[/]");
+
+            var key = Console.ReadKey(true).Key;
+
+            switch (key)
+            {
+                case ConsoleKey.LeftArrow:
+                    if (currentPage > 0)
+                    {
+                        currentPage--;
+                    }
+                    break;
+
+                case ConsoleKey.RightArrow:
+                    if (currentPage < totalPages - 1)
+                    {
+                        currentPage++;
+                    }
+                    break;
+
+                case ConsoleKey.Escape:
+                    return;
+            }
+        }
     }
     private TaskItem ChooseTasks(IMyCollection<TaskItem> tasks)
     {

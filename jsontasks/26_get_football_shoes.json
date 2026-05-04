@@ -1,0 +1,13 @@
+{
+  "Id": 26,
+  "Description": "get football shoes",
+  "Priority": "could have",
+  "dependant": {
+    "array": [],
+    "Count": 0,
+    "Dirty": false
+  },
+  "Status": "to do",
+  "Completed": false,
+  "CreationDate": "2026-05-04T14:11:14.3727183+02:00"
+}
