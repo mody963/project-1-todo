@@ -1,0 +1,13 @@
+{
+  "Id": 36,
+  "Description": "talk to a stranger",
+  "Priority": "could have",
+  "dependant": {
+    "array": [],
+    "Count": 0,
+    "Dirty": false
+  },
+  "Status": "to do",
+  "Completed": false,
+  "CreationDate": "2026-05-04T14:17:54.2318474+02:00"
+}

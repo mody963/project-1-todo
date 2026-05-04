@@ -1,0 +1,13 @@
+{
+  "Id": 17,
+  "Description": "wash dishes",
+  "Priority": "could have",
+  "dependant": {
+    "array": [],
+    "Count": 0,
+    "Dirty": false
+  },
+  "Status": "to do",
+  "Completed": false,
+  "CreationDate": "2026-05-04T14:01:57.9609471+02:00"
+}

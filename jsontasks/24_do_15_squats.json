@@ -1,0 +1,15 @@
+{
+  "Id": 24,
+  "Description": "do 15 squats",
+  "Priority": "should have",
+  "dependant": {
+    "array": [
+      19
+    ],
+    "Count": 1,
+    "Dirty": true
+  },
+  "Status": "to do",
+  "Completed": false,
+  "CreationDate": "2026-05-04T14:07:54.3715633+02:00"
+}

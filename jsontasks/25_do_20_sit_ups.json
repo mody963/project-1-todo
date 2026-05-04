@@ -1,0 +1,15 @@
+{
+  "Id": 25,
+  "Description": "do 20 sit-ups",
+  "Priority": "could have",
+  "dependant": {
+    "array": [
+      24
+    ],
+    "Count": 1,
+    "Dirty": true
+  },
+  "Status": "to do",
+  "Completed": false,
+  "CreationDate": "2026-05-04T14:08:19.4660989+02:00"
+}
