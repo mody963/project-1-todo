@@ -145,28 +145,18 @@ public class CollectionConverter<T> : JsonConverter<IMyCollection<T>> where T : 
         }
 
         // If Type property exists, use it
-        return typeName switch
-        {
-            nameof(MyArrayList<T>) when typeof(T) == typeof(int) =>
-                (IMyCollection<T>)JsonSerializer.Deserialize<MyArrayList<T>>(root.GetRawText(), options)!,
-
-            nameof(MyLinkedList<T>) when typeof(T) == typeof(string) =>
-                (IMyCollection<T>)JsonSerializer.Deserialize<MyLinkedList<T>>(root.GetRawText(), options)!,
-            nameof(MyBinaryTree<T>) when typeof(T) == typeof(string) =>
-                (IMyCollection<T>)JsonSerializer.Deserialize<MyBinaryTree<T>>(root.GetRawText(), options)!,
-
-            _ => throw new JsonException($"Unknown type: {typeName}")
-        };
+        var targetType = Type.GetType(typeName, throwOnError: true);
+        return (IMyCollection<T>)JsonSerializer.Deserialize(doc.RootElement.GetRawText(), targetType, options);
     }
 
     public override void Write(Utf8JsonWriter writer, IMyCollection<T> value, JsonSerializerOptions options)
     {
-        var typeName = value.GetType().Name;
+        var typeName = value.GetType().AssemblyQualifiedName;
         var json = JsonSerializer.Serialize(value, value.GetType(), options);
         using var doc = JsonDocument.Parse(json);
 
         writer.WriteStartObject();
-        //writer.WriteString("Type", typeName);
+        writer.WriteString("Type", typeName);
 
         foreach (var prop in doc.RootElement.EnumerateObject())
             prop.WriteTo(writer);
