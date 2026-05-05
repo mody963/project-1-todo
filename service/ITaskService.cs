@@ -4,7 +4,7 @@ interface ITaskService
     
     IMyCollection<TaskItem> GetAllTasks();
 
-    void AddTask(string description, TaskPriority priority, MyArrayList<int> chosenTask);
+    void AddTask(string description, TaskPriority priority, IMyCollection<int> chosenTask);
 
     public void UpdateTask(int id, string description, TaskPriority priority, TaskStatus status);
 

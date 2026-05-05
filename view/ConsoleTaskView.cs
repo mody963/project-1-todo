@@ -306,11 +306,23 @@ class ConsoleTaskView : ITaskView
                         "No"
                     }));
                     TaskItem chosenTask = null;
-                    MyArrayList<int> ids = new();
+                    var list = _taskservice.GetAllTasks();
+                    IMyCollection<int> ids = new MyArrayList<int>();
+                    if(list is MyLinkedList<TaskItem>)
+                    {
+                        ids = new MyLinkedList<int>();
+                    }
+                    else if(list is MyBinaryTree<TaskItem>)
+                    {
+                        ids = new MyBinaryTree<int>();
+                    }
+                    else if(list is TaskHashMapCollection)
+                    {
+                        ids = new intHashMapCollection();
+                    }
                     switch (isItDependant)
                     {
                         case "Yes":
-                            var list = _taskservice.GetAllTasks();
                             do
                             {
                                 chosenTask = ChooseTasks(list);
