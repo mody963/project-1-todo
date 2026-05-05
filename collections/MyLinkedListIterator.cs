@@ -1,7 +1,7 @@
 // Aimee
 
 
-class MyLinkedListIterator<T> : IMyIterator<T>
+public class MyLinkedListIterator<T> : IMyIterator<T>
 {
     private MyLinkedList<T>.Node? _head;
     private MyLinkedList<T>.Node? _current;

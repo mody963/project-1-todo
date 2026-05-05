@@ -16,7 +16,9 @@ class ConsoleTaskView : ITaskView
         _personservice = personService;
         _allocationservice = allocationService;
     }
-
+     
+    // Aimee
+    // nu krijg je maar 10 tasks per pagina te zien. heb je dr meer dan ga je door naar yt volgende stukkie. 
     private void DisplayTasks(IMyCollection<TaskItem> tasks)
     {
         const int pageSize = 10;
@@ -32,7 +34,7 @@ class ConsoleTaskView : ITaskView
             return;
         }
 
-        // Convert IMyCollection to list for pagination
+
         var taskList = new MyArrayList<TaskItem>();
         while (iterator.HasNext())
         {
