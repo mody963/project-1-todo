@@ -17,7 +17,7 @@ class TaskService : ITaskService
     public IMyCollection<TaskItem> GetAllTasks() => _tasks;
 
     // Aimee
-    public void AddTask(string description, TaskPriority priority, MyArrayList<int> chosenTask)
+    public void AddTask(string description, TaskPriority priority, IMyCollection<int> chosenTask)
     {
         int newId = 1;
         var iterator = _tasks.GetIterator();
