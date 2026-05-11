@@ -136,10 +136,12 @@ public class CollectionConverter<T> : JsonConverter<IMyCollection<T>> where T : 
         {
             if (typeof(T) == typeof(int))
                 return (IMyCollection<T>)JsonSerializer.Deserialize<MyArrayList<T>>(root.GetRawText(), options)!;
-            if (typeof(T) == typeof(string))
+            if (typeof(T) == typeof(Person))
                 return (IMyCollection<T>)JsonSerializer.Deserialize<MyLinkedList<T>>(root.GetRawText(), options)!;
-            if (typeof(T) == typeof(string))
+            if (typeof(T) == typeof(TaskItem))
                 return (IMyCollection<T>)JsonSerializer.Deserialize<MyBinaryTree<T>>(root.GetRawText(), options)!;
+            if (typeof(T) == typeof(Task_Allocation))
+                return (IMyCollection<T>)JsonSerializer.Deserialize<AllocationHashMapCollection>(root.GetRawText(), options)!;
 
             throw new JsonException($"Cannot infer type for generic parameter {typeof(T).Name}");
         }

@@ -15,7 +15,7 @@ public class TaskItem : IEquatable<TaskItem>, IComparable<TaskItem>
     [JsonConverter(typeof(CollectionConverter<int>))]
     public IMyCollection<int> dependant{ get; set; }
 
-    public TaskStatus Status{get;set;}
+    public TaskStatus Status{get => _status ;set => _status = value;}
 
     public bool Completed
     {
