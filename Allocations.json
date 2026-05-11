@@ -5,6 +5,7 @@
       "Description": ";",
       "Priority": "must have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [
           4
         ],
@@ -26,6 +27,7 @@
       "Description": "brush teeth",
       "Priority": "should have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [
           12
         ],
@@ -47,6 +49,7 @@
       "Description": "make bed",
       "Priority": "must have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [],
         "Count": 0,
         "Dirty": false
@@ -66,6 +69,7 @@
       "Description": "brush teeth",
       "Priority": "should have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [
           12
         ],
@@ -87,6 +91,7 @@
       "Description": "do makeup",
       "Priority": "could have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [],
         "Count": 0,
         "Dirty": false
@@ -106,6 +111,7 @@
       "Description": "make breakfast",
       "Priority": "could have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [],
         "Count": 0,
         "Dirty": false
@@ -125,6 +131,7 @@
       "Description": "wash dishes",
       "Priority": "could have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [],
         "Count": 0,
         "Dirty": false
@@ -144,6 +151,7 @@
       "Description": "exercise",
       "Priority": "must have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [],
         "Count": 0,
         "Dirty": false
@@ -163,6 +171,7 @@
       "Description": "do 10 pushups",
       "Priority": "could have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [],
         "Count": 0,
         "Dirty": false
@@ -182,6 +191,7 @@
       "Description": "exercise",
       "Priority": "must have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [],
         "Count": 0,
         "Dirty": false
@@ -201,6 +211,7 @@
       "Description": "do 10 pushups",
       "Priority": "could have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [],
         "Count": 0,
         "Dirty": false
@@ -220,6 +231,7 @@
       "Description": "do 15 squats",
       "Priority": "should have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [
           19
         ],
@@ -241,6 +253,7 @@
       "Description": "do 20 sit-ups",
       "Priority": "could have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [
           24
         ],
@@ -259,14 +272,15 @@
   {
     "Task": {
       "Id": 29,
-      "Description": "listen to coach ",
-      "Priority": "must have",
+      "Description": "make the bed extra nice",
+      "Priority": "should have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [],
         "Count": 0,
         "Dirty": false
       },
-      "Status": "to do",
+      "Status": "in progress",
       "Completed": false,
       "CreationDate": "2026-05-04T14:12:16.7328596+02:00"
     },
@@ -281,6 +295,7 @@
       "Description": "do 20 jumping jacks",
       "Priority": "must have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [
           24
         ],
@@ -302,6 +317,7 @@
       "Description": "pack bags",
       "Priority": "could have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [],
         "Count": 0,
         "Dirty": false
@@ -321,6 +337,7 @@
       "Description": "get up out of bed",
       "Priority": "must have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [],
         "Count": 0,
         "Dirty": false
@@ -340,6 +357,7 @@
       "Description": "get dressed",
       "Priority": "must have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [
           13
         ],
@@ -361,6 +379,7 @@
       "Description": "laundry",
       "Priority": "must have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [],
         "Count": 0,
         "Dirty": false
@@ -377,14 +396,15 @@
   {
     "Task": {
       "Id": 29,
-      "Description": "listen to coach ",
-      "Priority": "must have",
+      "Description": "make the bed extra nice",
+      "Priority": "should have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [],
         "Count": 0,
         "Dirty": false
       },
-      "Status": "to do",
+      "Status": "in progress",
       "Completed": false,
       "CreationDate": "2026-05-04T14:12:16.7328596+02:00"
     },
@@ -399,6 +419,7 @@
       "Description": "do 15 squats",
       "Priority": "should have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [
           19
         ],
@@ -420,6 +441,7 @@
       "Description": "stand in position",
       "Priority": "must have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [
           27
         ],
@@ -441,6 +463,7 @@
       "Description": "learn how to introduce yourself in another language",
       "Priority": "could have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [],
         "Count": 0,
         "Dirty": false
@@ -460,6 +483,7 @@
       "Description": "stand in position",
       "Priority": "must have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [
           27
         ],
@@ -481,6 +505,7 @@
       "Description": "exercise",
       "Priority": "must have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [],
         "Count": 0,
         "Dirty": false
@@ -500,6 +525,7 @@
       "Description": "get reading glasses",
       "Priority": "must have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [],
         "Count": 0,
         "Dirty": false
@@ -519,6 +545,7 @@
       "Description": "read 5 pages of a book",
       "Priority": "could have",
       "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
         "array": [
           21
         ],
@@ -532,6 +559,48 @@
     "Person": {
       "Id": 2,
       "Name": "Aimee"
+    }
+  },
+  {
+    "Task": {
+      "Id": 26,
+      "Description": "get football shoes",
+      "Priority": "could have",
+      "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "array": [],
+        "Count": 0,
+        "Dirty": false
+      },
+      "Status": "in progress",
+      "Completed": false,
+      "CreationDate": "2026-05-04T14:11:14.3727183+02:00"
+    },
+    "Person": {
+      "Id": 1,
+      "Name": "Fernando"
+    }
+  },
+  {
+    "Task": {
+      "Id": 27,
+      "Description": "get in football kit ",
+      "Priority": "must have",
+      "dependant": {
+        "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "array": [
+          26
+        ],
+        "Count": 1,
+        "Dirty": true
+      },
+      "Status": "to do",
+      "Completed": false,
+      "CreationDate": "2026-05-04T14:11:43.4291449+02:00"
+    },
+    "Person": {
+      "Id": 1,
+      "Name": "Fernando"
     }
   }
 ]

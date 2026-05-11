@@ -1,14 +1,14 @@
 {
-  "Id": 12,
-  "Description": "get up out of bed",
-  "Priority": "must have",
+  "Id": 29,
+  "Description": "make the bed extra nice",
+  "Priority": "should have",
   "dependant": {
     "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
     "array": [],
     "Count": 0,
     "Dirty": false
   },
-  "Status": "to do",
+  "Status": "in progress",
   "Completed": false,
-  "CreationDate": "2026-05-04T14:00:50.250109+02:00"
+  "CreationDate": "2026-05-04T14:12:16.7328596+02:00"
 }
