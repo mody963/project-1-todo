@@ -74,9 +74,13 @@ public static class FilterTasks
         if (selected == "Back")
             return null;
 
-        return tasks.Filter(t =>
-            !string.IsNullOrWhiteSpace(t.Status.ToString()) &&
-            t.Status.ToString().Trim().Equals(selected.Trim(), StringComparison.OrdinalIgnoreCase));
+        return tasks.Filter(t => t.Status == selected switch
+        {
+            "to do"       => TaskStatus.todo,
+            "in progress" => TaskStatus.InProgress,
+            "completed"   => TaskStatus.Completed,
+            _             => (TaskStatus)(-1)
+        });
     }
     // aimee
     private static IMyCollection<TaskItem> FilterByPriority(IMyCollection<TaskItem> tasks)
@@ -96,9 +100,13 @@ public static class FilterTasks
         if (selected == "Back")
             return null;
 
-        return tasks.Filter(t =>
-            !string.IsNullOrWhiteSpace(t.Priority.ToString()) &&
-            t.Priority.ToString().Trim().Equals(selected.Trim(), StringComparison.OrdinalIgnoreCase));
+        return tasks.Filter(t => t.Priority == selected switch
+        {
+            "must have"   => TaskPriority.MustHave,
+            "should have" => TaskPriority.ShouldHave,
+            "could have"  => TaskPriority.CouldHave,
+            _             => (TaskPriority)(-1)
+        });
     }
 
     private static IMyCollection<TaskItem> SortByCreationDate(IMyCollection<TaskItem> tasks)
