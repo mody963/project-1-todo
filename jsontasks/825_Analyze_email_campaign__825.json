@@ -1,0 +1,17 @@
+{
+  "Id": 825,
+  "Description": "Analyze email campaign #825",
+  "Priority": "must have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      821,
+      822
+    ],
+    "Count": 2,
+    "Dirty": false
+  },
+  "Status": "completed",
+  "Completed": true,
+  "CreationDate": "2026-04-20T16:44:01.6482"
+}

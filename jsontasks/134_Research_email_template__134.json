@@ -1,0 +1,16 @@
+{
+  "Id": 134,
+  "Description": "Research email template #134",
+  "Priority": "should have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      131
+    ],
+    "Count": 1,
+    "Dirty": false
+  },
+  "Status": "to do",
+  "Completed": false,
+  "CreationDate": "2026-04-08T22:13:00.955653"
+}

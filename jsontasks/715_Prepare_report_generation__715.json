@@ -1,0 +1,17 @@
+{
+  "Id": 715,
+  "Description": "Prepare report generation #715",
+  "Priority": "must have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      711,
+      712
+    ],
+    "Count": 2,
+    "Dirty": false
+  },
+  "Status": "in progress",
+  "Completed": false,
+  "CreationDate": "2026-05-01T21:02:01.539019"
+}

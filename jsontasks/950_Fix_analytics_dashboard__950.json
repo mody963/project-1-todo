@@ -1,0 +1,18 @@
+{
+  "Id": 950,
+  "Description": "Fix analytics dashboard #950",
+  "Priority": "must have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      946,
+      947,
+      309
+    ],
+    "Count": 3,
+    "Dirty": false
+  },
+  "Status": "to do",
+  "Completed": false,
+  "CreationDate": "2026-03-20T07:09:01.778647"
+}

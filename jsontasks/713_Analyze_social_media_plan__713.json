@@ -1,0 +1,17 @@
+{
+  "Id": 713,
+  "Description": "Analyze social media plan #713",
+  "Priority": "should have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      711,
+      712
+    ],
+    "Count": 2,
+    "Dirty": false
+  },
+  "Status": "to do",
+  "Completed": false,
+  "CreationDate": "2026-02-27T16:35:01.537079"
+}

@@ -1,0 +1,17 @@
+{
+  "Id": 268,
+  "Description": "Build inventory check #268",
+  "Priority": "should have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      266,
+      267
+    ],
+    "Count": 2,
+    "Dirty": false
+  },
+  "Status": "completed",
+  "Completed": true,
+  "CreationDate": "2026-03-27T01:40:01.087266"
+}

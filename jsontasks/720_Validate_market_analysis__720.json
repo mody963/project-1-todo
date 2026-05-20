@@ -1,0 +1,18 @@
+{
+  "Id": 720,
+  "Description": "Validate market analysis #720",
+  "Priority": "should have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      716,
+      717,
+      718
+    ],
+    "Count": 3,
+    "Dirty": false
+  },
+  "Status": "completed",
+  "Completed": true,
+  "CreationDate": "2026-04-14T18:56:01.544152"
+}

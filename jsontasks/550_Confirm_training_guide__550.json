@@ -1,0 +1,19 @@
+{
+  "Id": 550,
+  "Description": "Confirm training guide #550",
+  "Priority": "must have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      546,
+      547,
+      548,
+      414
+    ],
+    "Count": 4,
+    "Dirty": false
+  },
+  "Status": "completed",
+  "Completed": true,
+  "CreationDate": "2026-02-24T05:41:01.366668"
+}

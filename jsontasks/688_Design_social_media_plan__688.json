@@ -1,0 +1,17 @@
+{
+  "Id": 688,
+  "Description": "Design social media plan #688",
+  "Priority": "must have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      686,
+      687
+    ],
+    "Count": 2,
+    "Dirty": false
+  },
+  "Status": "completed",
+  "Completed": true,
+  "CreationDate": "2026-03-24T07:12:01.510987"
+}

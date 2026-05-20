@@ -1,0 +1,18 @@
+{
+  "Id": 839,
+  "Description": "Update training guide #839",
+  "Priority": "could have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      836,
+      837,
+      838
+    ],
+    "Count": 3,
+    "Dirty": false
+  },
+  "Status": "completed",
+  "Completed": true,
+  "CreationDate": "2026-05-14T18:40:01.66156"
+}

@@ -1,0 +1,18 @@
+{
+  "Id": 864,
+  "Description": "Research data export #864",
+  "Priority": "should have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      861,
+      862,
+      863
+    ],
+    "Count": 3,
+    "Dirty": false
+  },
+  "Status": "to do",
+  "Completed": false,
+  "CreationDate": "2026-05-06T04:15:01.688685"
+}

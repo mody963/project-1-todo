@@ -1,0 +1,17 @@
+{
+  "Id": 945,
+  "Description": "Research server setup #945",
+  "Priority": "could have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      941,
+      942
+    ],
+    "Count": 2,
+    "Dirty": false
+  },
+  "Status": "completed",
+  "Completed": true,
+  "CreationDate": "2026-04-13T11:18:01.774446"
+}

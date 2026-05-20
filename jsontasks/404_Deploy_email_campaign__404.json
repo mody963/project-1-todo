@@ -1,0 +1,18 @@
+{
+  "Id": 404,
+  "Description": "Deploy email campaign #404",
+  "Priority": "could have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      401,
+      402,
+      403
+    ],
+    "Count": 3,
+    "Dirty": false
+  },
+  "Status": "to do",
+  "Completed": false,
+  "CreationDate": "2026-04-10T21:58:01.218786"
+}

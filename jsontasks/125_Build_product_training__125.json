@@ -1,0 +1,16 @@
+{
+  "Id": 125,
+  "Description": "Build product training #125",
+  "Priority": "must have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      121
+    ],
+    "Count": 1,
+    "Dirty": false
+  },
+  "Status": "in progress",
+  "Completed": false,
+  "CreationDate": "2026-04-29T15:56:00.947099"
+}

@@ -1,0 +1,16 @@
+{
+  "Id": 977,
+  "Description": "Update customer follow-up #977",
+  "Priority": "must have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      976
+    ],
+    "Count": 1,
+    "Dirty": false
+  },
+  "Status": "in progress",
+  "Completed": false,
+  "CreationDate": "2026-03-02T04:44:01.804256"
+}

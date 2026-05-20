@@ -1,0 +1,19 @@
+{
+  "Id": 350,
+  "Description": "Validate UI redesign #350",
+  "Priority": "must have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      346,
+      347,
+      348,
+      195
+    ],
+    "Count": 4,
+    "Dirty": false
+  },
+  "Status": "completed",
+  "Completed": true,
+  "CreationDate": "2026-04-05T03:31:01.165867"
+}

@@ -1,0 +1,16 @@
+{
+  "Id": 667,
+  "Description": "Confirm social media plan #667",
+  "Priority": "could have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      666
+    ],
+    "Count": 1,
+    "Dirty": false
+  },
+  "Status": "completed",
+  "Completed": true,
+  "CreationDate": "2026-05-10T22:10:01.488468"
+}

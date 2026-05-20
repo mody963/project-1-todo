@@ -1,0 +1,18 @@
+{
+  "Id": 109,
+  "Description": "Approve server setup #109",
+  "Priority": "should have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      106,
+      107,
+      108
+    ],
+    "Count": 3,
+    "Dirty": false
+  },
+  "Status": "completed",
+  "Completed": true,
+  "CreationDate": "2026-05-07T21:37:00.930949"
+}

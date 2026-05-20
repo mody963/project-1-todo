@@ -1,0 +1,16 @@
+{
+  "Id": 530,
+  "Description": "Plan report generation #530",
+  "Priority": "should have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      526
+    ],
+    "Count": 1,
+    "Dirty": false
+  },
+  "Status": "in progress",
+  "Completed": false,
+  "CreationDate": "2026-02-19T11:14:01.346924"
+}

@@ -1,0 +1,18 @@
+{
+  "Id": 590,
+  "Description": "Organize data export #590",
+  "Priority": "could have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      586,
+      587,
+      588
+    ],
+    "Count": 3,
+    "Dirty": false
+  },
+  "Status": "in progress",
+  "Completed": false,
+  "CreationDate": "2026-04-26T22:20:01.407673"
+}

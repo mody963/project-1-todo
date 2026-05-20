@@ -1,0 +1,19 @@
+{
+  "Id": 800,
+  "Description": "Document security settings #800",
+  "Priority": "should have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      796,
+      797,
+      798,
+      537
+    ],
+    "Count": 4,
+    "Dirty": false
+  },
+  "Status": "completed",
+  "Completed": true,
+  "CreationDate": "2026-02-26T01:34:01.625566"
+}

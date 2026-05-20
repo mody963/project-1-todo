@@ -1,0 +1,19 @@
+{
+  "Id": 100,
+  "Description": "Design security settings #100",
+  "Priority": "should have",
+  "dependant": {
+    "Type": "MyArrayList\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], project 1 todo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "array": [
+      96,
+      97,
+      98,
+      66
+    ],
+    "Count": 4,
+    "Dirty": false
+  },
+  "Status": "completed",
+  "Completed": true,
+  "CreationDate": "2026-04-01T23:21:00.921852"
+}
