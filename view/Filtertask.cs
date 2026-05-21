@@ -5,17 +5,6 @@ using Spectre.Console;
 
 public static class FilterTasks
 {
-    private static readonly MyArrayList<(string Name, int Rank)> PriorityRanking;
-
-    static FilterTasks()
-    {
-        PriorityRanking = new MyArrayList<(string, int)>();
-        PriorityRanking.Add(("must have", 3));
-        PriorityRanking.Add(("should have", 2));
-        PriorityRanking.Add(("could have", 1));
-    }
-
-    // Aimee
     public static void FiltersTasks(IMyCollection<TaskItem> tasks)
     {
         while (true)
@@ -60,10 +49,10 @@ public static class FilterTasks
     private static IMyCollection<TaskItem> FilterByStatus(IMyCollection<TaskItem> tasks)
     {
         var statusOptions = new MyArrayList<string>();
-        statusOptions.Add("to do"); //0
-        statusOptions.Add("in progress");//1
-        statusOptions.Add("completed");//2
-        statusOptions.Add("Back");//3
+        statusOptions.Add("to do");
+        statusOptions.Add("in progress");
+        statusOptions.Add("completed");
+        statusOptions.Add("Back");
 
         var selected = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
@@ -129,7 +118,7 @@ public static class FilterTasks
             selected == "Ascending"
                 ? a.CreationDate.CompareTo(b.CreationDate)
                 : b.CreationDate.CompareTo(a.CreationDate));
-
+    // sort verwacht een int terug door de comparisinn die het heeft in de imycollection. 
         return tasks;
     }
 

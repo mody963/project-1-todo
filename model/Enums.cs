@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 // priority omzetters
 public class TaskPriorityConverter : JsonConverter<TaskPriority> // o
 {
+    // Read: leest een string uit JSON (reader.GetString()) en mapt "must have"|"should have"|"could have" naar de overeenkomstige TaskPriority-enumwaarde; bij onbekende waarden gooit hij een JsonException.. 
     public override TaskPriority Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) // utf8 lezer leest de 
     {
         string? value = reader.GetString(); // leest het af als een string en zet het om naar de enum waarde.
@@ -17,7 +18,7 @@ public class TaskPriorityConverter : JsonConverter<TaskPriority> // o
             _ => throw new JsonException($"Invalid TaskPriority value: {value}")
         };
     }
-
+// Write: zet een TaskPriority om naar dezelfde leesbare string en schrijft die naar JSON.
     public override void Write(Utf8JsonWriter writer, TaskPriority value, JsonSerializerOptions options)
     {
         string str = value switch // zet het om naar strings. 
