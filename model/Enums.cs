@@ -77,6 +77,8 @@ public enum TaskStatus
     Completed
 }
 
+// Fenrnado
+
 // public class CollectionConverter<T> : JsonConverter<IMyCollection<T>> where T : IEquatable<T>, IComparable<T>
 // {
 //     public override IMyCollection<T>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -121,6 +123,8 @@ public enum TaskStatus
 //     }
 // }
 
+
+// fernando
 public class CollectionConverter<T> : JsonConverter<IMyCollection<T>> where T : IEquatable<T>, IComparable<T>
 {
     public override IMyCollection<T>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
